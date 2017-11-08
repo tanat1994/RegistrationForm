@@ -9,5 +9,10 @@ return [
 
     'filter' => 'จัดเรียงโดย',
     'search' => 'ค้นหา',
+    'searchplaceholder' => 'โปรดระบุคำเพื่อค้นหา',
     'showing' => 'แสดงผล',
+    'show' => 'แสดงผลจำนวน',
+    'entries' => 'ข้อมูล',
+    'previous' => 'ก่อนหน้า',
+    'next' => 'ถัดไป',
 ];

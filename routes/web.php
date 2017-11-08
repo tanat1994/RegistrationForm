@@ -29,9 +29,15 @@ Route::post('/login', 'loginController@checkLoginAPI');
 Route::group(['middleware' => 'checkLogin'], function (){
     Route::get('/dashboard', function () { return view('Dashboard.index'); });
     Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
-    Route::get('/membermanagement', function () {return view('Member.index'); });
-
+    //Route::get('/membermanagement','bdReportController@index');
+    Route::get('/membermanagement','bdReportController@index');
     Route::get('/memberregister', function () {return view('Member.register'); });
 });
 
 Route::get('/logout', function(){ Session::flush(); return Redirect::back(); });
+
+
+
+Route::resource('post', 'bdReportController');
+Route::post('/bdReport/searchKeyword', 'bdReportController@index');
+Route::get('/bdReport','bdReportController@index');

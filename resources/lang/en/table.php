@@ -9,5 +9,10 @@ return [
 
     'filter' => 'FILTER BY',
     'search' => 'SEARCH',
+    'searchplaceholder' => 'Search..',
     'showing' => 'SHOWING',
+    'show' => 'SHOW',
+    'entries' => 'ENTRIES',
+    'previous' => 'Previous',
+    'next' => 'Next',
 ];
