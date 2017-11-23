@@ -20,7 +20,7 @@
     <link href="{{ asset('/css/button.css') }}" rel="stylesheet" type="text/css"/>
 
     <link href="{{ asset('/css/searchbox.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/css/reporttable.css') }}" rel="stylesheet" type="text/css" />
+    {{--  <link href="{{ asset('/css/reporttable.css') }}" rel="stylesheet" type="text/css" />  --}}
 
     <style type="text/css">
         .imgmenu {
@@ -37,9 +37,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="{{ asset('js/jquery.tablesorter.js') }}"></script>
+    {{--  <script src="{{ asset('js/jquery.tablesorter.js') }}"></script>
     <script src="{{ asset('js/jquery.tablesorter.widget.js') }}"></script>
-    <script src="{{ asset('js/jquery.pager.js') }}"></script>
+    <script src="{{ asset('js/jquery.pager.js') }}"></script>  --}}
 
     @yield('more_script')
 

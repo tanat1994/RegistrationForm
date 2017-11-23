@@ -15,4 +15,11 @@ return [
     'entries' => 'ข้อมูล',
     'previous' => 'ก่อนหน้า',
     'next' => 'ถัดไป',
+    'to' => 'ถึง',
+    'of' => 'จาก',
+
+    'groupname' => 'ชื่อกลุ่ม',
+    'nomember' => 'จำนวนสมาชิก',
+    'datecreate' => 'วันที่สร้าง',
+    'usercreate' => 'ผู้สร้าง',
 ];

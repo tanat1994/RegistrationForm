@@ -13,5 +13,8 @@ return [
     'surname' => 'นามสกุล',
     'memberinformation' => 'ข้อมูลสมาชิก',
     'dateofbirth' => 'วันที่เกิด',
+    'importfile' => 'นำเข้าไฟล์',
+    'creategroup' => 'สร้างกลุ่ม',
+    'choosefile' => 'เลือกไฟล์'
 
 ];

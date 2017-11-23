@@ -12,6 +12,8 @@
         
     </body>
 
+        @yield('extra_script')
+
 
 
 

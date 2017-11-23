@@ -12,7 +12,15 @@
 */
 
 Route::get('/test',function (){
-    return view('welcome');
+    return view('GroupManagement.index3');
+});
+
+// Route::get('/test3',function (){
+//     return view('');
+// });
+
+Route::get('/test3', function(){
+    return view('welcome2');
 });
 
 Route::get('/change/{locale}', function ($locale) {
@@ -26,13 +34,25 @@ Route::get('/', function () {
 
 Route::post('/login', 'loginController@checkLoginAPI');
 
-Route::group(['middleware' => 'checkLogin'], function (){
-    Route::get('/dashboard', function () { return view('Dashboard.index'); });
-    Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
-    //Route::get('/membermanagement','bdReportController@index');
-    Route::get('/membermanagement','bdReportController@index');
-    Route::get('/memberregister', function () {return view('Member.register'); });
-});
+// Route::group(['middleware' => 'checkLogin'], function (){
+//     Route::get('/dashboard', function () { return view('Dashboard.index'); });
+//     Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
+//     //Route::get('/membermanagement','bdReportController@index');
+//     Route::get('/membermanagement','memberController@memberRecord'); 
+//     Route::get('/memberregister', function () {return view('Member.register'); });
+// });
+
+Route::get('/dashboard', function () { return view('Dashboard.index'); });
+//Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
+//Route::get('/membermanagement','bdReportController@index');
+//Route::get('/groupmanagement','groupController@groupRecord');
+Route::get('/membermanagement','memberController@memberRecord'); 
+Route::get('/memberregister', function () {return view('Member.register'); });
+
+
+
+
+
 
 Route::get('/logout', function(){ Session::flush(); return Redirect::back(); });
 
@@ -41,3 +61,16 @@ Route::get('/logout', function(){ Session::flush(); return Redirect::back(); });
 Route::resource('post', 'bdReportController');
 Route::post('/bdReport/searchKeyword', 'bdReportController@index');
 Route::get('/bdReport','bdReportController@index');
+
+Route::resource('post', 'memberController');
+Route::get('/memberRecord','memberController@memberRecord');
+
+
+Route::resource('get', 'groupController');
+//Route::get('/groupmanagement', 'groupController@groupRecord');
+Route::get('/groupmanagement', function(){
+    return view('GroupManagement.index2');
+});
+
+
+

@@ -13,4 +13,7 @@ return [
     'surname' => 'SURNAME',
     'memberinformation' => 'MEMBER INFORMATION',
     'dateofbirth' => 'DATE OF BIRTH',
+    'importfile' => 'IMPORT FILE',
+    'creategroup' => 'CREATE GROUP',
+    'choosefile' => 'Choose File',
 ];

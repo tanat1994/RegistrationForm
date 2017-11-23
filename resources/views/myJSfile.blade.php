@@ -3526,6 +3526,7 @@
         sInfo: "dataTables_info",
         sPaging: "dataTables_paginate paging_",
         sLength: "dataTables_length",
+        sxLength: "",
         sProcessing: "dataTables_processing",
         sSortAsc: "sorting_asc",
         sSortDesc: "sorting_desc",

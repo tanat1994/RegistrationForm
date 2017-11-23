@@ -10,3 +10,8 @@
     border:0;
     background:transparent;
 }
+
+.hrbreakline{
+    border-top: 1px solid #b0aeb1;
+    width: 100%;
+}

@@ -8,11 +8,18 @@ return [
     'status' => 'STATUS',
 
     'filter' => 'FILTER BY',
-    'search' => 'SEARCH',
+    'search' => 'Search',
     'searchplaceholder' => 'Search..',
-    'showing' => 'SHOWING',
-    'show' => 'SHOW',
-    'entries' => 'ENTRIES',
+    'showing' => 'Showing',
+    'show' => 'Show',
+    'entries' => 'Entries',
     'previous' => 'Previous',
     'next' => 'Next',
+    'to' => 'to',
+    'of' => 'of',
+
+    'groupname' => 'GROUP NAME',
+    'nomember' => 'NO OF MEMBER',
+    'datecreate' => 'DATE CREATE',
+    'usercreate' => 'USER CREATE'
 ];
