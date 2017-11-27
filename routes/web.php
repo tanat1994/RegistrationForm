@@ -12,7 +12,7 @@
 */
 
 Route::get('/test',function (){
-    return view('GroupManagement.index3');
+    return view('GroupManagement.index2');
 });
 
 // Route::get('/test3',function (){
@@ -68,9 +68,11 @@ Route::get('/memberRecord','memberController@memberRecord');
 
 Route::resource('get', 'groupController');
 //Route::get('/groupmanagement', 'groupController@groupRecord');
-Route::get('/groupmanagement', function(){
-    return view('GroupManagement.index2');
-});
+Route::get('/groupmanagement', 'groupController@groupRecord');
+
+
+Route::get('ajax', function(){ return view('testajax'); });
+Route::post('/postajax','ajaxController@post');
 
 
 

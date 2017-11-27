@@ -5,8 +5,8 @@
 		<?php 
 			$master_tree = groupController::groupSearch('0'); 
 			foreach($master_tree as $tree){
-			echo "<ul>";
-				echo "<li><a href=\"https://www.google.com\">".$tree['groupName']."</a>";
+			echo "<ul style='margin-left:0px;'>";
+				echo "<li><a href=\"https://www.google.com\" style='font-size:17px;'>".$tree['groupName']."</a>";
 				$hasChild = groupController::groupSearch($tree['groupId']);
 
 				if(count($hasChild) != 0){
@@ -20,6 +20,7 @@
 					//echo $tree['groupId']."  = NO CHILD";
 				}
 				echo "</li></ul>";	
+				echo "<hr class='hrbreakline' style='margin-top:5px; margin-bottom:5px;'>";
 			}
 
 		?>

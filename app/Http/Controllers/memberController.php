@@ -26,5 +26,6 @@ class memberController extends Controller
         $memberRecord = $memberList;
 
         return view('Member.index',['memberRecord' => $memberRecord]);
+        //return view('GroupManagement.index21',['memberRecord' => $memberRecord]);
     }
 }

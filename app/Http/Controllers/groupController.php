@@ -15,13 +15,19 @@ class groupController extends Controller
 {
     //
     public static function groupRecord(){
-        
         $client = new Client();
-        //$result = array("foo", "bar", "hello", "world");
-        $result = $this->groupSearch('5');
-
-        //return view('welcome3',['groupRecord' => $result, 'hello' => 'hihi']);
-        return $result;
+        $result = $client->request(
+            'POST',
+            config('pathConfig.pathAPI').'groupController/ChildSearching',
+            [
+                'form_params' =>[
+                    'groupId' => 0
+                ]
+            ]
+        )->getbody();
+        $searchResult = json_decode($result, true);
+        $arryResult = $searchResult['data'];
+        return view('GroupManagement.index21',['groupRecord' => $arryResult]);
     }
 
     public static function test(){

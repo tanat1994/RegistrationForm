@@ -1,21 +1,19 @@
 @extends('core')
-<?php use App\Http\Controllers\groupController; ?>
+
 @section('more_script')
-    {{--  <link class="cssdeck" rel="stylesheet" href="{{asset('css/treeTable/tree.bootstrap.css')}}">  --}}
-    <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
-    <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
-    <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
-    
-    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('js/jquery-3.2.1.slim.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  {{--DATATABLES--}}
+  <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
+  <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
+  <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
 
-    <style>
+  <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
+  <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+  <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
+
+  <style>
             .container{
             margin-top:20px;
             }
@@ -43,35 +41,17 @@
             }
     </style>
 
-    <style>
-    /* level 1*/
-    .list-group .collapse .list-group-item  {
-      padding-left:20px;
-    }
+    {{--  <script src="{{asset('js/navgoco/jquery-1.10.2.min.js')}}"></script>  --}}
+    <script src="{{asset('js/navgoco/jquery.cookie.js')}}"></script>
+    <!-- Add navgoco main js and css files  -->
 
-    /* level 2*/
-    .list-group .collapse > .collapse .list-group-item {
-      padding-left:30px;
-    }
+    <script src="{{asset('js/navgoco/highlight.pack.js')}}"></script>
+    <script src="{{asset('js/navgoco/demo.js')}}"></script>
 
-    /* level 3*/
-    .list-group .collapse > .collapse > .collapse .list-group-item {
-      padding-left:40px;
-    }
-    </style>
+    <script type="text/javascript" src="{{asset('js/navgoco/jquery.navgoco.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/navgoco/jquery.navgoco.css')}}" media="screen" />
 
-
-        {{--  <script src="{{asset('js/navgoco/jquery-1.10.2.min.js')}}"></script>  --}}
-		<script src="{{asset('js/navgoco/jquery.cookie.js')}}"></script>
-		<!-- Add navgoco main js and css files  -->
-
-        <script src="{{asset('js/navgoco/highlight.pack.js')}}"></script>
-		<script src="{{asset('js/navgoco/demo.js')}}"></script>
-
-		<script type="text/javascript" src="{{asset('js/navgoco/jquery.navgoco.js')}}"></script>
-        <link rel="stylesheet" type="text/css" href="{{asset('css/navgoco/jquery.navgoco.css')}}" media="screen" />
-        
-        <script type="text/javascript" id="demo1-javascript">
+    <script type="text/javascript" id="demo1-javascript">
 			$(document).ready(function() {
 				// Initialize navgoco with default options
 				$("#demo1").navgoco({
@@ -103,63 +83,40 @@
 				});
 			});
 	</script>
+
 @endsection
-
-
-@section('activegroup')
-tabbuttonactive
-@endsection
-
 
 @section('htmlheader_title')
 {{ trans('menu.group') }}
 @endsection
 
+@section('activegroup')
+tabbuttonactive
+@endsection
 
 @section('content')
     <div class="row-fluid">
+
         <div class="col-md-12 divunderline">
             <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/groupmanagement') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.group') }}</strong></a> </h2>
             <hr class="hrbreakline">
+        </div>
+        
 
-            <!-- TREE SECTION -->
-            <div class="col-md-2 col-sm-2" style="background-color:#F5F5F5; padding-left:0;">
-                <div class="col-md-12" style="background-color:white;align:middle; float:left;">
+            <div class="col-md-3" style="background-color:#F5F5F5;">
+                <div class="col-md-12" style="background-color:white;">
                     @include('GroupManagement.treeList')
-                    <?php 
-                       /* $menu = 1;
-                        $sub = 1;
-                            echo "<div class='list-group panel'>";
-                            $master_tree = groupController::groupSearch('0'); 
-                            foreach($master_tree as $tree){
-                                $treeView = groupController::groupSearch($tree['groupId']);
-                                if(count($treeView) != 0){
-                                    echo "<a href='#menu".$menu."' class='list-group-item' data-toggle='collapse' data-parent='#sidebar'>".$tree['groupName']."<i class='fa fa-caret-down'></i></a>";
-                                    echo "<div class='collapse' id='menu".$menu."'>";
-                                }else{
-                                    echo "<a href='#menu".$menu."' class='list-group-item' data-toggle='collapse' data-parent='#sidebar'>".$tree['groupName']."</a>";
-                                } */
-                        ?>
-                            {{--  @include('GroupManagement.recursiveGroup2',['groupRecord'=>$treeView, 'menu'=>$menu, 'sub'=>$sub])  --}}
-                        <?php
-                            /*echo "</div>";
-                            $menu++;
-                        }
-                            echo "</div>";*/
-                        ?>
                 </div>
             </div>
-
-            <!-- MANAGE SECTION -->
-            <div class="col-md-10 col-sm-10" style="background-color: white;">
-                <div class="col-md-12">
-                    {{--  <h3 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/groupmanagement') }}" style="text-decoration:none;color:#2e7ed0;float:left;margin-bottom:3px;"><strong>{{ trans('menu.group') }}</strong></a> </h3>  --}}
-                    <h3 style="float:left;"><a href="{{ URL::to('/groupmanagement') }}" style="color:#2e7ed0;"><strong>{{ trans('menu.group') }}</strong></a></h3>  
-                    <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1.2%;" data-toggle="modal" data-target="#myModal"/>
-                    <hr class="hrbreakline">
+            
+            <div class="col-md-9" style="background-color:#F5F5F5;">
+                <div class="col-md-12" style="background-color:white;">
+                    <div class="col-md-12">
+                        <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;" data-toggle="modal" data-target="#myModal"/>
+                    </div>
                 </div>
-               
-                <div class="col-md-12">
+                
+                <div class="col-md-12" style="background-color:white; padding-top: 0px;">
                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -168,40 +125,25 @@ tabbuttonactive
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.nomember') }}</strong></th>
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.datecreate') }}</strong></th>
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.usercreate') }}</strong></th>
-                                {{--  <th data-breakpoints="xs" nowrap style="background-color:#2e7ed0"><strong>{{ trans('table.name') }}</strong></th>
-                                <th data-breakpoints="xs sm" data-type="date" data-format-string="MMMM Do YYYY" nowrap style="background-color:#2e7ed0"><strong>{{ trans('table.position') }}</strong></th>
-                                <th data-breakpoints="xs sm md" data-type="date" data-format-string="MMMM Do YYYY" nowrap style="background-color:#2e7ed0"><strong>{{ trans('table.status') }}</strong></th>  --}}
                             </tr>
                         </thead>
-                        <tbody>
-                            {{--  @foreach($groupRecord as $record)
-                                <tr>
-                                    <td>{{ $record['groupId'] }}</td>
-                                    <td>{{ $record['groupName'] }}</td>
-                                    <td>0</td>
-                                    <td>{{ $record['date_create'] }}</td>
-                                    <td>{{ $record['user_create'] }}</td>
-                                </tr>
-                            @endforeach  --}}
+                            <tbody>
+                                @foreach($groupRecord as $record)
                                     <tr>
-                                    <td>a</td>
-                                    <td>a</td>
-                                    <td>a</td>
-                                    <td>a</td>
-                                    <td>a</td>
+                                        <td>{{ $record['groupId'] }}</td>
+                                        <td>{{ $record['groupName'] }}</td>
+                                        <td>0</td>
+                                        <td>{{ $record['date_create'] }}</td>
+                                        <td>{{ $record['user_create'] }}</td>
                                     </tr>
-                                    <tr>
-                                    <td>b</td>
-                                    <td>b</td>
-                                    <td>b</td>
-                                    <td>b</td>
-                                    <td>b</td>
-                                    </tr>
-                        </tbody>
+                                @endforeach
+                            </tbody>
 
-                    <tfoot>
-                    </tfoot>
-            </table>
+                            <tfoot>
+                                &nbsp;
+                            </tfoot>
+                    </table>
+                </div>
 
                 <!--*************** MODAL SECTION *************-->
                     <!-- Modal -->
@@ -264,12 +206,7 @@ tabbuttonactive
                     </div>
                 <!--***************  END MODAL SECTION *************-->
 
-                    <script type="text/javascript">
-                        $('#input16').filestyle({
-                            size : 'sm'
-                        });
-                    </script>
-                    
+                    {{-- INPUT FILE SCRIPT --}}
                     <script>
                         $(document).ready(function(){
                             $('#myTable').dataTable({
@@ -294,6 +231,7 @@ tabbuttonactive
                         });
                     </script>
 
+                    {{-- MODAL SCRIPT --}}
                     {{-- INPUT FILE SCRIPT --}}
                     <script>
                     $(document).on('click', '#close-preview', function(){ 
@@ -338,9 +276,8 @@ tabbuttonactive
                             });  
                         });
                     </script>
-                </div>
             </div>
-        </div>
+
     </div>
 @endsection
 

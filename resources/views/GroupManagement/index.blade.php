@@ -33,7 +33,7 @@ tabbuttonactive
             <!-- TREE SECTION -->
             <div class="col-md-3" style="background-color:#F5F5F5; padding-left:0;">
                 <div class="col-md-10" style="background-color:white;">
-                    @include('GroupManagement.index3')
+                    @include('GroupManagement.treeList')
                 </div>
             </div>
 

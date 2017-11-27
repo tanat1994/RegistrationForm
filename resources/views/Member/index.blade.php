@@ -10,7 +10,7 @@
   <script src="{{asset('js/footable/footable.js')}}"></script>
   <script src="{{asset('js/footable/footable.min.js')}}"></script>  --}}
 
-    {{--DATATABLES--}}
+  {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
@@ -23,6 +23,34 @@
 
   {{--  <script src="{{asset('js/dataTables/dataTables.semanticui.min.js')}}"></script>
   <script src="{{asset('js/dataTables/semantic.min.js')}}"></script>  --}}
+
+  <style>
+            .container{
+            margin-top:20px;
+            }
+            .image-preview-input {
+                position: relative;
+                overflow: hidden;
+                margin: 0px;    
+                color: #333;
+                background-color: #fff;
+                border-color: #ccc;    
+            }
+            .image-preview-input input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                cursor: pointer;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+            .image-preview-input-title {
+                margin-left:2px;
+            }
+    </style>
 
 
 @endsection
