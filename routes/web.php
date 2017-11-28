@@ -71,8 +71,26 @@ Route::resource('get', 'groupController');
 Route::get('/groupmanagement', 'groupController@groupRecord');
 
 
-Route::get('ajax', function(){ return view('testajax'); });
-Route::post('/postajax','ajaxController@post');
+Route::get('/', 'ajaxController@index');
+Route::get('/getRequest', function(){
+    if(Request::ajax()){
+        return 'getRequest returnnnnnnnnnnn';
+    }
+});
+
+Route::post('/register',function(){
+    if(Request::ajax()){
+        return Response::json(Request::all());
+    }
+});
+// Route::get('/getRequest' , function(){
+//     if(Request::ajax()){
+//         return 'getRequest has loaded.';
+//     }
+// });
+// Route::get('/ajax','ajaxController@myform');
+// Route::post('/ajax','ajaxController@myformPost');
+
 
 
 
