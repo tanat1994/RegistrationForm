@@ -278,6 +278,12 @@ tabbuttonactive
                             });  
                         });
                     </script>
+
+                    <script>
+                    function myJsFunc() {
+                        alert("myJsFunc");
+                    }
+                    </script>
             </div>
 
     </div>
