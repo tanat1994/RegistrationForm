@@ -5,7 +5,6 @@
 		<?php 
 			$master_tree = groupController::groupSearch('0'); 
 			foreach($master_tree as $tree){
-			//echo "<ul style='margin-left:0px;'>";
 			echo "<ul style='margin-left:0px;'>";
 			echo "<li><a href='#' onclick='myJsFunc();' style='font-size:17px;'>".$tree['groupName']."</a>";
 			$hasChild = groupController::groupSearch($tree['groupId']);
