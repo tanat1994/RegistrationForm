@@ -20,7 +20,7 @@ Route::get('/test',function (){
 // });
 
 Route::get('/test3', function(){
-    return view('welcome2');
+    return view('GroupManagement.dummy');
 });
 
 Route::get('/change/{locale}', function ($locale) {

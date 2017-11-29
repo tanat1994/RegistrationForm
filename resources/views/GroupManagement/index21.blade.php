@@ -1,5 +1,5 @@
 @extends('core')
-
+<?php use App\Http\Controllers\groupController; ?>
 @section('more_script')
 
   {{--DATATABLES--}}
@@ -52,36 +52,36 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/navgoco/jquery.navgoco.css')}}" media="screen" />
 
     <script type="text/javascript" id="demo1-javascript">
-			$(document).ready(function() {
-				// Initialize navgoco with default options
-				$("#demo1").navgoco({
-					caretHtml: '',
-					accordion: false,
-					openClass: 'open',
-					save: true,
-					cookie: {
-						name: 'navgoco',
-						expires: false,
-						path: '/'
-					},
-					slide: {
-						duration: 400,
-						easing: 'swing'
-					},
-					// Add Active class to clicked menu item
-					onClickAfter: active_menu_cb,
-				});
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#demo1").navgoco({
+                caretHtml: '',
+                accordion: false,
+                openClass: 'open',
+                save: true,
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                },
+                // Add Active class to clicked menu item
+                onClickAfter: active_menu_cb,
+            });
 
-				$("#collapseAll").click(function(e) {
-					e.preventDefault();
-					$("#demo1").navgoco('toggle', false);
-				});
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#demo1").navgoco('toggle', false);
+            });
 
-				$("#expandAll").click(function(e) {
-					e.preventDefault();
-					$("#demo1").navgoco('toggle', true);
-				});
-			});
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#demo1").navgoco('toggle', true);
+            });
+        });
 	</script>
 
 @endsection
@@ -95,6 +95,7 @@ tabbuttonactive
 @endsection
 
 @section('content')
+
     <div class="row-fluid">
 
         <div class="col-md-12 divunderline">
@@ -102,7 +103,6 @@ tabbuttonactive
             <hr class="hrbreakline">
         </div>
         
-
             <div class="col-md-3" style="background-color:#F5F5F5;">
                 <div class="col-md-12" style="background-color:white;">
                     @include('GroupManagement.treeList')
@@ -128,6 +128,7 @@ tabbuttonactive
                             </tr>
                         </thead>
                             <tbody>
+
                                 @foreach($groupRecord as $record)
                                     <tr>
                                         <td>{{ $record['groupId'] }}</td>
@@ -137,6 +138,7 @@ tabbuttonactive
                                         <td>{{ $record['user_create'] }}</td>
                                     </tr>
                                 @endforeach
+                                
                             </tbody>
 
                             <tfoot>

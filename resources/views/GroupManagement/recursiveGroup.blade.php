@@ -9,10 +9,10 @@
             ?>
                 @include('GroupManagement.recursiveGroup',['groupRecord'=>$treeChild])
             <?php
-                }else{
-                    ;
-                }
-                    echo "</li>";
+                    }else{
+                        ;
+                    }
+                        echo "</li>";
                 }
             ?>
 </ul>

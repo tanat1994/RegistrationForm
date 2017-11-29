@@ -50,9 +50,18 @@
 
             $(document).ready(function(){
                 $('#getRequest').click(function(){
-                    $.get('getRequest', function(data){
+                    /*$.get('getRequest', function(data){
                         $('#getRequestData').append(data);
                         console.log(data);
+                    });*/
+
+                    $.ajax({
+                        type: "GET",
+                        url: "getRequest",
+                        success: function(data){
+                            console.log(data);
+                            $('#getRequestData').append(data);
+                        }
                     });
                 });
 
@@ -60,9 +69,20 @@
                     var fname = $('#firstname').val();
                     var lname = $('#lastname').val();
 
-                    $.post('register', {firstname:fname, lastname:lname}, function(data){
+                    /*$.post('register', {firstname:fname, lastname:lname}, function(data){
                         console.log(data);
                         $('#postRequestData').html(data);
+                    });*/
+
+                    var dataString = "firstname="+fname+" lastname="+lname;
+                    $.ajax({
+                        type: "POST",
+                        url: "register",
+                        data: dataString,
+                        success: function(data){
+                            console.log(data);
+                            $('#postRequestData').html(data);
+                        }
                     });
                 });
             });
