@@ -2,9 +2,13 @@
 return [
     'no' => 'NO',
     'memberId' => 'MEMBER ID',
-    'cardId' => 'CARD ID',
+    'cardUID' => 'CARD UID',
     'name' => 'NAME',
     'position' => 'POSITION',
+    'degree' => 'DEGREE',
+    'title' => 'TITLE',
+    'faculty' => 'FACULTY',
+    'major' => 'MAJOR',
     'status' => 'STATUS',
 
     'filter' => 'FILTER BY',

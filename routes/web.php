@@ -47,9 +47,10 @@ Route::get('/dashboard', function () { return view('Dashboard.index'); });
 //Route::get('/membermanagement','bdReportController@index');
 //Route::get('/groupmanagement','groupController@groupRecord');
 Route::get('/membermanagement','memberController@memberRecord'); 
-Route::get('/memberregister', function () {return view('Member.register'); });
+Route::get('/memberregister', function () { return view('Member.register'); });
+// Route::post('/memberregister', 'ValidateController@store')->name;
 
-
+Route::get('/hello', function () { return view('Member.hello'); });
 
 
 
@@ -68,7 +69,8 @@ Route::get('/memberRecord','memberController@memberRecord');
 
 Route::resource('get', 'groupController');
 //Route::get('/groupmanagement', 'groupController@groupRecord');
-Route::get('/groupmanagement', 'groupController@groupRecord');
+Route::get('/groupmanagement', 'groupController@groupInitial');
+Route::get('/grouptree', 'groupController@groupInitial');
 
 
 Route::get('/', 'ajaxController@index');

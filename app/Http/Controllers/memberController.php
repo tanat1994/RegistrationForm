@@ -24,8 +24,22 @@ class memberController extends Controller
         )->getbody();
         $memberList = json_decode($result, true);
         $memberRecord = $memberList;
-
         return view('Member.index',['memberRecord' => $memberRecord]);
         //return view('GroupManagement.index21',['memberRecord' => $memberRecord]);
+    }
+
+    public static function degreeList(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'educationController/degreeList'
+        )->getbody();
+        $degreeList = json_decode($result, true);
+        return $degreeList;
+    }
+
+    public static function memberTest(){
+        $test = "helloworld";
+        return $test;
     }
 }

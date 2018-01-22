@@ -1,28 +1,20 @@
 @extends('core')
-
+<?php use App\Http\Controllers\groupController; ?>
 @section('more_script')
-  {{--  <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
-  <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables.bootstrap4.min.css')}}"/>  --}}
-
-  {{--  <link type ="text/css" rel="stylesheet" href="{{asset('css/footable/footable.bootstrap.css')}}"/>
-  <link type="text/css" rel="stylesheet" href="{{asset('css/footable/footable.bootstrap.min.css')}}"/>
-  <script src="{{asset('js/footable/footable.js')}}"></script>
-  <script src="{{asset('js/footable/footable.min.js')}}"></script>  --}}
 
   {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
 
-  {{--  <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/semantic.min.css')}}"/>
-  <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/semanticui.min.css')}}"/>  --}}
-
   <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
   <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
 
-  {{--  <script src="{{asset('js/dataTables/dataTables.semanticui.min.js')}}"></script>
-  <script src="{{asset('js/dataTables/semantic.min.js')}}"></script>  --}}
+  <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
+
+  <link type="text/css" rel="stylesheet" href="{{ asset('css/treeView/bootstrap-treeview.css') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/treeView/bootstrap-treeview.js') }}"></script>
 
   <style>
             .container{
@@ -52,68 +44,118 @@
             }
     </style>
 
+    {{--  <script src="{{asset('js/navgoco/jquery-1.10.2.min.js')}}"></script>  --}}
+    <script src="{{asset('js/navgoco/jquery.cookie.js')}}"></script>
+    <!-- Add navgoco main js and css files  -->
+
+    <script src="{{asset('js/navgoco/highlight.pack.js')}}"></script>
+    <script src="{{asset('js/navgoco/demo.js')}}"></script>
+
+    <script type="text/javascript" src="{{asset('js/navgoco/jquery.navgoco.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/navgoco/jquery.navgoco.css')}}" media="screen" />
+
+    <script type="text/javascript" id="demo1-javascript">
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#demo1").navgoco({
+                caretHtml: '',
+                accordion: false,
+                openClass: 'open',
+                save: true,
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                },
+                // Add Active class to clicked menu item
+                onClickAfter: active_menu_cb,
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#demo1").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#demo1").navgoco('toggle', true);
+            });
+        });
+	</script>
 
 @endsection
 
 @section('htmlheader_title')
-{{ trans('menu.member') }}
+{{ trans('menu.group') }}
 @endsection
 
-@section('activemember')
+@section('activegroup')
 tabbuttonactive
 @endsection
 
 @section('content')
+
     <div class="row-fluid">
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.member') }}</strong></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/groupmanagement') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.group') }}</strong></a> </h2>
             <hr class="hrbreakline">
         </div>
         
-        <div class="col-md-12">
-            <div class="col-md-1">
-            &nbsp;
+            <div class="col-md-3" style="background-color:#F5F5F5;">
+                <div class="col-md-12" style="background-color:white;">
+                    {{--  @include('GroupManagement.treeList')  --}}
+                    <h2 align="center">TreeView</h2>
+                    <div id="tree"></div>
+                </div>
             </div>
             
-        <div class="col-md-10" style="background-color:white; padding-top:1%;">
-            <div class="col-md-12"><a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"/></a></div>
-            <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.cardUID') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.position') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.title') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.name') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.degree') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.faculty') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.major') }}</strong></th>
-                        {{--  <th data-breakpoints="xs" nowrap style="background-color:#2e7ed0"><strong>{{ trans('table.name') }}</strong></th>
-                        <th data-breakpoints="xs sm" data-type="date" data-format-string="MMMM Do YYYY" nowrap style="background-color:#2e7ed0"><strong>{{ trans('table.position') }}</strong></th>
-                        <th data-breakpoints="xs sm md" data-type="date" data-format-string="MMMM Do YYYY" nowrap style="background-color:#2e7ed0"><strong>{{ trans('table.status') }}</strong></th>  --}}
-                    </tr>
-                </thead>
-                    <tbody>
-                        @foreach($memberRecord as $record)
+            <div class="col-md-9" style="background-color:#F5F5F5;">
+                <!--<div class="col-md-12" style="background-color:white;">
+                    <div class="col-md-12">
+                        <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;" data-toggle="modal" data-target="#myModal"/>
+                    </div>
+                </div>-->
+                
+                <div class="col-md-12" style="background-color:white; margin-top: 5px;">
+                    <div class="col-md-12">
+                            <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1.5%;" data-toggle="modal" data-target="#myModal"/>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
+                        <thead>
                             <tr>
-                                <td>{{ $record['memberId'] }}</td>
-                                <td>{{ $record['cardUID'] }}</td>
-                                <td>{{ $record['positionName'] }}</td>
-                                <td>{{ $record['titleName'] }}</td>
-                                <td>{{ $record['firstname'] }}   {{ $record['lastname'] }}</td>
-                                <td>{{ $record['degreeName'] }}</td>
-                                <td>{{ $record['facultyName'] }}</td>
-                                <td>{{ $record['majorName'] }}</td>
+                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
+                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.groupname') }}</strong></th>
+                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.nomember') }}</strong></th>
+                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.datecreate') }}</strong></th>
+                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.usercreate') }}</strong></th>
                             </tr>
-                        @endforeach
-                    </tbody>
+                        </thead>
+                            <tbody>
 
-                    <tfoot>
-                    </tfoot>
-            </table>
+                                {{--  @foreach($groupRecord as $record)
+                                    <tr>
+                                        <td id="{{$record['groupName']}}">{{ $record['groupId'] }}</td>
+                                        <td>{{ $record['groupName'] }}</td>
+                                        <td>0</td>
+                                        <td>{{ $record['date_create'] }}</td>
+                                        <td>{{ $record['user_create'] }}</td>
+                                    </tr>
+                                @endforeach  --}}
+                                
+                            </tbody>
 
-            <!--*************** MODAL SECTION *************-->
+                            <tfoot>
+                                &nbsp;
+                            </tfoot>
+                    </table>
+                </div>
+
+                <!--*************** MODAL SECTION *************-->
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog modal-lg">
@@ -174,7 +216,33 @@ tabbuttonactive
                     </div>
                 <!--***************  END MODAL SECTION *************-->
 
-                {{-- INPUT FILE SCRIPT --}}
+                    {{-- INPUT FILE SCRIPT --}}
+                    <script>
+                        $(document).ready(function(){
+                            $('#myTable').dataTable({
+                                language: {
+                                    paginate: {
+                                        previous: "{{trans('table.previous')}}",
+                                        next: "{{trans('table.next')}}"
+                                    },
+                                    aria: {
+                                        paginate: {
+                                            previous: "Previous",
+                                            next: "Next"
+                                        }
+                                    },
+                                    "search" : "{{trans('table.search')}}:",
+                                    "searchPlaceholder" : "{{trans('table.search')}}",
+                                    "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
+                                    "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
+                                    "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
+                                }
+                            });
+                        });
+                    </script>
+
+                    {{-- MODAL SCRIPT --}}
+                    {{-- INPUT FILE SCRIPT --}}
                     <script>
                     $(document).on('click', '#close-preview', function(){ 
                             $('.image-preview').popover('hide');
@@ -218,69 +286,38 @@ tabbuttonactive
                             });  
                         });
                     </script>
-                    {{--  <script>
-                    jQuery(function($){
-                        $('.table').footable();
-                    });
-                    </script>  --}}
 
                     <script>
-                        $(document).ready(function(){
-                            $('#myTable').dataTable({
-                                language: {
-                                    paginate: {
-                                        previous: "{{trans('table.previous')}}",
-                                        next: "{{trans('table.next')}}"
-                                    },
-                                    aria: {
-                                        paginate: {
-                                            previous: "Previous",
-                                            next: "Next"
-                                        }
-                                    },
-                                    "search" : "{{trans('table.search')}}:",
-                                    "searchPlaceholder" : "{{trans('table.search')}}",
-                                    "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
-                                    "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
-                                    "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
-                                }
-                            });
-                        });
+                    function myJsFunc() {
+                        alert("myJsFunc");
+                    }
                     </script>
+                    function 
+                        <?php
+                            $client = new GuzzleHttp\Client();
+                            $res = $client -> get('http://127.0.0.1/Website-NAT/public/index.php/groupController/groupInitial');
+                            $result = json_decode($res->getBody(), true);
+                        ?>
+                    <script>
+                        function GetResult(url){
+                            var HttpReq = new XMLHttpRequest();
+                            HttpReq.open("GET", url, false);
+                            HttpReq.send(null);
 
-                    {{--  <script type="text/javascript">
-                        $(document).ready(function(){
-                            $('.table').footable();
-                            
-                            $('[data-page-size]').on('click', function(e){
-                                e.preventDefault();
-                                var newSize = $(this).data('pageSize');
-                                FooTable.get('#page-size-example').pageSize(newSize);
-                            });
+                            return HttpReq.responseText;
+                        }
 
-
-                            $('[name=status]').on('change', function(){
-                                var filtering = FooTable.get('#showcase-example-1').use(FooTable.Filtering), // get the filtering component for the table
-                                    filter = $(this).val(); // get the value to filter by
-                                if (filter === 'none'){ // if the value is "none" remove the filter
-                                    filtering.removeFilter('status');
-                                } else { // otherwise add/update the filter.
-                                    filtering.addFilter('status', filter, ['status']);
-                                }
-                                filtering.filter();
-                            });
-                        });
-                    </script>  --}}
-
-
-
-        </div>
-            <div class="col-md-1">
-            &nbsp;
+                        //var json_obj = GetResult("http://127.0.0.1/Website-NAT/public/index.php/groupController/groupInitial");
+                        //console.log(typeof(json_obj));
+                        var json_obj = fetch("http://127.0.0.1/Website-NAT/public/index.php/groupController/groupInitial");
+                        console.log(typeof(json_obj));
+                        $('#tree').treeview({data: tree});
+                    </script>
             </div>
-        </div>
-
     </div>
+@endsection
 
-
+@section('extra_script')
+    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
 @endsection

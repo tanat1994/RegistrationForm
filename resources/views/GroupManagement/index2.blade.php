@@ -125,7 +125,7 @@ tabbuttonactive
             <!-- TREE SECTION -->
             <div class="col-md-2 col-sm-2" style="background-color:#F5F5F5; padding-left:0;">
                 <div class="col-md-12" style="background-color:white;align:middle; float:left;">
-                    @include('GroupManagement.treeList')
+                    {{--  @include('GroupManagement.treeList')  --}}
                     <?php 
                        /* $menu = 1;
                         $sub = 1;

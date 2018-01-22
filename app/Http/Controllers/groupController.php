@@ -14,11 +14,15 @@ use GuzzleHttp\Client;
 class groupController extends Controller
 {
     //
+    public static function GroupTest(){
+        return view('GroupManagement.test');
+    }
+
     public static function groupRecord(){
         $client = new Client();
         $result = $client->request(
-            'POST',
-            config('pathConfig.pathAPI').'groupController/ChildSearching',
+            'GET',
+            config('pathConfig.pathAPI').'groupController/groupInitial',
             [
                 'form_params' =>[
                     'groupId' => 0
@@ -27,7 +31,7 @@ class groupController extends Controller
         )->getbody();
         $searchResult = json_decode($result, true);
         $arryResult = $searchResult['data'];
-        return view('GroupManagement.index21',['groupRecord' => $arryResult]);
+        return view('GroupManagement.test',['groupRecord' => $arryResult]);
     }
 
     public static function test(){
@@ -42,7 +46,7 @@ class groupController extends Controller
         )->getbody();
         $groupInit = json_decode($result, true);
         $groupRecord = $groupInit['data'];
-        //return view('GroupManagement.index2',['groupRecord' => $groupRecord]);//response()->json(['groupInit' => $groupRecord]);
+        return view('GroupManagement.test',['groupRecord' => $groupRecord]);//response()->json(['groupInit' => $groupRecord]);
     }
 
     public function hasChild(){
