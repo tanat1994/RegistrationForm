@@ -48,6 +48,7 @@ Route::get('/dashboard', function () { return view('Dashboard.index'); });
 //Route::get('/groupmanagement','groupController@groupRecord');
 Route::get('/membermanagement','memberController@memberRecord'); 
 Route::get('/memberregister', function () { return view('Member.register'); });
+Route::post('/memberController/memberSingleInsert', 'memberController@memberSingleInsert');
 // Route::post('/memberregister', 'ValidateController@store')->name;
 
 Route::get('/hello', function () { return view('Member.hello'); });

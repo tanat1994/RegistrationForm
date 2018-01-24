@@ -29,7 +29,7 @@ tabbuttonactive
                     <input type="image" src="{{ asset('images/file_upload.png') }}" style="float:right; width:45px; height:45px; margin-top: 6px;" data-toggle="modal" data-target="#myModal"/>
                     <hr class="hrbreakline">
 
-                        <form class="form-horizontal" action="#" method="get">
+                        <form class="form-horizontal" action="{{ url('memberController/memberSingleInsert') }}" method="post">
                                 <div class="col-md-5">
                                     {{-- Input form section--}}
                                     
@@ -52,7 +52,7 @@ tabbuttonactive
                                             <label for="position" class="control-label col-md-4" style="text-align:left;">{{ trans('register.position')}} :</label>
                                             <div class="col-md-8">
                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                <select id="regis_position" class="form-control">
+                                                <select id="regis_position" class="form-control" name="regis_position">
                                                     <option selected value="1">{{ trans('register.position_student') }}</option>
                                                     <option value="2">{{ trans('register.position_staff') }}</option>
                                                 </select>
@@ -63,7 +63,7 @@ tabbuttonactive
                                             <label for="title" class="control-label col-md-4" style="text-align:left;">{{ trans('register.title')}} :</label>
                                             <div class="col-md-8">
                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                <select id="regis_titleId" class="form-control">
+                                                <select id="regis_titleId" class="form-control" name="regis_titleId">
                                                     <option selected value="1">{{ trans('register.title_mr') }}</option>
                                                     <option value="2">{{ trans('register.title_mrs') }}</option>
                                                     <option value="3">{{ trans('register.title_ms') }}</option>
@@ -89,8 +89,9 @@ tabbuttonactive
                                             <label for="faculty" class="control-label col-md-4" style="text-align:left;">{{ trans('register.faculty')}} :</label>
                                             <div class="col-md-8">
                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                <select id="regis_faculty" class="form-control">
-                                                    
+                                                <select id="regis_faculty" class="form-control" name="regis_faculty">
+                                                    {{--  <option value="" selected="selected">Faculty</option>  --}}
+                                                    <?php facultyList(); ?>
                                                 </select>
                                             </div>
                                     </div>
@@ -99,8 +100,8 @@ tabbuttonactive
                                             <label for="major" class="control-label col-md-4" style="text-align:left;">{{ trans('register.major')}} :</label>
                                             <div class="col-md-8">
                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                <select id="regis_major" class="form-control">
-                                                    
+                                                <select id="regis_major" class="form-control" name="regis_major">
+                                                    <?php majorList(); ?>
                                                 </select>
                                             </div>
                                     </div>
@@ -109,13 +110,14 @@ tabbuttonactive
                                             <label for="degree" class="control-label col-md-4" style="text-align:left;">{{ trans('register.degree')}} :</label>
                                             <div class="col-md-8">
                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                <select id="regis_degree" class="form-control">
+                                                <select id="regis_degree" class="form-control" name="regis_degree">
                                                         <?php degreeList(); ?>
                                                 </select>
                                             </div>
                                     </div>
                                     {{-- expire_date--}}
-                                    <div><button id="submit">Submit</button></div>
+                                    {{ csrf_field() }}
+                                    <div><button type="submit" class="btn btn-primary" id="submit">Submit</button></div>
                                 </div>
                                 <div class="col-md-7">&nbsp;</div>
                         </form>
@@ -204,14 +206,38 @@ tabbuttonactive
     <?php
         function DegreeList(){
             $init_check = true;
-            $st = memberController::degreeList();
+            $degreeArry = memberController::degreeList();
             //echo($st["data"][0]["degreeId"]); //single print
-            foreach ($st["data"] as $key => $value){
+            foreach ($degreeArry["data"] as $key => $value){
                 if($init_check == true){
-                    echo "<option selected value='".$value["degreeId"]."'>".$value["degreeName"]."</option>";
+                    echo "<option selected value=".$value["degreeId"].">".$value["degreeName"]."</option>";
                     $init_check = false;
                 }else{
-                    echo "<option value='".$value["degreeId"]."'>".$value["degreeName"]."</option>";
+                    echo "<option value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+                }
+            }
+        }
+        function FacultyList(){
+            $init_check = true;
+            $facArry = memberController::facultyList();
+            foreach ($facArry["data"] as $key => $value){
+                if($init_check == true){
+                    echo "<option selected value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+                    $init_check = false;
+                }else{
+                    echo "<option value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+                }
+            }
+        }
+        function MajorList(){
+            $init_check = true;
+            $majorArray = memberController::majorList();
+            foreach ($majorArray["data"] as $key => $value){
+                if($init_check == true){
+                    echo "<option selected value=".$value["majorId"].">".$value["majorName"]."</option>";
+                    $init_check = false;
+                }else{
+                    echo "<option value=".$value["majorId"].">".$value["majorName"]."</option>";
                 }
             }
         }
@@ -221,10 +247,10 @@ tabbuttonactive
     //function SuccessAlert(){    
       //  swal("Oops", "Something went wrong!", "error");
     //}
-
     var form = document.getElementById("submit");
     document.getElementById("submit").addEventListener("click",function(){
         swal("Oops", "Something went wrong!", "error");
     });
 </script>
+
 @endsection

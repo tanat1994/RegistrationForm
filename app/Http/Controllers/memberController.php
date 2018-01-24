@@ -38,8 +38,46 @@ class memberController extends Controller
         return $degreeList;
     }
 
-    public static function memberTest(){
-        $test = "helloworld";
-        return $test;
+    public static function facultyList(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'educationController/facultyList'
+        )->getbody();
+        $facultyList = json_decode($result, true);
+        return $facultyList;
+    }
+
+    public static function majorList(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'educationController/majorList'
+        )->getbody();
+        $majorList = json_decode($result, true);
+        return $majorList;
+    }
+
+    public static function memberSingleInsert(Request $request){
+        $client = new Client();
+        $result = $client->request(
+            'POST',
+            "http://127.0.0.1/Website-NAT/public/index.php/memberController/memberSingleInsert",
+            ['form_params' =>
+                [
+                    'memberId' => $request->input('regis_memberId'),        
+                    'cardUID' => $request->input('regis_cardUID'),
+                    'positionId' => $request->input('regis_position'),
+                    'titleId' => $request->input('regis_titleId'),
+                    'firstname' => $request->input('regis_name'),
+                    'lastname' => $request->input('regis_lastname'),
+                    'degreeId' => (int)$request->input('regis_degree'),
+                    'facultyId' => (int)$request->input('regis_faculty'),
+                    'majorId' => 1,       
+                ]
+            ])->getBody();
+        $inputResult = json_decode($result, true);
+        $arryResult = $inputResult;
+        dd($arryResult);
     }
 }

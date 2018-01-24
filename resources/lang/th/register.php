@@ -10,11 +10,20 @@ return [
     'next' => 'ถัดไป',
 
     'firstname' => 'ชื่อ',
-    'surname' => 'นามสกุล',
+    'lastname' => 'นามสกุล',
     'memberinformation' => 'ข้อมูลสมาชิก',
     'dateofbirth' => 'วันที่เกิด',
     'importfile' => 'นำเข้าไฟล์',
     'creategroup' => 'สร้างกลุ่ม',
-    'choosefile' => 'เลือกไฟล์'
+    'choosefile' => 'เลือกไฟล์',
+
+
+    'cardUID' => 'รหัสบัตร',
+    'memberId' => 'รหัสนักศึกษา',
+    'position' => 'ตำแหน่ง',
+    'title' => 'คำนำหน้า',
+    'faculty' => 'คณะ',
+    'major' => 'สาขาวิชา',
+    'degree' => 'ระดับการศึกษา'
 
 ];
