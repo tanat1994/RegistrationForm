@@ -3,6 +3,35 @@
 
 @section('more_script')
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+    <style>
+        .container{
+        margin-top:20px;
+        }
+        .image-preview-input {
+            position: relative;
+            overflow: hidden;
+            margin: 0px;    
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;    
+        }
+        .image-preview-input input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+        .image-preview-input-title {
+            margin-left:2px;
+        }
+</style>
+</style>
 @endsection
 
 @section('htmlheader_title')
@@ -175,28 +204,62 @@ tabbuttonactive
             </div>
 
                 <!--*************** MODAL SECTION *************-->
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h2 class="modal-title">REGISTER METHOD</h2>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog modal-md">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h2 class="modal-title" style="color:#2e7ed0;"><strong>IMPORT AS FILE</strong></h2>
+                                </div>
+
+                                    <div class="modal-body">
+                                        <form class="form-horizontal">
+                                            <div class="form-group" style="margin-left: 1%;">
+                                                <div class="input-group">
+                                                    <h4><strong>{{trans('register.importfile')}}</strong></h4>
+
+                                                        {{-- INPUT FILE SECTION --}}
+                                                        <div class="container">
+                                                            <div class="row-fluid">
+                                                                <div class="col-xs-12 col-md-4 ">  
+                                                                    <!-- image-preview-filename input [CUT FROM HERE]-->
+                                                                    <div class="input-group image-preview">
+                                                                        <input type="text" class="form-control image-preview-filename"> <!-- don't give a name === doesn't send on POST/GET -->
+                                                                        <span class="input-group-btn">
+                                                                            <!-- image-preview-clear button -->
+                                                                            <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                                                            </button>
+                                                                            <!-- image-preview-input -->
+                                                                            <div class="btn btn-default image-preview-input">
+                                                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                                                <span class="image-preview-input-title">{{trans('register.choosefile')}}</span>
+                                                                                <input type="file" name="input-file-preview"/> <!-- rename it -->
+                                                                            </div>
+                                                                        </span>
+                                                                    </div><!-- /input-group image-preview [TO HERE]--> 
+                                                                    <p style="margin-top:5px;">** <a href="{{URL::to('excelformat')}}">{{trans('register.clickhere')}}</a> {{trans('register.downloadimportformat')}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>{{-- END FILE SECTION --}}
+                                                </div>
+                                            </div>         
+                                        </form>
+                                    </div> 
+
+                                   
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+
                             </div>
-                            <div class="modal-body">
-                                <form>
-                                    <input type="text" placeholder="Select files"/>
-                                    <label class="btn btn-primary">Browse&hellip; <input type="file" style="display: none;" class="form-control"/></label>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
+                        
                         </div>
-                    
                     </div>
-                </div>
                 <!--***************  END MODAL SECTION *************-->
 
         </div> <!-- -->
@@ -253,4 +316,9 @@ tabbuttonactive
     });
 </script>
 
+@endsection
+
+@section('extra_script')
+    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
 @endsection

@@ -52,9 +52,10 @@ Route::post('/memberController/memberSingleInsert', 'memberController@memberSing
 // Route::post('/memberregister', 'ValidateController@store')->name;
 
 Route::get('/hello', function () { return view('Member.hello'); });
+Route::get('/file', function() {return view('Member.file'); });
+Route::get('/download', function() {return view('Member.download');});
 
-
-
+Route::get('/excelformat', 'Excelcontroller@getFormat');
 
 Route::get('/logout', function(){ Session::flush(); return Redirect::back(); });
 
@@ -66,6 +67,7 @@ Route::get('/bdReport','bdReportController@index');
 
 Route::resource('post', 'memberController');
 Route::get('/memberRecord','memberController@memberRecord');
+
 
 
 Route::resource('get', 'groupController');

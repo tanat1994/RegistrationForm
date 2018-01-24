@@ -121,7 +121,7 @@ tabbuttonactive
                     </div>
                 </div>-->
                 
-                <div class="col-md-12" style="background-color:white; margin-top: 5px;">
+                <div class="col-md-12" style="background-color:white; margin-top: 0px;">
                     <div class="col-md-12">
                             <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1.5%;" data-toggle="modal" data-target="#myModal"/>
                     </div>
