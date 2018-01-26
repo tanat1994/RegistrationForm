@@ -10,7 +10,7 @@ use App\Http\Controllers\isEmpty;
 use App\Http\Requests;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-
+use App\Http\Requests\CreateRegisterRequest;
 class memberController extends Controller
 {
     //
@@ -56,6 +56,29 @@ class memberController extends Controller
         )->getbody();
         $majorList = json_decode($result, true);
         return $majorList;
+    }
+
+    public static function postMemberInsert(CreateRegisterRequest $request){
+        $client = new Client();
+        $result = $client->request(
+            'POST',
+            "http://127.0.0.1/Website-NAT/public/index.php/memberController/memberSingleInsert",
+            ['form_params' =>
+                [
+                    'memberId' => $request->input('regis_memberId'),        
+                    'cardUID' => $request->input('regis_cardUID'),
+                    'positionId' => $request->input('regis_position'),
+                    'titleId' => $request->input('regis_titleId'),
+                    'firstname' => $request->input('regis_name'),
+                    'lastname' => $request->input('regis_lastname'),
+                    'degreeId' => (int)$request->input('regis_degree'),
+                    'facultyId' => (int)$request->input('regis_faculty'),
+                    'majorId' => 1,       
+                ]
+            ])->getBody();
+            $inputResult = json_decode($result, true);
+            $arryResult = $inputResult;
+            return redirect('membermanagement');
     }
 
     public static function memberSingleInsert(Request $request){

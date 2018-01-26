@@ -13,8 +13,8 @@ class CreateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        //return false;
+        //return true;
+        return false;
     }
 
     /**

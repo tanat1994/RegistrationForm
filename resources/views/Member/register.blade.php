@@ -30,6 +30,10 @@
         .image-preview-input-title {
             margin-left:2px;
         }
+
+        .val_error{
+            color: #FF1F1F;
+        }
 </style>
 </style>
 @endsection
@@ -58,7 +62,15 @@ tabbuttonactive
                     <input type="image" src="{{ asset('images/file_upload.png') }}" style="float:right; width:45px; height:45px; margin-top: 6px;" data-toggle="modal" data-target="#myModal"/>
                     <hr class="hrbreakline">
 
-                        <form class="form-horizontal" action="{{ url('memberController/memberSingleInsert') }}" method="post">
+                        @if(count($errors)>0)
+                            <ul style="padding-left:0px;">
+                                @foreach($errors->all() as $error)
+                                    <li class="alert alert-danger" style="margin-left:0px;">Error message: <strong><u>{{$error}}</u></strong></li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        <form class="form-horizontal" method="POST"  name="regis_form" action="{{url('memberController/postMemberInsert')}}"> {{--  action="{{ url('memberController/memberSingleInsert') }}"  --}}
                                 <div class="col-md-5">
                                     {{-- Input form section--}}
                                     
@@ -67,13 +79,15 @@ tabbuttonactive
                                             <label for="cardUID" class="control-label col-md-4" style="text-align:left;">{{ trans('register.cardUID') }} :</label>
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" id="regis_cardUID" name="regis_cardUID" placeholder="{{ trans('register.cardUID') }}">
+                                                <div id="cardUID_error" class="val_error"></div>
                                             </div>
                                     </div>
                                     {{-- memberId--}}
                                     <div class="form-group row" style="position:relative;">
                                             <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.memberId') }} :</label>
                                             <div class="col-md-8">
-                                            <input type="text" class="form-control" id="regis_memberId" name="regis_memberId" placeholder="{{ trans('register.memberId') }}">
+                                                <input type="text" class="form-control" id="regis_memberId" name="regis_memberId" placeholder="{{ trans('register.memberId') }}">
+                                                <div id="memberId_error" class="val_error"></div>
                                             </div>
                                     </div>
                                     {{-- position --}}
@@ -103,14 +117,16 @@ tabbuttonactive
                                     <div class="form-group row" style="position:relative;">
                                             <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }} :</label>
                                             <div class="col-md-8">
-                                            <input type="text" class="form-control" id="regis_name" name="regis_name" placeholder="{{ trans('register.firstname') }}">
+                                                <input type="text" class="form-control" id="regis_name" name="regis_name" placeholder="{{ trans('register.firstname') }}">
+                                                <div id="name_error" class="val_error"></div>
                                             </div>
                                     </div>
                                     {{-- lastname --}}
                                     <div class="form-group row">
                                             <label for="lastname" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }} :</label>
                                             <div class="col-md-8">
-                                            <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="{{ trans('register.lastname') }}">
+                                                <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="{{ trans('register.lastname') }}">
+                                                <div id="lastname_error" class="val_error"></div>
                                             </div>
                                     </div>
                                     {{-- faculty --}}
@@ -147,9 +163,10 @@ tabbuttonactive
                                     {{-- expire_date--}}
                                     {{ csrf_field() }}
                                     <div><button type="submit" class="btn btn-primary" id="submit">Submit</button></div>
+                                    
                                 </div>
                                 <div class="col-md-7">&nbsp;</div>
-                        </form>
+                            </form>
 
                     <!-- 2nd HEADER-->
                     <!--<div class="col-md-12" style="padding-left:0px;">
@@ -307,13 +324,68 @@ tabbuttonactive
     ?>
 
 <script>
-    //function SuccessAlert(){    
-      //  swal("Oops", "Something went wrong!", "error");
-    //}
-    var form = document.getElementById("submit");
-    document.getElementById("submit").addEventListener("click",function(){
-        swal("Oops", "Something went wrong!", "error");
-    });
+    //get object
+    var regis_cardUID = document.forms["regis_form"]["regis_cardUID"];
+    
+    //Error section
+    var cardUID_error = document.getElementById("cardUID_error");
+    var name_error = document.getElementById("name_error");
+    var memberId_error = document.getElementById("memberId_error");
+    var lastname_error = document.getElementById("lastname_error");
+
+    //Event
+    //regis_cardUID.addEventListener("blur", cardUIDVerify, true);
+
+    function successAlert(){
+        swal("Good job", "Success Registration", "success");
+    }
+
+    function FormValidation(){
+        if(regis_cardUID.value=""){
+            regis_cardUID.style.border = "1px solid red";
+            cardUID_error.textContent = "CardUID is required";
+            return false;
+        }
+    }
+
+    function cardUIDVerify(){
+        if(regis_cardUID.value != ""){
+            cardUID_error.innerHTML = "";
+            successAlert();
+            return true;
+        }
+    }
+
+    function checkForm(form){
+        var false_score = 0;
+        if(form.regis_cardUID.value == ""){
+            form.regis_cardUID.style.border = "1px solid red";
+            cardUID_error.textContent = "CardUID is required";
+            false_score++;
+        }
+        if(form.regis_memberId.value == ""){
+            form.regis_memberId.style.border =  "1px solid red";
+            memberId_error.textContent = "memberId is required";
+            false_score++;
+        }
+        if(form.regis_name.value == ""){
+            form.regis_name.style.border = "1px solid red";
+            name_error.textContent = "firstname is required";
+            false_score++;
+        }
+        if(form.regis_lastname.value == ""){
+            form.regis_lastname.style.border = "1px solid red";
+            lastname_error.textContent = "lastname is required";
+            false_score++;
+        }
+
+        if(false_score > 0){
+            return false;
+        }else{
+            successAlert();
+            return true;
+        }
+    }
 </script>
 
 @endsection
