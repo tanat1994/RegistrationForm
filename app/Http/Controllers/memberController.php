@@ -28,6 +28,16 @@ class memberController extends Controller
         //return view('GroupManagement.index21',['memberRecord' => $memberRecord]);
     }
 
+    public static function memberNumber(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'/memberController/memberNumber'
+        )->getbody();
+        $memberNumber = json_decode($result, true);
+        return $memberNumber;
+    }
+
     public static function degreeList(){
         $client = new Client();
         $result = $client->request(

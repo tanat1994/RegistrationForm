@@ -81,6 +81,7 @@ tabbuttonactive
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.cardUID') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.position') }}</strong></th>
@@ -95,16 +96,19 @@ tabbuttonactive
                     </tr>
                 </thead>
                     <tbody>
+                        <?php $iterator = 1;?>
                         @foreach($memberRecord as $record)
                             <tr>
-                                <td>{{ $record['memberId'] }}</td>
-                                <td>{{ $record['cardUID'] }}</td>
-                                <td>{{ $record['positionName'] }}</td>
-                                <td>{{ $record['titleName'] }}</td>
-                                <td>{{ $record['firstname'] }}   {{ $record['lastname'] }}</td>
-                                <td>{{ $record['degreeName'] }}</td>
-                                <td>{{ $record['facultyName'] }}</td>
-                                <td>{{ $record['majorName'] }}</td>
+                                <td><?php echo $iterator;?></td>
+                                    <td><div contenteditable data-column="memberId">{{ $record['memberId'] }}</div></td>
+                                    <td>{{ $record['cardUID'] }}</td>
+                                    <td>{{ $record['positionName'] }}</td>
+                                    <td>{{ $record['titleName'] }}</td>
+                                    <td>{{ $record['firstname'] }}   {{ $record['lastname'] }}</td>
+                                    <td>{{ $record['degreeName'] }}</td>
+                                    <td>{{ $record['facultyName'] }}</td>
+                                    <td>{{ $record['majorName'] }}</td>
+                                <?php $iterator++; ?>
                             </tr>
                         @endforeach
                     </tbody>

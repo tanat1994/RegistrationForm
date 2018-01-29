@@ -1,3 +1,4 @@
+<?php use \App\Http\Controllers\memberController; ?>
 @extends('core')
 
 @section('activedash')
@@ -11,52 +12,57 @@ tabbuttonactive
 @section('content')
     <div class="col-md-12">
         {{-- First Column--}}
-        <div class="col-md-3"  style="background-color:green;">
+        <div class="col-md-3">
+
             <div class="col-md-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Likes</span>
-                        <span class="info-box-number">93,139</span>
+                        <span class="info-box-text">{{ trans('dashboard.all_member')}}</span>
+                        <span class="info-box-number"><?php memberNumber(); ?></span>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-12">
-                <div class="info-box bg-yellow">
-                        <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fa fa-users"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Likes</span>
-                            <span class="info-box-number">41,410</span>
-                            <!-- The progress section is optional -->
-                            <div class="progress">
-                            <div class="progress-bar" style="width: 30%"></div>
-                            </div>
-                            <span class="progress-description">
-                                70% Increase in 30 Days
-                            </span>
+                            <span class="info-box-text">Group Number</span>
+                            <span class="info-box-number">93,139</span>
                         </div>
-                        <!-- /.info-box-content -->
-                </div>
+                    </div>
             </div>
 
             <div class="col-md-12">
-            </div>
-
-            <div class="col-md-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow"><i class="fa fa-user-plus"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Register Today</span>
+                            <span class="info-box-number">93,139</span>
+                        </div>
+                    </div>
             </div>
         </div>
 
         {{-- Second Column--}}
-        <div class="col-md-5"  style="background-color:blue;">
+        <div class="col-md-6"  style="background-color:blue;">
             <div class="col-md-12">
             </div>
         </div>
 
         {{-- Third Column--}}
-        <div class="col-md-4"  style="background-color:green;">
+        <div class="col-md-3"  style="background-color:green;">
             <div class="col-md-12">
             </div>
         </div>
     </div>
 @endsection
+
+<?php
+function memberNumber(){
+    $init_check = true;
+    $memberArry = memberController::memberNumber();
+    echo($memberArry["data"][0]["NumberOfMember"]); //single print
+}
+?>
