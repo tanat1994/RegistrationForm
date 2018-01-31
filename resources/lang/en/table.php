@@ -10,6 +10,7 @@ return [
     'faculty' => 'FACULTY',
     'major' => 'MAJOR',
     'status' => 'STATUS',
+    'edit_data' => 'EDIT PROFILE',
 
     'filter' => 'FILTER BY',
     'search' => 'Search',

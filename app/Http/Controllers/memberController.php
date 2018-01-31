@@ -24,8 +24,20 @@ class memberController extends Controller
         )->getbody();
         $memberList = json_decode($result, true);
         $memberRecord = $memberList;
-        return view('Member.index',['memberRecord' => $memberRecord]);
+        return view('member.index',['memberRecord' => $memberRecord]);
         //return view('GroupManagement.index21',['memberRecord' => $memberRecord]);
+    }
+
+    public function memberRecordDashboard(){
+        $client = new Client();
+        //$result = $client->request('GET', 'http://127.0.0.1/WebsiteAPI-NAT/public/index.php/bdReportController/bdReportToday')->getbody();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'/memberController/memberRecord'
+        )->getbody();
+        $memberList = json_decode($result, true);
+        $memberRecord = $memberList;
+        return view('Dashboard.index',['memberRecord' => $memberRecord]);
     }
 
     public static function memberNumber(){

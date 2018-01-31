@@ -129,6 +129,18 @@ tabbuttonactive
                                                 <div id="lastname_error" class="val_error"></div>
                                             </div>
                                     </div>
+
+                                    {{-- degree --}}
+                                    <div class="form-group row" style="position:relative;">
+                                            <label for="degree" class="control-label col-md-4" style="text-align:left;">{{ trans('register.degree')}} :</label>
+                                            <div class="col-md-8">
+                                            <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
+                                                <select id="regis_degree" class="form-control" name="regis_degree">
+                                                        <?php degreeList(); ?>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    
                                     {{-- faculty --}}
                                     <div class="form-group row" style="position:relative;">
                                             <label for="faculty" class="control-label col-md-4" style="text-align:left;">{{ trans('register.faculty')}} :</label>
@@ -150,16 +162,7 @@ tabbuttonactive
                                                 </select>
                                             </div>
                                     </div>
-                                    {{-- degree --}}
-                                    <div class="form-group row" style="position:relative;">
-                                            <label for="degree" class="control-label col-md-4" style="text-align:left;">{{ trans('register.degree')}} :</label>
-                                            <div class="col-md-8">
-                                            <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                <select id="regis_degree" class="form-control" name="regis_degree">
-                                                        <?php degreeList(); ?>
-                                                </select>
-                                            </div>
-                                    </div>
+
                                     {{-- expire_date--}}
                                     {{ csrf_field() }}
                                     <div><button type="submit" class="btn btn-primary" id="submit">Submit</button></div>

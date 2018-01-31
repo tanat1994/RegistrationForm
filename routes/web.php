@@ -42,7 +42,7 @@ Route::post('/login', 'loginController@checkLoginAPI');
 //     Route::get('/memberregister', function () {return view('Member.register'); });
 // });
 
-Route::get('/dashboard', function () { return view('Dashboard.index'); });
+Route::get('/dashboard', 'memberController@memberRecordDashboard');
 //Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
 //Route::get('/membermanagement','bdReportController@index');
 //Route::get('/groupmanagement','groupController@groupRecord');
