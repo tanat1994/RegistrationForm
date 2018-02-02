@@ -26,8 +26,8 @@ tabbuttonactive
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">{{ trans('dashboard.all_member')}}</span>
-                        <span class="info-box-number"><h3><?php echo memberNumber(); ?></h3></span>
+                        <span class="info-box-text"><strong>{{ trans('dashboard.all_member')}}</strong></span>
+                        <span class="info-box-number"><h3><strong><?php echo memberNumber(); ?></strong></h3></span>
                     </div>
                 </div>
             </div>

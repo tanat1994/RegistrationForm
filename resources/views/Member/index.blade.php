@@ -87,7 +87,7 @@ tabbuttonactive
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>FacultyId</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.major') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>MajorId</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.action') }}</strong></th>
                     </tr>
                 </thead>
                     <tbody>
@@ -290,8 +290,8 @@ tabbuttonactive
                                         </div> 
         
                                     <div class="modal-footer">
-                                        <a href="#" id="update" class="btn btn-success pull-right">Update</a>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        <a href="#" id="update" class="btn btn-success pull-right">{{trans('table.update')}}</a>
+                                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
                                     </div>
     
                                 </div>
@@ -328,12 +328,42 @@ tabbuttonactive
 
                     {{-- SweetAlert Function --}}
                     <script>
-                            function successAlert(){
-                                swal("Good job", "Success Registration", "success");
+                            function modalAlert(command, memberId){
+                                if(command == "update"){
+                                    swal("{{trans('table.memberId')}}: " + memberId, "{{trans('table.update')}}  {{trans('table.complete')}}", "success");
+                                    //alert(memberId);
+                                }
+
+                                if(command == "delete"){
+                                    //swal("{{trans('table.memberId')}}: " + memberId, "{{trans('table.delete_user')}} {{trans('table.has_been_delete')}}", "success");
+                                    swal({
+                                        title: "{{trans('table.delete_confirmation')}}",
+                                        text: "{{trans('table.delete_dialog')}} : " + memberId,
+                                        icon: "warning",
+                                        buttons: true,
+                                        dangerMode: true,
+                                    }).then((willDelete)=>{
+                                        if(willDelete){
+                                            $.ajax({
+                                                url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/deleteMember',
+                                                //url:  config('pathConfig.pathREST') +'checkLogin/check'
+                                                type : 'delete',
+                                                data : {memberId: memberId},
+                                                success : function(response){
+                                                    swal("{{trans('table.memberId')}} : " + memberId + " {{trans('table.delete_has_been_delete')}}", {
+                                                        icon: "success",
+                                                    });
+                                                    location.reload();
+                                                }
+                                            });  
+                                        }
+                                    });
+                                }
                             }
+                                
                     </script>
 
-                    {{-- Update script--}}
+                    {{-- Update Script--}}
                     <script>
                         $(document).ready(function(){
                             $(document).on('click', 'a[data-role=update]', function(){
@@ -362,6 +392,7 @@ tabbuttonactive
                             $('#update').click(function(){
                                 $.ajax({
                                     url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/memberUpdate',
+                                    //url:  config('pathConfig.pathREST') +'checkLogin/check'
                                     type : 'put',
                                     data : {memberId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val() },
                                     success : function(response){
@@ -373,10 +404,21 @@ tabbuttonactive
                                         $('#' + $('#modal_memberId').val()).children('td[data-target=degreeId]').text($('#modal_degree').val());
                                         $('#' + $('#modal_memberId').val()).children('td[data-target=facultyId]').text($('#modal_faculty').val());
                                         $('#' + $('#modal_memberId').val()).children('td[data-target=majorId]').text($('#modal_major').val());
-                                        successAlert();
+                                        modalAlert("update",$('#modal_memberId').val());
                                         $('#myActionModal').modal('toggle');
+                                        location.reload();
                                     }
                                 });
+                            });
+                        });
+                    </script>
+
+                    {{-- Delete Script--}}
+                    <script>
+                        $(document).ready(function(){
+                            $(document).on('click', 'a[data-role=delete]', function(){
+                                var memberId = $(this).data('id');
+                                modalAlert("delete", memberId);
                             });
                         });
                     </script>

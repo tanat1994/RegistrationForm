@@ -14,6 +14,17 @@ use GuzzleHttp\Client;
 class groupController extends Controller
 {
     //
+    public static function getAllGroup(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'groupController/getAllGroup'
+        )->getbody();
+        $searchResult = json_decode($result, true);
+        $arryResult = $searchResult;
+        return $arryResult;
+    }
+
     public static function GroupTest(){
         return view('GroupManagement.test');
     }

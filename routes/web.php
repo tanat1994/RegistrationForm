@@ -70,8 +70,8 @@ Route::get('/bdReport','bdReportController@index');
 Route::resource('post', 'memberController');
 Route::get('/memberRecord','memberController@memberRecord');
 
-
-
+Route::get('/newtree2', function(){return view('GroupManagement.newtree2'); });
+Route::get('/newtree', function(){return view('GroupManagement.newtree'); });
 Route::resource('get', 'groupController');
 //Route::get('/groupmanagement', 'groupController@groupRecord');
 Route::get('/groupmanagement', 'groupController@groupInitial');

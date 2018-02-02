@@ -19,6 +19,7 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
+    "list-to-tree": "^2.2.0",
     "sweetalert": "^2.1.0",
     "whatwg-fetch": "^2.0.3"
   }

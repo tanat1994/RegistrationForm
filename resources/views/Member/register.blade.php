@@ -140,7 +140,7 @@ tabbuttonactive
                                                 </select>
                                             </div>
                                     </div>
-                                    
+
                                     {{-- faculty --}}
                                     <div class="form-group row" style="position:relative;">
                                             <label for="faculty" class="control-label col-md-4" style="text-align:left;">{{ trans('register.faculty')}} :</label>
@@ -165,7 +165,7 @@ tabbuttonactive
 
                                     {{-- expire_date--}}
                                     {{ csrf_field() }}
-                                    <div><button type="submit" class="btn btn-primary" id="submit">Submit</button></div>
+                                    <div><button type="submit" onclick="successAlert();" class="btn btn-primary pull-right" id="submit" style="margin-bottom:4%;">Submit</button></div>
                                     
                                 </div>
                                 <div class="col-md-7">&nbsp;</div>
