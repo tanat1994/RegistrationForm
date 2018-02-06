@@ -383,6 +383,7 @@ tabbuttonactive
         }
 
         if(false_score > 0){
+            false_score = 0;
             return false;
         }else{
             successAlert();

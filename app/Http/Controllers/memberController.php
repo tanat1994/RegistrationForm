@@ -95,7 +95,7 @@ class memberController extends Controller
                     'lastname' => $request->input('regis_lastname'),
                     'degreeId' => (int)$request->input('regis_degree'),
                     'facultyId' => (int)$request->input('regis_faculty'),
-                    'majorId' => 1,       
+                    'majorId' => (int)$request->input('regis_major'),       
                 ]
             ])->getBody();
             $inputResult = json_decode($result, true);
