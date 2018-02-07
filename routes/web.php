@@ -75,6 +75,7 @@ Route::get('/newtree', function(){return view('GroupManagement.newtree'); });
 Route::resource('get', 'groupController');
 //Route::get('/groupmanagement', 'groupController@groupRecord');
 Route::get('/groupmanagement', 'groupController@groupInitial');
+Route::get('/groupmanagement/{groupName}', function(){return view('GroupManagement.test');});
 Route::get('/grouptree', 'groupController@groupInitial');
 
 

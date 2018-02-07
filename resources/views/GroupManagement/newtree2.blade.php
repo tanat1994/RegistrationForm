@@ -1,14 +1,12 @@
 <?php use \App\Http\Controllers\groupController; ?>
-<!-- Required Stylesheets -->
-<link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
 
 <!-- Required Javascript -->
-<script src="{{asset('js/jquery-3.2.1.slim.min.js')}}"></script>
+{{--  <script src="{{asset('js/jquery-3.2.1.slim.min.js')}}"></script>  --}}
 <script src="{{asset('js/treeView/bootstrap-treeview.js')}}"></script>
 
 <div id="treeview-selectable"></div>
-<h2>Events</h2>
-<div id="selectable-output"></div>
+{{--  <h2>Events</h2>
+<div id="selectable-output"></div>  --}}
 
 <?php
     $init_check = true;
@@ -17,12 +15,6 @@
 ?>
 <script>
     var groupArry  = <?php echo($groupArry); ?>;
-    var groupArry2 = [
-        {'text': 1, 'parent' : 0},
-        {'text': 2, 'parent' : 0},
-        {'text': 3, 'parent' : 1}
-    ];
-    //console.log(groupArry);
 
     function treeBuilder(arr){
         var tree = [],
@@ -62,11 +54,28 @@
             data: tree,
             multiSelect: $('#chk-select-multi').is(':checked'),
             onNodeSelected: function(event, node) {
-                $('#selectable-output').prepend('<p>' + node.text + ' was selected</p>');
-                //console.log(node.text);
+                //$('#selectable-output').prepend('<p>' + node.text + ' was selected</p>');
+                $.ajax({
+                    url : 'http://127.0.0.1/Website-NAT/public/index.php/groupController/getGroupInfoByName/' + node.text,
+                    //url:  config('pathConfig.pathREST') +'checkLogin/check'
+                    type : 'get',
+                    success : function(response){
+                        response_data = JSON.stringify(response);
+                        var responseArray = JSON.parse(response_data);
+
+                        var newRows;
+                        newRows += "<tr><td>" + responseArray[0]["groupId"] + "</td>"
+                        newRows += "<td>" + responseArray[0]["text"] + "</td>"
+                        newRows += "<td>0</td>"
+                        newRows += "<td>" + responseArray[0]["date_create"] + "</td>"
+                        newRows += "<td>" + responseArray[0]["user_create"] + "</td>"
+                        $("#data-group-fetch").html(newRows);
+                       // alert(responseArray["0"]["text"]);
+                    }
+                });
                 },
             onNodeUnselected: function (event, node) {
-                $('#selectable-output').prepend('<p>' + node.text + ' was unselected</p>');
+                //$('#selectable-output').prepend('<p>' + node.text + ' was unselected</p>');
             }
             });
     }

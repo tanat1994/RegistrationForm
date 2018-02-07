@@ -33,6 +33,7 @@ return [
     'to' => 'to',
     'of' => 'of',
 
+    'groupId' => 'GROUP ID',
     'groupname' => 'GROUP NAME',
     'nomember' => 'NO OF MEMBER',
     'datecreate' => 'DATE CREATE',

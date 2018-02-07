@@ -13,9 +13,6 @@
   <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
 
-  <link type="text/css" rel="stylesheet" href="{{ asset('css/treeView/bootstrap-treeview.css') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/treeView/bootstrap-treeview.js') }}"></script>
-
   <style>
             .container{
             margin-top:20px;
@@ -44,49 +41,6 @@
             }
     </style>
 
-    {{--  <script src="{{asset('js/navgoco/jquery-1.10.2.min.js')}}"></script>  --}}
-    <script src="{{asset('js/navgoco/jquery.cookie.js')}}"></script>
-    <!-- Add navgoco main js and css files  -->
-
-    <script src="{{asset('js/navgoco/highlight.pack.js')}}"></script>
-    <script src="{{asset('js/navgoco/demo.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('js/navgoco/jquery.navgoco.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/navgoco/jquery.navgoco.css')}}" media="screen" />
-
-    <script type="text/javascript" id="demo1-javascript">
-        $(document).ready(function() {
-            // Initialize navgoco with default options
-            $("#demo1").navgoco({
-                caretHtml: '',
-                accordion: false,
-                openClass: 'open',
-                save: true,
-                cookie: {
-                    name: 'navgoco',
-                    expires: false,
-                    path: '/'
-                },
-                slide: {
-                    duration: 400,
-                    easing: 'swing'
-                },
-                // Add Active class to clicked menu item
-                onClickAfter: active_menu_cb,
-            });
-
-            $("#collapseAll").click(function(e) {
-                e.preventDefault();
-                $("#demo1").navgoco('toggle', false);
-            });
-
-            $("#expandAll").click(function(e) {
-                e.preventDefault();
-                $("#demo1").navgoco('toggle', true);
-            });
-        });
-	</script>
-
 @endsection
 
 @section('htmlheader_title')
@@ -108,9 +62,7 @@ tabbuttonactive
         
             <div class="col-md-3" style="background-color:#F5F5F5;">
                 <div class="col-md-12" style="background-color:white;">
-                    {{--  @include('GroupManagement.treeList')  --}}
-                    <h2 align="center">TreeView</h2>
-                    <div id="tree"></div>
+                    @include('GroupManagement.newtree2')
                 </div>
             </div>
             
@@ -128,24 +80,24 @@ tabbuttonactive
                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
+                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.groupId') }}</strong></th>
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.groupname') }}</strong></th>
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.nomember') }}</strong></th>
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.datecreate') }}</strong></th>
                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.usercreate') }}</strong></th>
                             </tr>
                         </thead>
-                            <tbody>
+                            <tbody id="data-group-fetch">
 
-                                {{--  @foreach($groupRecord as $record)
+                                @foreach($groupRecord as $record)
                                     <tr>
-                                        <td id="{{$record['groupName']}}">{{ $record['groupId'] }}</td>
-                                        <td>{{ $record['groupName'] }}</td>
+                                        <td id="{{$record['text']}}">{{ $record['groupId'] }}</td>
+                                        <td>{{ $record['text'] }}</td>
                                         <td>0</td>
                                         <td>{{ $record['date_create'] }}</td>
                                         <td>{{ $record['user_create'] }}</td>
                                     </tr>
-                                @endforeach  --}}
+                                @endforeach
                                 
                             </tbody>
 
@@ -244,7 +196,7 @@ tabbuttonactive
                     {{-- MODAL SCRIPT --}}
                     {{-- INPUT FILE SCRIPT --}}
                     <script>
-                    $(document).on('click', '#close-preview', function(){ 
+                        $(document).on('click', '#close-preview', function(){ 
                             $('.image-preview').popover('hide');
                             // Hover befor close the preview    
                         });
@@ -287,37 +239,9 @@ tabbuttonactive
                         });
                     </script>
 
-                    <script>
-                    function myJsFunc() {
-                        alert("myJsFunc");
-                    }
-                    </script>
-                    function 
-                        <?php
-                            $client = new GuzzleHttp\Client();
-                            $res = $client -> get('http://127.0.0.1/Website-NAT/public/index.php/groupController/groupInitial');
-                            $result = json_decode($res->getBody(), true);
-                        ?>
-                    <script>
-                        function GetResult(url){
-                            var HttpReq = new XMLHttpRequest();
-                            HttpReq.open("GET", url, false);
-                            HttpReq.send(null);
-
-                            return HttpReq.responseText;
-                        }
-
-                        //var json_obj = GetResult("http://127.0.0.1/Website-NAT/public/index.php/groupController/groupInitial");
-                        //console.log(typeof(json_obj));
-                        var json_obj = fetch("http://127.0.0.1/Website-NAT/public/index.php/groupController/groupInitial");
-                        console.log(typeof(json_obj));
-                        $('#tree').treeview({data: tree});
-                    </script>
             </div>
     </div>
 @endsection
 
 @section('extra_script')
-    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
 @endsection
