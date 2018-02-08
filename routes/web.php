@@ -78,6 +78,7 @@ Route::get('/groupmanagement', 'groupController@groupInitial');
 Route::get('/groupmanagement/{groupName}', function(){return view('GroupManagement.test');});
 Route::get('/grouptree', 'groupController@groupInitial');
 
+Route::get('/blacklist', 'blackListController@getAllBlackList');
 
 Route::get('/', 'ajaxController@index');
 Route::get('/getRequest', function(){

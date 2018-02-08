@@ -87,16 +87,4 @@ class groupController extends Controller
         $arryResult = $searchResult['data'];
         return $arryResult;
     }
-
-    public function ChildSearching(){
-        // $client = new Client();
-        // $result = $client->request(
-        //     'POST',
-        //     config('pathConfig.pathAPI').'/groupController/ChildSearching',
-        //     ['form_params' => [
-        //         ''
-        //         ]
-        //     ]
-        // )
-    }
 }

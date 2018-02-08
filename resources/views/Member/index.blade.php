@@ -7,8 +7,12 @@
   {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
+  
   <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
 
+  {{-- Toggle button --}}
+  <link type="text/css" href="{{asset('css/bootstrap-toggle/bootstrap-toggle.min.css')}}" rel="stylesheet">
+  <script src="{{asset('js/bootstrap-toggle/bootstrap-toggle.min.js')}}"></script>
 
   <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
   <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
@@ -40,6 +44,11 @@
             .image-preview-input-title {
                 margin-left:2px;
             }
+
+            .fa { position: absolut;
+            top: 0;
+            left: 0; }
+
     </style>
 
 
@@ -93,7 +102,7 @@ tabbuttonactive
                     <tbody>
                         <?php $iterator = 1;?>
                         @foreach($memberRecord as $record)
-                            <tr id="{{$record['memberId']}}">
+                            <tr id="{{$record['memberId']}}" style="font-size: 15px;">
                                 <td><?php echo $iterator;?></td>
                                     <td data-target="memberId">{{ $record['memberId'] }}</td>
                                     <td data-target="cardUID">{{ $record['cardUID'] }}</td>
@@ -110,9 +119,10 @@ tabbuttonactive
                                     <td data-target="facultyId" style="display:none;">{{ $record['facultyId'] }}</td>
                                     <td data-target="majorName">{{ $record['majorName'] }}</td>
                                     <td data-target="majorId" style="display:none;">{{ $record['majorId'] }}</td>
-                                    <td>
-                                        <a href="#" data-role="update" data-id="{{$record['memberId']}}"><i class="fa fa-pencil-square-o" style="width:18px;height:18px;"></i></a>
-                                        <a href="#" data-role="delete" data-id="{{$record['memberId']}}"><i class="fa fa-close" style="width:18px;height:18px;color:#db3236;"></i></a>
+                                    <td style="text-align:center">
+                                        <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
+                                        <span class="outer-line" style=""><a href="#" data-role="delete" data-id="{{$record['memberId']}}" style="font-size:25px; padding-bottom: 10px; margin-right:8px;"><i class="fa fa-trash" style="color:#db3236;" aria-hidden="true"></i></a></span>
+                                        <span class="outer-line"><a href="#" data-role="blacklist" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right: 8px;"><i class="fa fa-ban" style="color:#404040"></i></a></span>
                                     </td>
                                 <?php $iterator++; ?>
                             </tr>
@@ -184,7 +194,7 @@ tabbuttonactive
                     </div>
 
 
-                    {{-- Modal Action--}}
+                    {{-- Update Modal--}}
                     <div class="modal fade" id="myActionModal" role="dialog">
                             <div class="modal-dialog modal-md">
                                 <!-- Modal content-->
@@ -239,44 +249,54 @@ tabbuttonactive
                                                                                     </div>
                                                                             </div>
 
-                                                                            <div class="form-group row" style="position:relative;">
-                                                                                    <label for="firstName" class="control-label col-md-6" style="text-align:left;">{{trans("register.firstname")}}:</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <input type="text" class="form-control" id="modal_firstName" name="modal_firstName">
-                                                                                    </div>
-                                                                            </div>
+                                                                            <fieldset disabled>
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="firstName" class="control-label col-md-6" style="text-align:left;">{{trans("register.firstname")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="text" class="form-control" id="modal_firstName" name="modal_firstName">
+                                                                                        </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="lastName" class="control-label col-md-6" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="text" class="form-control" id="modal_lastName" name="modal_lastName">
+                                                                                        </div>
+                                                                                </div>
+                                                                            
+
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="faculty" class="control-label col-md-6" style="text-align:left;">{{trans("register.faculty")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                                    <select id="modal_faculty" class="form-control" name="modal_faculty">
+                                                                                                        <?php facultyList(); ?>
+                                                                                                    </select>
+                                                                                        </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="major" class="control-label col-md-6" style="text-align:left;">{{trans("register.major")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                                    <select id="modal_major" class="form-control" name="modal_major">
+                                                                                                        <?php majorList(); ?>
+                                                                                                    </select>
+                                                                                        </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="degree" class="control-label col-md-6" style="text-align:left;">{{trans("register.degree")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                                    <select id="modal_degree" class="form-control" name="modal_degree">
+                                                                                                        <?php degreeList(); ?>
+                                                                                                    </select>
+                                                                                        </div>
+                                                                                </div>
+                                                                            </fieldset>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                    <label for="lastName" class="control-label col-md-6" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                                    <label for="status" class="control-label col-md-6" style="text-align:left;">STATUS:</label>
                                                                                     <div class="col-md-6">
-                                                                                        <input type="text" class="form-control" id="modal_lastName" name="modal_lastName">
-                                                                                    </div>
-                                                                            </div>
-
-                                                                            <div class="form-group row" style="position:relative;">
-                                                                                    <label for="faculty" class="control-label col-md-6" style="text-align:left;">{{trans("register.faculty")}}:</label>
-                                                                                    <div class="col-md-6">
-                                                                                                <select id="modal_faculty" class="form-control" name="modal_faculty">
-                                                                                                    <?php facultyList(); ?>
-                                                                                                </select>
-                                                                                    </div>
-                                                                            </div>
-
-                                                                            <div class="form-group row" style="position:relative;">
-                                                                                    <label for="major" class="control-label col-md-6" style="text-align:left;">{{trans("register.major")}}:</label>
-                                                                                    <div class="col-md-6">
-                                                                                                <select id="modal_major" class="form-control" name="modal_major">
-                                                                                                    <?php majorList(); ?>
-                                                                                                </select>
-                                                                                    </div>
-                                                                            </div>
-
-                                                                            <div class="form-group row" style="position:relative;">
-                                                                                    <label for="degree" class="control-label col-md-6" style="text-align:left;">{{trans("register.degree")}}:</label>
-                                                                                    <div class="col-md-6">
-                                                                                                <select id="modal_degree" class="form-control" name="modal_degree">
-                                                                                                    <?php degreeList(); ?>
-                                                                                                </select>
+                                                                                            <input type="checkbox" checked data-toggle="toggle" data-on="<strong>ACTIVE</strong>" data-off="<strong>INACTIVE</strong>"data-onstyle="success" data-offstyle="danger" style="width:100%">
                                                                                     </div>
                                                                             </div>
                                                                     </div>
@@ -294,6 +314,81 @@ tabbuttonactive
                                         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
                                     </div>
     
+                                </div>
+                            
+                            </div>
+                        </div>
+
+
+
+
+                 
+               
+                        {{-- BlackList Modal--}}
+                    <div class="modal fade" id="blackListModal" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h2 class="modal-title" style="color:#2e7ed0;"><strong>{{trans("table.blacklist")}}</strong></h2>
+                                    </div>
+
+                                        <div class="modal-body">
+                                            <form class="form-horizontal">
+                                                <div class="form-group" style="margin-left: 1%;">
+                                                    <div class="input-group">
+                                                            <div class="container">
+                                                                <div class="row-fluid">
+                                                                    <div class="col-xs-12 col-md-4 ">  
+                                                                            <fieldset disabled>
+                                                                                    <div class="form-group row" style="position:relative;">
+                                                                                            <label for="memberId" class="control-label col-md-6" style="text-align:left;">{{trans("table.memberId")}}:</label>
+                                                                                            <div class="col-md-6">
+                                                                                                <input type="text" class="form-control" id="blacklist_memberId" name="blacklist_memberId">
+                                                                                            </div>
+                                                                                    </div>
+                                                                            </fieldset>
+
+                                                                            <fieldset disabled>
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="firstName" class="control-label col-md-6" style="text-align:left;">{{trans("register.firstname")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="text" class="form-control" id="blacklist_firstName" name="blacklist_firstName">
+                                                                                        </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row" style="position:relative;">
+                                                                                        <label for="lastName" class="control-label col-md-6" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="text" class="form-control" id="blacklist_lastName" name="blacklist_lastName">
+                                                                                        </div>
+                                                                                </div>
+                                                                            </fieldset>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                    <label for="note" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}({{trans("table.limit_500_char")}}):</label>
+                                                                                    <div class="col-md-12">
+                                                                                        <textarea class="form-control" id="blacklist_note" name="blacklist_note" style="width:100%; height: 200px;"></textarea>
+                                                                                    </div>
+                                                                            </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                    
+                                                            {{--  <hr class="hrbreakline" style="margin-top:1%;margin-left:1.5%;width:70%;">  --}}
+                                                    </div>
+                                                </div>         
+                                            </form>
+                                        </div> 
+        
+                                    <div class="modal-footer">
+                                        <a href="#" id="banned" class="btn btn-success pull-right">{{trans("table.listed_on_blacklist")}}</a>
+                                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                                    </div>
+
                                 </div>
                             
                             </div>
@@ -359,6 +454,10 @@ tabbuttonactive
                                         }
                                     });
                                 }
+
+                                if(command == "blacklist"){
+                                    swal("Banned", "heeloworld", "success");
+                                }
                             }
                                 
                     </script>
@@ -419,6 +518,34 @@ tabbuttonactive
                             $(document).on('click', 'a[data-role=delete]', function(){
                                 var memberId = $(this).data('id');
                                 modalAlert("delete", memberId);
+                            });
+                        });
+                    </script>
+
+                    {{-- BlackList Script --}}
+                    <script>
+                        $(document).ready(function(){
+                            $(document).on('click', 'a[data-role=blacklist]', function(){
+                                var memberId = $(this).data('id');
+                                var firstName = $('#' + memberId).children('td[data-target=firstname]').text();
+                                var lastName = $('#' + memberId).children('td[data-target=lastname]').text();
+
+                                $('#blacklist_memberId').val(memberId);
+                                $('#blacklist_firstName').val(firstName);
+                                $('#blacklist_lastName').val(lastName);
+                                $('#blackListModal').modal('toggle');
+
+                                $('#banned').click(function(){
+                                    $.ajax({
+                                        url : 'http://127.0.0.1/Website-NAT/public/index.php/blackListController/addBlackList',
+                                        type : 'post',
+                                        data : {memberId: $('#blacklist_memberId').val(), 'firstName': $('#blacklist_firstName').val(), 'lastName': $('#blacklist_lastName').val(), 'note': $('#blacklist_note').val()},
+                                        success : function(response){
+                                            modalAlert("blacklist",$('#modal_memberId').val());
+                                            $('#blackListModal').modal('toggle');
+                                        }
+                                    });
+                                });
                             });
                         });
                     </script>

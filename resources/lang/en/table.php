@@ -33,6 +33,10 @@ return [
     'to' => 'to',
     'of' => 'of',
 
+    'note' => 'NOTE',
+    'blacklist' => 'BLACKLIST',
+    'limit_500_char' => 'Limit 500 characters',
+    'listed_on_blacklist' => 'Listed on Blacklist',
     'groupId' => 'GROUP ID',
     'groupname' => 'GROUP NAME',
     'nomember' => 'NO OF MEMBER',
