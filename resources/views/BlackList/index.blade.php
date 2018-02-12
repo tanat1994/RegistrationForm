@@ -79,12 +79,15 @@ tabbuttonactive
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>Blacklist Number</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.name') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.position') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ListDate</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>Note</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>Blacklist</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:15%;"><strong>{{ trans('table.name') }}</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>firstname</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>lastName</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:10%;"><strong>{{ trans('table.position') }}</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>ListDate</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:20%;"><strong>BLACKLIST TITLE</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
                     </tr>
                 </thead>
 
@@ -93,6 +96,15 @@ tabbuttonactive
                         <tr id="{{$record['memberId']}}" style="font-size: 15px;">
                                     <td data-target="blacklistId">{{ $record['blacklistId'] }}</td>
                                     <td data-target="memberId">{{ $record['memberId'] }}</td>
+                                    <td data-target="fullname">{{ $record['firstname'] }}  {{ $record['lastname'] }}</td>
+                                    <td data-target="firstname" style="display:none">{{ $record['firstname'] }}</td>
+                                    <td data-target="lastname" style="display:none">{{ $record['lastname'] }}</td>
+                                    <td data-target="">{{ $record['positionName'] }}</td>
+                                    <td data-target="">{{ $record['date_time'] }}</td>
+                                    <td data-target="note" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $record['title'] }}</td>
+                                    <td style="text-align:center">
+                                            <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
+                                    </td>
                         </tr>
                         @endforeach
                 </tbody>
@@ -101,7 +113,59 @@ tabbuttonactive
                     <tfoot>
                     </tfoot>
             </table>
-            
+
+                <div class="modal fade" id="myActionModal" role="dialog">
+                    <div class="modal-dialog modal-md">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2 class="modal-title" style="color:#2e7ed0;"><strong>BLACKLIST INFORMATION</strong></h2>
+                            </div>
+
+                                <div class="modal-body">
+                                    <form class="form-horizontal">
+                                        <div class="form-group" style="margin-left: 1%;">
+                                            <div class="input-group">
+                                                    <div class="container">
+                                                        <div class="row-fluid">
+                                                            <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                    <fieldset disabled>
+                                                                        <div class="form-group row" style="position:relative;">
+                                                                                <label for="memberId" class="control-label col-md-5" style="text-align:left;">memberId:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="blacklist_memberId" name="blacklist_memberId">
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="form-group row" style="position:relative;">
+                                                                                <label for="firstName" class="control-label col-md-5" style="text-align:left;">{{trans("register.firstname")}}:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="blacklist_firstName" name="blacklist_firstName">
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="form-group row" style="position:relative;">
+                                                                                <label for="lastName" class="control-label col-md-5" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="blacklist_lastName" name="blacklist_lastName">
+                                                                                </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>         
+                                    </form>
+                                </div> 
+                        </div>
+                    
+                    </div>
+                </div>
+                {{-- End myActionModal --}}
+
                     {{-- DataTables Script--}}
                     <script>
                         $(document).ready(function(){
@@ -132,6 +196,20 @@ tabbuttonactive
             &nbsp;
             </div>
         </div>
+
+        <script>
+                $(document).ready(function(){
+                    $(document).on('click', 'a[data-role=update]', function(){
+                        var memberId = $(this).data('id');
+                        var firstName = $('#' + memberId).children('td[data-target=firstname]').text();
+                        var lastName = $('#' + memberId).children('td[data-target=lastname]').text();
+                        $('#blacklist_memberId').val(memberId);
+                        $('#blacklist_firstName').val(firstName);
+                        $('#blacklist_lastName').val(lastName);
+                        $('#myActionModal').modal('toggle');
+                    });
+                });
+        </script>
 
     </div>
 

@@ -80,12 +80,12 @@ tabbuttonactive
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.cardUID') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.position') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>PositionId</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.title') }}</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>{{ trans('table.title') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>TitleId</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.name') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>FirstName</strong></th>
@@ -96,6 +96,7 @@ tabbuttonactive
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>FacultyId</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.major') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;display:none;"><strong>MajorId</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>STATUS</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.action') }}</strong></th>
                     </tr>
                 </thead>
@@ -108,7 +109,7 @@ tabbuttonactive
                                     <td data-target="cardUID">{{ $record['cardUID'] }}</td>
                                     <td data-target="positionName">{{ $record['positionName'] }}</td>
                                     <td data-target="positionId" style="display:none;">{{ $record['positionId'] }}</td>
-                                    <td data-target="titleName">{{ $record['titleName'] }}</td>
+                                    <td data-target="titleName" style="display:none;">{{ $record['titleName'] }}</td>
                                     <td data-target="titleId" style="display:none;">{{ $record['titleId'] }}</td>
                                     <td data-target="name">{{ $record['firstname'] }}   {{ $record['lastname'] }}</td>
                                     <td data-target="firstname" style="display:none;">{{ $record['firstname'] }}</td>
@@ -119,7 +120,19 @@ tabbuttonactive
                                     <td data-target="facultyId" style="display:none;">{{ $record['facultyId'] }}</td>
                                     <td data-target="majorName">{{ $record['majorName'] }}</td>
                                     <td data-target="majorId" style="display:none;">{{ $record['majorId'] }}</td>
+                                    <td data-target="status">
+                                    @if($record['statusId'] == 1)
+                                        <span class="badge badge-success" style="background-color:#00a65a">
+                                    @elseif($record['statusId'] == 0)
+                                        <span class="badge badge-danger" style="background-color:#dd4b39">
+                                    @elseif($record['statusId'] == 2)
+                                        <span class="badge badge-warning">
+                                    @endif
+                                    {{$record['statusName']}}</span>
+                                    </td>
+                                        
                                     <td style="text-align:center">
+                                        {{--  <a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>  --}}
                                         <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
                                         <span class="outer-line" style=""><a href="#" data-role="delete" data-id="{{$record['memberId']}}" style="font-size:25px; padding-bottom: 10px; margin-right:8px;"><i class="fa fa-trash" style="color:#db3236;" aria-hidden="true"></i></a></span>
                                         <span class="outer-line"><a href="#" data-role="blacklist" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right: 8px;"><i class="fa fa-ban" style="color:#404040"></i></a></span>
@@ -132,7 +145,7 @@ tabbuttonactive
                     <tfoot>
                     </tfoot>
             </table>
-
+            <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
             <!--*************** MODAL SECTION *************-->
                     <!-- Modal Import-->
                     <div class="modal fade" id="myModal" role="dialog">
@@ -211,26 +224,26 @@ tabbuttonactive
                                                     <div class="input-group">
                                                             <div class="container">
                                                                 <div class="row-fluid">
-                                                                    <div class="col-xs-12 col-md-4 ">  
+                                                                    <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
                                                                             <fieldset disabled>
                                                                                     <div class="form-group row" style="position:relative;">
-                                                                                            <label for="memberId" class="control-label col-md-6" style="text-align:left;">{{trans("table.memberId")}}:</label>
-                                                                                            <div class="col-md-6">
+                                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">{{trans("table.memberId")}}:</label>
+                                                                                            <div class="col-md-7">
                                                                                                 <input type="text" class="form-control" id="modal_memberId" name="modal_memberId">
                                                                                             </div>
                                                                                     </div>
                                                                             </fieldset>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                    <label for="cardUID" class="control-label col-md-6" style="text-align:left;">{{trans("table.cardUID")}}:</label>
-                                                                                    <div class="col-md-6">
+                                                                                    <label for="cardUID" class="control-label col-md-5" style="text-align:left;">{{trans("table.cardUID")}}:</label>
+                                                                                    <div class="col-md-7">
                                                                                         <input type="text" class="form-control" id="modal_cardUID" name="modal_cardUID">
                                                                                     </div>
                                                                             </div>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                    <label for="position" class="control-label col-md-6" style="text-align:left;">{{trans("table.position")}}:</label>
-                                                                                    <div class="col-md-6">
+                                                                                    <label for="position" class="control-label col-md-5" style="text-align:left;">{{trans("table.position")}}:</label>
+                                                                                    <div class="col-md-7">
                                                                                                 <select id="modal_position" class="form-control" name="modal_position">
                                                                                                     <option value="1">{{ trans('register.position_student') }}</option>
                                                                                                     <option value="2">{{ trans('register.position_staff') }}</option>
@@ -239,8 +252,8 @@ tabbuttonactive
                                                                             </div>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                    <label for="title" class="control-label col-md-6" style="text-align:left;">{{trans("table.title")}}:</label>
-                                                                                    <div class="col-md-6">
+                                                                                    <label for="title" class="control-label col-md-5" style="text-align:left;">{{trans("table.title")}}:</label>
+                                                                                    <div class="col-md-7">
                                                                                                 <select id="modal_title" class="form-control" name="modal_title">
                                                                                                     <option selected value="1">{{ trans('register.title_mr') }}</option>
                                                                                                     <option value="2">{{ trans('register.title_mrs') }}</option>
@@ -251,23 +264,23 @@ tabbuttonactive
 
                                                                             <fieldset disabled>
                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                        <label for="firstName" class="control-label col-md-6" style="text-align:left;">{{trans("register.firstname")}}:</label>
-                                                                                        <div class="col-md-6">
+                                                                                        <label for="firstName" class="control-label col-md-5" style="text-align:left;">{{trans("register.firstname")}}:</label>
+                                                                                        <div class="col-md-7">
                                                                                             <input type="text" class="form-control" id="modal_firstName" name="modal_firstName">
                                                                                         </div>
                                                                                 </div>
 
                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                        <label for="lastName" class="control-label col-md-6" style="text-align:left;">{{trans("register.lastname")}}:</label>
-                                                                                        <div class="col-md-6">
+                                                                                        <label for="lastName" class="control-label col-md-5" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                                        <div class="col-md-7">
                                                                                             <input type="text" class="form-control" id="modal_lastName" name="modal_lastName">
                                                                                         </div>
                                                                                 </div>
                                                                             
 
                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                        <label for="faculty" class="control-label col-md-6" style="text-align:left;">{{trans("register.faculty")}}:</label>
-                                                                                        <div class="col-md-6">
+                                                                                        <label for="faculty" class="control-label col-md-5" style="text-align:left;">{{trans("register.faculty")}}:</label>
+                                                                                        <div class="col-md-7">
                                                                                                     <select id="modal_faculty" class="form-control" name="modal_faculty">
                                                                                                         <?php facultyList(); ?>
                                                                                                     </select>
@@ -275,8 +288,8 @@ tabbuttonactive
                                                                                 </div>
 
                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                        <label for="major" class="control-label col-md-6" style="text-align:left;">{{trans("register.major")}}:</label>
-                                                                                        <div class="col-md-6">
+                                                                                        <label for="major" class="control-label col-md-5" style="text-align:left;">{{trans("register.major")}}:</label>
+                                                                                        <div class="col-md-7">
                                                                                                     <select id="modal_major" class="form-control" name="modal_major">
                                                                                                         <?php majorList(); ?>
                                                                                                     </select>
@@ -284,8 +297,8 @@ tabbuttonactive
                                                                                 </div>
 
                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                        <label for="degree" class="control-label col-md-6" style="text-align:left;">{{trans("register.degree")}}:</label>
-                                                                                        <div class="col-md-6">
+                                                                                        <label for="degree" class="control-label col-md-5" style="text-align:left;">{{trans("register.degree")}}:</label>
+                                                                                        <div class="col-md-7">
                                                                                                     <select id="modal_degree" class="form-control" name="modal_degree">
                                                                                                         <?php degreeList(); ?>
                                                                                                     </select>
@@ -294,8 +307,8 @@ tabbuttonactive
                                                                             </fieldset>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                    <label for="status" class="control-label col-md-6" style="text-align:left;">STATUS:</label>
-                                                                                    <div class="col-md-6">
+                                                                                    <label for="status" class="control-label col-md-5" style="text-align:left;">STATUS:</label>
+                                                                                    <div class="col-md-7">
                                                                                             <input type="checkbox" checked data-toggle="toggle" data-on="<strong>ACTIVE</strong>" data-off="<strong>INACTIVE</strong>"data-onstyle="success" data-offstyle="danger" style="width:100%">
                                                                                     </div>
                                                                             </div>
@@ -341,7 +354,7 @@ tabbuttonactive
                                                     <div class="input-group">
                                                             <div class="container">
                                                                 <div class="row-fluid">
-                                                                    <div class="col-xs-12 col-md-4 ">  
+                                                                    <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
                                                                             <fieldset disabled>
                                                                                     <div class="form-group row" style="position:relative;">
                                                                                             <label for="memberId" class="control-label col-md-6" style="text-align:left;">{{trans("table.memberId")}}:</label>
@@ -368,9 +381,16 @@ tabbuttonactive
                                                                             </fieldset>
 
                                                                             <div class="form-group row" style="position:relative;">
+                                                                                    <label for="blacklist_title" class="control-label col-md-6" style="text-align:left;">BLACKLIST TITLE:</label>
+                                                                                    <div class="col-md-6">
+                                                                                        <input type="text" class="form-control" id="blacklist_title" name="blacklist_title">
+                                                                                    </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
                                                                                     <label for="note" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}({{trans("table.limit_500_char")}}):</label>
                                                                                     <div class="col-md-12">
-                                                                                        <textarea class="form-control" id="blacklist_note" name="blacklist_note" style="width:100%; height: 200px;"></textarea>
+                                                                                        <textarea class="form-control" id="blacklist_note" name="blacklist_note" style="width:100%; height: 200px; resize: none;"></textarea>
                                                                                     </div>
                                                                             </div>
 
@@ -416,7 +436,7 @@ tabbuttonactive
                                     "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
                                     "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
                                     "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
-                                }
+                                },
                             });
                         });
                     </script>
@@ -454,11 +474,8 @@ tabbuttonactive
                                         }
                                     });
                                 }
-
-                                if(command == "blacklist"){
-                                    swal("Banned", "heeloworld", "success");
-                                }
                             }
+
                                 
                     </script>
 
@@ -491,7 +508,6 @@ tabbuttonactive
                             $('#update').click(function(){
                                 $.ajax({
                                     url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/memberUpdate',
-                                    //url:  config('pathConfig.pathREST') +'checkLogin/check'
                                     type : 'put',
                                     data : {memberId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val() },
                                     success : function(response){
@@ -536,15 +552,26 @@ tabbuttonactive
                                 $('#blackListModal').modal('toggle');
 
                                 $('#banned').click(function(){
-                                    $.ajax({
-                                        url : 'http://127.0.0.1/Website-NAT/public/index.php/blackListController/addBlackList',
-                                        type : 'post',
-                                        data : {memberId: $('#blacklist_memberId').val(), 'firstName': $('#blacklist_firstName').val(), 'lastName': $('#blacklist_lastName').val(), 'note': $('#blacklist_note').val()},
-                                        success : function(response){
-                                            modalAlert("blacklist",$('#modal_memberId').val());
-                                            $('#blackListModal').modal('toggle');
-                                        }
-                                    });
+                                        swal({
+                                            title: "{{trans('table.banned_confirmation')}}",
+                                            text: "Do you sure you want to listed this memberId: " + memberId,
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        }).then((willDelete)=>{
+                                            if(willDelete){
+                                                $.ajax({
+                                                    url : $('#api_url').val() + 'blackListController/addBlackList',
+                                                    type : 'post',
+                                                    data : {memberId: $('#blacklist_memberId').val(), note: $('#blacklist_note').val(), title: $('#blacklist_title').val()},
+                                                    success : function(response){
+                                                        alert("BANNED COMPLETE");
+                                                        $('#blackListModal').modal('toggle');
+                                                        location.reload();
+                                                    }
+                                                });  
+                                            }
+                                        });
                                 });
                             });
                         });

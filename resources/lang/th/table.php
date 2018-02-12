@@ -33,6 +33,7 @@ return [
 
     'note' => 'หมายเหตุ',
     'blacklist' => 'บัญชีดำ',
+    'banned_confirmation' => 'ยืนยันการขึ้นบัญชีดำ',
     'limit_500_char' => 'ไม่เกิน 500 ตัวอักษร',
     'listed_on_blacklist' => 'ขึ้นบัญชีดำ',
     'groupId' => 'หมายเลขกลุ่ม',

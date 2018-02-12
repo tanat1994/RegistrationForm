@@ -35,6 +35,7 @@ return [
 
     'note' => 'NOTE',
     'blacklist' => 'BLACKLIST',
+    'banned_confirmation' => 'BANNED CONFIRMATION',
     'limit_500_char' => 'Limit 500 characters',
     'listed_on_blacklist' => 'Listed on Blacklist',
     'groupId' => 'GROUP ID',
