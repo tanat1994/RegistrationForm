@@ -79,14 +79,15 @@ tabbuttonactive
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>Blacklist</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>BlacklistID</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%;"><strong>{{ trans('table.name') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>firstname</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>lastName</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:10%;"><strong>{{ trans('table.position') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>ListDate</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>Listed Date</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:20%;"><strong>BLACKLIST TITLE</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:20%; display:none;"><strong>BLACKLIST DESCRIPTION</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
                     </tr>
                 </thead>
@@ -101,7 +102,8 @@ tabbuttonactive
                                     <td data-target="lastname" style="display:none">{{ $record['lastname'] }}</td>
                                     <td data-target="">{{ $record['positionName'] }}</td>
                                     <td data-target="">{{ $record['date_time'] }}</td>
-                                    <td data-target="note" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $record['title'] }}</td>
+                                    <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
+                                    <td data-target="blacklist_title" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $record['title'] }}</td>
                                     <td style="text-align:center">
                                             <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
                                     </td>
@@ -153,6 +155,19 @@ tabbuttonactive
                                                                                 </div>
                                                                         </div>
                                                                     </fieldset>
+                                                                        <div class="form-group row" style="position:relative;">
+                                                                                <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">Blacklist Title:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="blacklist_title" name="blacklist_title">
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="form-group row" style="position:relative;">
+                                                                                <label for="blacklist_description" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}:</label>
+                                                                                <div class="col-md-12">
+                                                                                    <textarea class="form-control" id="blacklist_description" name="blacklist_description" style="width:100%; height: 200px; resize: none;"></textarea>
+                                                                                </div>
+                                                                        </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -203,9 +218,13 @@ tabbuttonactive
                         var memberId = $(this).data('id');
                         var firstName = $('#' + memberId).children('td[data-target=firstname]').text();
                         var lastName = $('#' + memberId).children('td[data-target=lastname]').text();
+                        var blacklist_title = $('#' + memberId).children('td[data-target=blacklist_title]').text();
+                        var blacklist_description = $('#' + memberId).children('td[data-target=blacklist_description]').text();
                         $('#blacklist_memberId').val(memberId);
                         $('#blacklist_firstName').val(firstName);
                         $('#blacklist_lastName').val(lastName);
+                        $('#blacklist_title').val(blacklist_title);
+                        $('#blacklist_description').val(blacklist_description);
                         $('#myActionModal').modal('toggle');
                     });
                 });

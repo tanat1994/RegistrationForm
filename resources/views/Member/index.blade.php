@@ -17,6 +17,9 @@
   <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
   <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
 
+  {{-- Bootstrap Tour --}}
+  <link type="text/css" href="{{asset('css/bootstrap-tour/bootstrap-tour.min.css')}}" rel="stylesheet">
+  <script src="{{asset('js/bootstrap-tour/bootstrap-tour.min.js')}}"></script>
 
   <style>
             .container{
@@ -66,7 +69,7 @@ tabbuttonactive
     <div class="row-fluid">
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.member') }}</strong></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -76,9 +79,9 @@ tabbuttonactive
             </div>
             
         <div class="col-md-10" style="background-color:white; padding-top:1%;" id="myDivTable">
-            <div class="col-md-12"><a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"/></a></div>
+            <div class="col-md-12"><a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a></div>
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
-                <thead>
+                <thead id="table_header">
                     <tr>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
@@ -120,7 +123,7 @@ tabbuttonactive
                                     <td data-target="facultyId" style="display:none;">{{ $record['facultyId'] }}</td>
                                     <td data-target="majorName">{{ $record['majorName'] }}</td>
                                     <td data-target="majorId" style="display:none;">{{ $record['majorId'] }}</td>
-                                    <td data-target="status">
+                                    <td data-target="status" id="column_status">
                                     @if($record['statusId'] == 1)
                                         <span class="badge badge-success" style="background-color:#00a65a">
                                     @elseif($record['statusId'] == 0)
@@ -131,7 +134,7 @@ tabbuttonactive
                                     {{$record['statusName']}}</span>
                                     </td>
                                         
-                                    <td style="text-align:center">
+                                    <td style="text-align:center" id="column_action">
                                         {{--  <a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>  --}}
                                         <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
                                         <span class="outer-line" style=""><a href="#" data-role="delete" data-id="{{$record['memberId']}}" style="font-size:25px; padding-bottom: 10px; margin-right:8px;"><i class="fa fa-trash" style="color:#db3236;" aria-hidden="true"></i></a></span>
@@ -209,7 +212,7 @@ tabbuttonactive
 
                     {{-- Update Modal--}}
                     <div class="modal fade" id="myActionModal" role="dialog">
-                            <div class="modal-dialog modal-md">
+                            <div class="modal-dialog modal-md"> 
                                 <!-- Modal content-->
                                 <div class="modal-content">
     
@@ -388,9 +391,9 @@ tabbuttonactive
                                                                             </div>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                    <label for="note" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}({{trans("table.limit_500_char")}}):</label>
+                                                                                    <label for="blacklist_description" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}({{trans("table.limit_500_char")}}):</label>
                                                                                     <div class="col-md-12">
-                                                                                        <textarea class="form-control" id="blacklist_note" name="blacklist_note" style="width:100%; height: 200px; resize: none;"></textarea>
+                                                                                        <textarea class="form-control" id="blacklist_description" name="blacklist_description" style="width:100%; height: 200px; resize: none;"></textarea>
                                                                                     </div>
                                                                             </div>
 
@@ -563,7 +566,7 @@ tabbuttonactive
                                                 $.ajax({
                                                     url : $('#api_url').val() + 'blackListController/addBlackList',
                                                     type : 'post',
-                                                    data : {memberId: $('#blacklist_memberId').val(), note: $('#blacklist_note').val(), title: $('#blacklist_title').val()},
+                                                    data : {memberId: $('#blacklist_memberId').val(), note: $('#blacklist_description').val(), title: $('#blacklist_title').val()},
                                                     success : function(response){
                                                         alert("BANNED COMPLETE");
                                                         $('#blackListModal').modal('toggle');
@@ -574,6 +577,51 @@ tabbuttonactive
                                         });
                                 });
                             });
+                        });
+                    </script>
+
+                    {{-- Bootstrap Tour --}}
+                    <script>
+                        $(document).ready(function(){
+                            var tour = new Tour({
+                                backdrop:true,
+                                backdropContainer: 'body',
+                                steps:[
+                                    {
+                                        element: "#memberManagementTitle",
+                                        title: "<h1>HELLO,</h1>",
+                                        content: "This is Member Management page. You can manage the information of the users by following steps.",
+                                        placement: "right"
+                                    },
+                                    {
+                                        element: "#addNewMember",
+                                        title: "<h1>STEP1:</h1> Add new member",
+                                        content: "You can add the new member by clicking on this green button.<br><br><img src='{{ asset('images/plus.png') }}' style='width:30px;height:30px;margin-left:40%;' align='middle'/>",
+                                        placement: "left"
+                                    },
+                                    {
+                                        element: "#myTable",
+                                        title: "<h1>STEP2:</h1> Member Information",
+                                        content: "This is the table which contains all of members information <u>such as</u> memberId, degree, etc.",
+                                        placement: "top"
+                                    },
+                                    {
+                                        element: "#column_status",
+                                        title: "<h1> STEP3:</h1> Status Column",
+                                        content: "This column show you a current status of the user <u>e.g.</u><br> <span class='badge badge-success' style='background-color:#00a65a'>ACTIVE</span> <span class='badge badge-danger' style='background-color:#dd4b39'>INACTIVE</span> <span class='badge badge-warning'>BLACKLIST</span>",
+                                        placement: "left"
+                                    },
+                                    {
+                                        element: "#column_action",
+                                        title: "<h1> STEP4:</h1> ACTION Column",
+                                        content: "This column contains the tools for edit, delete, and listed on blacklist for each members.<br><br><i class='fa fa-pencil' style='font-size: 25px;color:#3c8dbc'></i> : <strong>Edit</strong> member's informations<br><i class='fa fa-trash' style='color:#db3236;font-size:25px;' aria-hidden='true'></i> : <strong>Delete</strong> the member.<br><i class='fa fa-ban' style='color:#404040;font-size:25px;'></i> : <strong>Listed</strong> the member on Blacklist",
+                                        placement: "left"
+                                    }
+                                ],
+                            });
+                            tour.init();
+                            tour.start(true);
+                            if(tour.ended()) tour.restart(true);
                         });
                     </script>
 
