@@ -24,7 +24,7 @@ class memberController extends Controller
         )->getbody();
         $memberList = json_decode($result, true);
         $memberRecord = $memberList;
-        return view('member.index',['memberRecord' => $memberRecord]);
+        return view('member.index2',['memberRecord' => $memberRecord]);
         //return view('GroupManagement.index21',['memberRecord' => $memberRecord]);
     }
 
