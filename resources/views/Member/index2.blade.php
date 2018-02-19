@@ -21,6 +21,9 @@
   <link type="text/css" href="{{asset('css/bootstrap-tour/bootstrap-tour.min.css')}}" rel="stylesheet">
   <script src="{{asset('js/bootstrap-tour/bootstrap-tour.min.js')}}"></script>
 
+  {{-- Loading Screen --}}
+  <link type="text/css" rel="stylesheet" href="{{asset('css/loadingstyle.css')}}"/>
+
   <style>
             .container{
             margin-top:20px;
@@ -76,11 +79,29 @@
 tabbuttonactive
 @endsection
 
+@section('body_function')
+    onload="loadingFunction();"
+@endsection
+
 @section('content')
-    <div class="row-fluid">
+    {{-- Loading Screen Section--}}
+    <ul class="loadingStyle" id="myLoadingScreen">
+        <li>L</li>
+        <li>O</li>
+        <li>A</li>
+        <li>D</li>
+        <li>I</li>
+        <li>N</li>
+        <li>G</li>
+        <li>.</li>
+        <li>.</li>
+        <li>.</li>
+    </ul>
+
+    <div class="row-fluid" id="myDisplaySection" style="display:none;"> <!-- <div class="row-fluid">-->
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;margin-left:10px;"><i class="fa fa-1x fa-question-circle-o"></i></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -559,48 +580,64 @@ tabbuttonactive
                                 {{-- Bootstrap Tour --}}
                                 <script>
                                     $(document).ready(function(){
-                                        var tour = new Tour({
-                                            backdrop:true,
-                                            backdropContainer: 'body',
-                                            steps:[
-                                                {
-                                                    element: "#memberManagementTitle",
-                                                    title: "<h1>HELLO,</h1>",
-                                                    content: "This is Member Management page. You can manage the information of the users by following steps.",
-                                                    placement: "right"
-                                                },
-                                                {
-                                                    element: "#addNewMember",
-                                                    title: "<h1>STEP1:</h1> Add new member",
-                                                    content: "You can add the new member by clicking on this green button.<br><br><img src='{{ asset('images/plus.png') }}' style='width:30px;height:30px;margin-left:40%;' align='middle'/>",
-                                                    placement: "left"
-                                                },
-                                                {
-                                                    element: "#myTable",
-                                                    title: "<h1>STEP2:</h1> Member Information",
-                                                    content: "This is the table which contains all of members information <u>such as</u> memberId, degree, etc.",
-                                                    placement: "top"
-                                                },
-                                                {
-                                                    element: "#column_status",
-                                                    title: "<h1> STEP3:</h1> Status Column",
-                                                    content: "This column show you a current status of the user <u>e.g.</u><br> <span class='badge badge-success' style='background-color:#00a65a'>ACTIVE</span> <span class='badge badge-danger' style='background-color:#dd4b39'>INACTIVE</span> <span class='badge badge-warning'>BLACKLIST</span>",
-                                                    placement: "left"
-                                                },
-                                                {
-                                                    element: "#column_action",
-                                                    title: "<h1> STEP4:</h1> ACTION Column",
-                                                    content: "This column contains the tools for edit, delete, and listed on blacklist for each members.<br><br><i class='fa fa-pencil' style='font-size: 25px;color:#3c8dbc'></i> : <strong>Edit</strong> member's informations<br><i class='fa fa-trash' style='color:#db3236;font-size:25px;' aria-hidden='true'></i> : <strong>Delete</strong> the member.<br><i class='fa fa-ban' style='color:#404040;font-size:25px;'></i> : <strong>Listed</strong> the member on Blacklist",
-                                                    placement: "left"
-                                                }
-                                            ],
+                                        $(document).on('click', 'a[data-role=helper]', function(){
+                                            var tour = new Tour({
+                                                backdrop:true,
+                                                backdropContainer: 'body',
+                                                steps:[
+                                                    {
+                                                        element: "#memberManagementTitle",
+                                                        title: "<h1>HELLO,</h1>",
+                                                        content: "This is Member Management page. You can manage the information of the users by following steps.",
+                                                        placement: "right"
+                                                    },
+                                                    {
+                                                        element: "#addNewMember",
+                                                        title: "<h1>STEP1:</h1> Add new member",
+                                                        content: "You can add the new member by clicking on this green button.<br><br><img src='{{ asset('images/plus.png') }}' style='width:30px;height:30px;margin-left:40%;' align='middle'/>",
+                                                        placement: "left"
+                                                    },
+                                                    {
+                                                        element: "#myTable",
+                                                        title: "<h1>STEP2:</h1> Member Information",
+                                                        content: "This is the table which contains all of members information <u>such as</u> memberId, degree, etc.",
+                                                        placement: "top"
+                                                    },
+                                                    {
+                                                        element: "#column_status",
+                                                        title: "<h1> STEP3:</h1> Status Column",
+                                                        content: "This column show you a current status of the user <u>e.g.</u><br> <span class='badge badge-success' style='background-color:#00a65a'>ACTIVE</span> <span class='badge badge-danger' style='background-color:#dd4b39'>INACTIVE</span> <span class='badge badge-warning'>BLACKLIST</span>",
+                                                        placement: "left"
+                                                    },
+                                                    {
+                                                        element: "#column_action",
+                                                        title: "<h1> STEP4:</h1> ACTION Column",
+                                                        content: "This column contains the tools for edit, delete, and listed on blacklist for each members.<br><br><i class='fa fa-pencil' style='font-size: 25px;color:#3c8dbc'></i> : <strong>Edit</strong> member's informations<br><i class='fa fa-trash' style='color:#db3236;font-size:25px;' aria-hidden='true'></i> : <strong>Delete</strong> the member.<br><i class='fa fa-ban' style='color:#404040;font-size:25px;'></i> : <strong>Listed</strong> the member on Blacklist",
+                                                        placement: "left"
+                                                    }
+                                                ],
+                                            });
+                                            tour.init();
+                                            tour.setCurrentStep(0);
+                                            tour.start(true);
                                         });
-                                        tour.init();
-                                        tour.start(true);
-                                        if(tour.ended()) tour.restart(true);
                                     });
                                 </script>
 
+                                {{-- Loading Screen Section--}}
+                                <script>
+                                    var myVar;
+                                    function loadingFunction() {
+                                        myVar = setTimeout(showPage, 2000);
+                                    }
+                                
+                                    function showPage() {
+                                        //document.getElementById("myLoadingScreen").style.display = "none";
+                                        $('#myLoadingScreen').fadeOut(1000);
+                                        document.getElementById("myDisplaySection").style.display = "block";
+                                        document.body.style.backgroundColor = "#F5F5F5";
+                                    }
+                                </script>
 
 
                                 <div class="col-md-1">

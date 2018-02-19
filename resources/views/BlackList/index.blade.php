@@ -72,7 +72,7 @@ tabbuttonactive
         
         <div class="col-md-12">
             <div class="col-md-1">
-            &nbsp;
+                &nbsp;
             </div>
             
         <div class="col-md-10" style="background-color:white; padding-top:1%;" id="myDivTable">
@@ -103,20 +103,23 @@ tabbuttonactive
                                     <td data-target="">{{ $record['positionName'] }}</td>
                                     <td data-target="">{{ $record['date_time'] }}</td>
                                     <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
-                                    <td data-target="blacklist_title" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $record['title'] }}</td>
-                                    <td style="text-align:center">
+                                    <td data-target="blacklist_title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 35%;">{{ $record['title'] }}</td>
+                                    <td style="text-align:center; width: 90px;">
+                                            <span class="outer-line"><a href="#" data-role="information" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-info-circle"></i></a></span>
                                             <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
+                                            <span class="outer-line"><a href="#" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><img src="{{ asset('images/verified-user.png') }}" style="margin-bottom:4px;"/>
                                     </td>
                         </tr>
                         @endforeach
                 </tbody>
                     
 
-                    <tfoot>
-                    </tfoot>
+                <tfoot>
+                </tfoot>
             </table>
 
-                <div class="modal fade" id="myActionModal" role="dialog">
+            {{-- Information Modal --}}
+            <div class="modal fade" id="myInformationModal" role="dialog">
                     <div class="modal-dialog modal-md">
                         <!-- Modal content-->
                         <div class="modal-content">
@@ -126,60 +129,136 @@ tabbuttonactive
                                 <h2 class="modal-title" style="color:#2e7ed0;"><strong>BLACKLIST INFORMATION</strong></h2>
                             </div>
 
-                                <div class="modal-body">
-                                    <form class="form-horizontal">
-                                        <div class="form-group" style="margin-left: 1%;">
-                                            <div class="input-group">
-                                                    <div class="container">
-                                                        <div class="row-fluid">
-                                                            <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
-                                                                    <fieldset disabled>
-                                                                        <div class="form-group row" style="position:relative;">
-                                                                                <label for="memberId" class="control-label col-md-5" style="text-align:left;">memberId:</label>
-                                                                                <div class="col-md-7">
-                                                                                    <input type="text" class="form-control" id="blacklist_memberId" name="blacklist_memberId">
-                                                                                </div>
-                                                                        </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group" style="margin-left: 1%;">
+                                        <div class="input-group">
+                                                <div class="container">
+                                                    <div class="row-fluid">
+                                                        <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                <fieldset disabled>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">memberId:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="info_blacklist_memberId" name="info_blacklist_memberId">
+                                                                            </div>
+                                                                    </div>
 
-                                                                        <div class="form-group row" style="position:relative;">
-                                                                                <label for="firstName" class="control-label col-md-5" style="text-align:left;">{{trans("register.firstname")}}:</label>
-                                                                                <div class="col-md-7">
-                                                                                    <input type="text" class="form-control" id="blacklist_firstName" name="blacklist_firstName">
-                                                                                </div>
-                                                                        </div>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="firstName" class="control-label col-md-5" style="text-align:left;">{{trans("register.firstname")}}:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="info_blacklist_firstName" name="info_blacklist_firstName">
+                                                                            </div>
+                                                                    </div>
 
-                                                                        <div class="form-group row" style="position:relative;">
-                                                                                <label for="lastName" class="control-label col-md-5" style="text-align:left;">{{trans("register.lastname")}}:</label>
-                                                                                <div class="col-md-7">
-                                                                                    <input type="text" class="form-control" id="blacklist_lastName" name="blacklist_lastName">
-                                                                                </div>
-                                                                        </div>
-                                                                    </fieldset>
-                                                                        <div class="form-group row" style="position:relative;">
-                                                                                <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">Blacklist Title:</label>
-                                                                                <div class="col-md-7">
-                                                                                    <input type="text" class="form-control" id="blacklist_title" name="blacklist_title">
-                                                                                </div>
-                                                                        </div>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="lastName" class="control-label col-md-5" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="info_blacklist_lastName" name="info_blacklist_lastName">
+                                                                            </div>
+                                                                    </div>
 
-                                                                        <div class="form-group row" style="position:relative;">
-                                                                                <label for="blacklist_description" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}:</label>
-                                                                                <div class="col-md-12">
-                                                                                    <textarea class="form-control" id="blacklist_description" name="blacklist_description" style="width:100%; height: 200px; resize: none;"></textarea>
-                                                                                </div>
-                                                                        </div>
-                                                            </div>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">Blacklist Title:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="info_blacklist_title" name="info_blacklist_title">
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="blacklist_description" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}:</label>
+                                                                            <div class="col-md-12">
+                                                                                <textarea class="form-control" id="info_blacklist_description" name="info_blacklist_description" style="width:100%; height: 200px; resize: none;"></textarea>
+                                                                            </div>
+                                                                    </div>
+                                                                </fieldset>
                                                         </div>
                                                     </div>
-                                            </div>
-                                        </div>         
-                                    </form>
-                                </div> 
+                                                </div>
+                                        </div>
+                                    </div>         
+                                </form>
+                            </div> 
+
+                            <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                            </div>
+                        </div>
+                    
+                    </div>
+            </div>
+            {{-- End Information Modal --}}
+
+                {{-- Update Modal --}}
+                <div class="modal fade" id="myActionModal" role="dialog">
+                    <div class="modal-dialog modal-md">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2 class="modal-title" style="color:#2e7ed0;"><strong>EDIT BLACKLIST INFORMATION</strong></h2>
+                            </div>
+
+                            <div class="modal-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group" style="margin-left: 1%;">
+                                        <div class="input-group">
+                                                <div class="container">
+                                                    <div class="row-fluid">
+                                                        <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                <fieldset disabled>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">memberId:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="blacklist_memberId" name="blacklist_memberId">
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="firstName" class="control-label col-md-5" style="text-align:left;">{{trans("register.firstname")}}:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="blacklist_firstName" name="blacklist_firstName">
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="lastName" class="control-label col-md-5" style="text-align:left;">{{trans("register.lastname")}}:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="blacklist_lastName" name="blacklist_lastName">
+                                                                            </div>
+                                                                    </div>
+                                                                </fieldset>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">Blacklist Title:</label>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" class="form-control" id="blacklist_title" name="blacklist_title">
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="blacklist_description" class="control-label col-md-8" style="text-align:left;">{{trans("table.note")}}:</label>
+                                                                            <div class="col-md-12">
+                                                                                <textarea class="form-control" id="blacklist_description" name="blacklist_description" style="width:100%; height: 200px; resize: none;"></textarea>
+                                                                            </div>
+                                                                    </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>         
+                                </form>
+                            </div> 
+
+                            <div class="modal-footer">
+                                    <a href="#" id="edit_info" class="btn btn-success pull-right">Edit</a>
+                                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                                </div>
                         </div>
                     
                     </div>
                 </div>
-                {{-- End myActionModal --}}
+                {{-- End Update Modal --}}
 
                     {{-- DataTables Script--}}
                     <script>
@@ -212,6 +291,27 @@ tabbuttonactive
             </div>
         </div>
 
+        {{-- BLACKLIST INFORMATION --}}
+        <script>
+                $(document).ready(function(){
+                    $(document).on('click', 'a[data-role=information]', function(){
+                        var memberId = $(this).data('id');
+                        var firstName = $('#' + memberId).children('td[data-target=firstname]').text();
+                        var lastName = $('#' + memberId).children('td[data-target=lastname]').text();
+                        var blacklist_title = $('#' + memberId).children('td[data-target=blacklist_title]').text();
+                        var blacklist_description = $('#' + memberId).children('td[data-target=blacklist_description]').text();
+                        $('#info_blacklist_memberId').val(memberId);
+                        $('#info_blacklist_firstName').val(firstName);
+                        $('#info_blacklist_lastName').val(lastName);
+                        $('#info_blacklist_title').val(blacklist_title);
+                        $('#info_blacklist_description').val(blacklist_description);
+                        $('#myInformationModal').modal('toggle');
+                    });
+                });
+        </script>
+        {{-- END BLACKLIST INFORMATION--}}
+
+        {{-- BLACKLIST EDITOR --}}
         <script>
                 $(document).ready(function(){
                     $(document).on('click', 'a[data-role=update]', function(){
@@ -227,8 +327,21 @@ tabbuttonactive
                         $('#blacklist_description').val(blacklist_description);
                         $('#myActionModal').modal('toggle');
                     });
+
+                    $('#edit_info').click(function(){
+                        $.ajax({
+                            url : 'http://127.0.0.1/Website-NAT/public/index.php/blackListController/blacklistInfoUpdate',
+                            type : 'put',
+                            data : {memberId: $('#blacklist_memberId').val(), title: $('#blacklist_title').val(), note: $('#blacklist_description').val()},
+                            success : function(response){
+                                $('#myActionModal').modal('toggle');
+                                location.reload();
+                            }
+                        });
+                    });
                 });
         </script>
+        {{-- END BLACKLIST EDITOR--}}
 
     </div>
 

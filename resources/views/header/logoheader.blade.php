@@ -28,6 +28,9 @@
             filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
             -webkit-filter: opacity(0.3); /* Google Chrome, Safari 6+ & Opera 15+ */
           } 
+        body{
+            background-color: #F5F5F5;
+        }
     </style>
 
     @yield('header_css')

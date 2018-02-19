@@ -3,7 +3,7 @@
 
         @include('header.logoheader')
 
-    <body style="background-color:#F5F5F5;">
+    <body @yield('body_function', 'JSonBody')>
 
         @include('header.languagebar')
         @include('header.navbar')

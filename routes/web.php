@@ -43,6 +43,7 @@ Route::post('/login', 'loginController@checkLoginAPI');
 // });
 
 Route::get('/dashboard', 'memberController@memberRecordDashboard');
+Route::get('/loading', function(){return view('Member.loading');});
 //Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
 //Route::get('/membermanagement','bdReportController@index');
 //Route::get('/groupmanagement','groupController@groupRecord');
