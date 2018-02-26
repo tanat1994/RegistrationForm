@@ -20,8 +20,15 @@
                 </ul>
             </div>
         @endif
-
-
+        
+        @if (Session::has('error_msg'))
+            <div class="alert alert-danger">
+                <ul>
+                    <li>{{ Session::get('error_msg') }}</li>
+                </ul>
+            </div>
+        @endif
+            
             <div class="panel panel-primary" style="border-radius: 10; border-width:1px;">
                 <div class="panel-body">
                     <p class="lead text-center" style="margin:5% auto;">{{ trans('login.headerLogin') }}</p>

@@ -20,7 +20,7 @@ class memberController extends Controller
         //$result = $client->request('GET', 'http://127.0.0.1/WebsiteAPI-NAT/public/index.php/bdReportController/bdReportToday')->getbody();
         $result = $client->request(
             'GET',
-            config('pathConfig.pathAPI').'/memberController/memberRecord'
+            config('pathConfig.pathAPI').'memberController/memberRecord'
         )->getbody();
         $memberList = json_decode($result, true);
         $memberRecord = $memberList;
@@ -33,7 +33,7 @@ class memberController extends Controller
         //$result = $client->request('GET', 'http://127.0.0.1/WebsiteAPI-NAT/public/index.php/bdReportController/bdReportToday')->getbody();
         $result = $client->request(
             'GET',
-            config('pathConfig.pathAPI').'/memberController/memberRecord'
+            config('pathConfig.pathAPI').'memberController/memberRecord'
         )->getbody();
         $memberList = json_decode($result, true);
         $memberRecord = $memberList;

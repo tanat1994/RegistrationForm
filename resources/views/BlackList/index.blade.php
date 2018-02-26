@@ -3,7 +3,7 @@
 
 @section('more_script')
   {{-- SweetAlert --}}
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="{{asset('js/sweetalert.min.js')}}"></script>
   {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
@@ -73,12 +73,15 @@ tabbuttonactive
         <div class="col-md-12">
             <div class="col-md-1">
                 &nbsp;
+                {{-- API PATH FOR USING IN AJAX OR JS --}}
+                <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
             </div>
             
         <div class="col-md-10" style="background-color:white; padding-top:1%;" id="myDivTable">
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>No.</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>BlacklistID</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%;"><strong>{{ trans('table.name') }}</strong></th>
@@ -93,9 +96,11 @@ tabbuttonactive
                 </thead>
 
                 <tbody>
+                        <?php $iterator = 1; ?>
                         @foreach($blacklistRecord as $record)
                         <tr id="{{$record['memberId']}}" style="font-size: 15px;">
-                                    <td data-target="blacklistId">{{ $record['blacklistId'] }}</td>
+                                    <td data-target="no"><?php echo $iterator;?></td>
+                                    <td data-target="blacklistId" style="width:2%;">{{ $record['blacklistId'] }}</td>
                                     <td data-target="memberId">{{ $record['memberId'] }}</td>
                                     <td data-target="fullname">{{ $record['firstname'] }}  {{ $record['lastname'] }}</td>
                                     <td data-target="firstname" style="display:none">{{ $record['firstname'] }}</td>
@@ -103,13 +108,14 @@ tabbuttonactive
                                     <td data-target="">{{ $record['positionName'] }}</td>
                                     <td data-target="">{{ $record['date_time'] }}</td>
                                     <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
-                                    <td data-target="blacklist_title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 35%;">{{ $record['title'] }}</td>
+                                    <td data-target="blacklist_title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 30%;">{{ $record['title'] }}</td>
                                     <td style="text-align:center; width: 90px;">
                                             <span class="outer-line"><a href="#" data-role="information" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-info-circle"></i></a></span>
                                             <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
                                             <span class="outer-line"><a href="#" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><img src="{{ asset('images/verified-user.png') }}" style="margin-bottom:4px;"/>
                                     </td>
                         </tr>
+                        <?php $iterator++; ?>
                         @endforeach
                 </tbody>
                     
@@ -181,7 +187,7 @@ tabbuttonactive
                             </div> 
 
                             <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     
@@ -342,6 +348,36 @@ tabbuttonactive
                 });
         </script>
         {{-- END BLACKLIST EDITOR--}}
+
+        {{-- Unlisted Script --}}
+        <script>
+            $(document).ready(function(){
+                $(document).on('click', 'a[data-role=unlisted]', function(){
+                    var memberId = $(this).data('id');
+
+                    swal({
+                        title: "{{trans('table.banned_confirmation')}}",
+                        text: "Do you sure you want to unlisted this memberId: " + memberId,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete)=>{
+                        if(willDelete){
+                            $.ajax({
+                                url : $('#api_url').val() + 'blackListController/unlistedFromBlacklist',
+                                type : 'put',
+                                data : {memberId: memberId},
+                                success : function(response){
+                                    //alert("UNLISTED COMPLETE");
+                                    location.reload();
+                                }
+                            });  
+                        }
+                    });
+                });
+            });
+        </script>
+        {{-- End unlisted script --}}
 
     </div>
 

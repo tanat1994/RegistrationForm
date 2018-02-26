@@ -3,7 +3,17 @@
 
 @section('more_script')
   {{-- SweetAlert --}}
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="{{asset('js/sweetalert.min.js')}}"></script>
+
+  {{-- Flat-UI --}}
+  <link href="{{asset('css/flat-ui/flat-ui.css')}}"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+  {{-- Button Select --}}
+
+  {{-- Semantic --}}
+  <!-- <link rel="stylesheet" type="text/css" href="{{asset('css/semantic/semantic.min.css')}}"/>
+  <script src="{{asset('js/semantic/semantic.min.js')}}"></script> -->
+
   {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
@@ -23,6 +33,7 @@
 
   {{-- Loading Screen --}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/loadingstyle.css')}}"/>
+
 
   <style>
             .container{
@@ -101,7 +112,7 @@ tabbuttonactive
     <div class="row-fluid" id="myDisplaySection" style="display:none;"> <!-- <div class="row-fluid">-->
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;margin-left:10px;"><i class="fa fa-1x fa-question-circle-o"></i></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o"></i></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -126,10 +137,25 @@ tabbuttonactive
                     {{-- Member Management Tabpills--}}
                         <div class="tab-pane active" id="memberManagement_tab">
                             <div class="col-md-12" style="background-color:white; padding-top:1%;" id="myDivTable">
-                                <div class="col-md-12"><a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a></div>
+                                {{-- Add Member & Filtering Section --}}
+                                <div class="col-md-12">
+                                    {{-- Filter Section --}}
+                                    <table>
+                                        <tr id="filter_col4" data-column="3"><td>FILTER: <input type="text" class="column_filter" id="col3_filter" placeholder="Position"/></td></tr>
+                                        <tr id="filter_col6" data-column="10"><td>FILTER: <input type="text" class="column_filter" id="col10_filter" placeholder="Degree"/></td></tr>
+                                        <tr id="filter_col7" data-column="12"><td>FILTER: <input type="text" class="column_filter" id="col12_filter" placeholder="Faculty"/></td></tr>
+                                        <tr id="filter_col9" data-column="16"><td>FILTER: <input type="text" class="column_filter" id="col16_filter" placeholder="Status"/></td></tr>
+                                    </table>
+                                    {{-- End Filter Section --}}
+                                    <a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a>
+                                    <!-- <div class="col-md-12"><a href=""><button class="btn btn-success pull-right">HELLo</button></a></div>
+                                    <div class="col-md-12"><div class="input-group pull-right" style="width:155px; margin-bottom: 1%;"><span class="input-group-addon"><i class="fa fa-x fa-plus"></i></span><button class="form-control">Add Member</button></div></div> -->
+                                </div>
+                                {{-- End Add Member & Filtering Section --}}
+                                
                                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                                         <thead id="table_header">
-                                            <tr>
+                                            <tr id="filter_global">
                                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.cardUID') }}</strong></th>
@@ -306,7 +332,8 @@ tabbuttonactive
                                                                                                             <div class="form-group row" style="position:relative;">
                                                                                                                     <label for="status" class="control-label col-md-5" style="text-align:left;">STATUS:</label>
                                                                                                                     <div class="col-md-7">
-                                                                                                                            <input type="checkbox" data-toggle="toggle" id="modal_status" name="modal_status" class="form-control" data-on="<strong>ACTIVE</strong>" data-off="<strong>INACTIVE</strong>" data-onstyle="success" data-offstyle="danger" data-width="100">
+                                                                                                                            <input type="checkbox" data-toggle="toggle" value="ACTIVE" id="modal_status" name="modal_status" class="form-control" data-on="<strong>ACTIVE</strong>" data-off="<strong>INACTIVE</strong>" data-onstyle="success" data-offstyle="danger" data-width="100">
+                                                                                                                            <input type="hidden" id="statusHidden" value="enabled"/>
                                                                                                                     </div>
                                                                                                             </div>
                                                                                                     </div>
@@ -409,8 +436,14 @@ tabbuttonactive
                     
                                 {{-- DataTables Script--}}
                                 <script>
+                                    function filterColumn ( i ) {
+                                        $('#myTable').DataTable().column(i).search(
+                                            $('#col' + i + '_filter').val()
+                                        ).draw();
+                                    }
+
                                     $(document).ready(function(){
-                                        $('#myTable').dataTable({
+                                        $('#myTable').DataTable({
                                             language: {
                                                 paginate: {
                                                     previous: "{{trans('table.previous')}}",
@@ -428,6 +461,10 @@ tabbuttonactive
                                                 "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
                                                 "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
                                             },
+                                        });
+
+                                        $('input.column_filter').on( 'keyup click', function() {
+                                            filterColumn($(this).parents('tr').attr('data-column'));
                                         });
                                     });
                                 </script>
@@ -484,14 +521,24 @@ tabbuttonactive
                                             var facultyId = $('#' + memberId).children('td[data-target=facultyId]').text();
                                             var majorId = $('#' + memberId).children('td[data-target=majorId]').text();
                                             var statusName = $('#' + memberId).children('td[data-target=status]').text().trim();
+
                                             if(statusName == "BLACKLIST"){
-                                                statusName = true;
+                                                statusName = false;
+                                                document.getElementById("statusHidden").value = "disabled";
+                                                $('#modal_status').prop('checked', statusName).change();
+                                                $('#modal_status').bootstrapToggle('disable');
                                             }else if(statusName == "ACTIVE"){
                                                 statusName = true;
+                                                document.getElementById("statusHidden").value = "enabled";
+                                                $('#modal_status').bootstrapToggle('enable');
+                                                $('#modal_status').prop('checked', statusName).change();
                                             }else if(statusName == "INACTIVE"){
                                                 statusName = false;
+                                                document.getElementById("statusHidden").value = "enabled";
+                                                $('#modal_status').bootstrapToggle('enable');
+                                                $('#modal_status').prop('checked', statusName).change();
                                             }
-                                            //console.log(statusName);
+
                                             $('#modal_memberId').val(memberId);
                                             $('#modal_cardUID').val(cardUID);
                                             $('#modal_position').val(positionId);
@@ -501,15 +548,27 @@ tabbuttonactive
                                             $('#modal_degree').val(degreeId);
                                             $('#modal_faculty').val(facultyId);
                                             $('#modal_major').val(majorId);
-                                            $('#modal_status').prop('checked', statusName).change();
+                                            
                                             $('#myActionModal').modal('toggle');
                                         })
 
                                         $('#update').click(function(){
+                                            //GET statusId
+                                            var statusId = 0;
+                                            if($('#modal_status').prop('checked') == true){
+                                                statusId = 1; //ACTIVE
+                                            }else{
+                                                statusId = 0; //INACTIVE
+                                            }
+
+                                            if(document.getElementById("statusHidden").value == "disabled"){
+                                                statusId = 2; //BLACKLIST
+                                            }
+                                            console.log("Updated StatusId : " + statusId);
                                             $.ajax({
                                                 url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/memberUpdate',
                                                 type : 'put',
-                                                data : {memberId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val() },
+                                                data : {memberId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val(), 'statusId': statusId},
                                                 success : function(response){
                                                     $('#' + $('#modal_memberId').val()).children('td[data-target=cardUID]').text($('#modal_cardUID').val());
                                                     $('#' + $('#modal_memberId').val()).children('td[data-target=positionId]').text($('#modal_position').val());
@@ -638,7 +697,6 @@ tabbuttonactive
                                         document.body.style.backgroundColor = "#F5F5F5";
                                     }
                                 </script>
-
 
                                 <div class="col-md-1">
                                     &nbsp;

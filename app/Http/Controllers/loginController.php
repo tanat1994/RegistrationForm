@@ -18,7 +18,7 @@ class loginController extends Controller
     	$client = new Client();
     	$result = $client->request(
                 'POST',
-                config('pathConfig.pathREST').'checkLogin/check', 
+                config('pathConfig.pathAPI_Login').'checkLogin/check',
                 ['form_params' => [
                         'txtUsername' => $username,
                         'txtPassword' => $password
@@ -32,17 +32,22 @@ class loginController extends Controller
             Session::put('userId',$userID); //Session::get -> Session::put
             Session::put('userInfo',$userInfo); //Session::get -> Session::put
 
-            $resultControl = $client->request('GET',config('pathConfig.pathREST').'permControl/'.$userID)->getbody();
+            //Permission Control Session
+            $resultControl = $client->request('GET',config('pathConfig.pathAPI_Login').'permControl/'.$userID)->getbody();
             $permControl1 = json_decode($resultControl, true);
 
-            Session::put('permControl1', $permControl1); //Session::get -> Session::put
-
-            $resultReport = $client->request('GET',config('pathConfig.pathREST').'permReport/'.$userID)->getbody();
+            //Report Session
+            $resultReport = $client->request('GET',config('pathConfig.pathAPI_Login').'permReport/'.$userID)->getbody();
             $permReport1 = json_decode($resultReport, true);
 
-            Session::put('permReport1', $permReport1); //Session::get -> Session::put
-
-    		return redirect('/dashboard');
+            if($permControl1["data"]["rc"] == 1){
+                Session::put('permControl1', $permControl1); //Session::get -> Session::put
+                Session::put('permReport1', $permReport1); //Session::get -> Session::put
+                return redirect('/dashboard');
+            }else if($permControl1["data"]["rc"] == 0){
+                Session::flash('error_msg', 'Login Permission Failed! You have no permission to access to Register Center');
+                return redirect('/loginPage');
+            }
     	}
     }
 }
