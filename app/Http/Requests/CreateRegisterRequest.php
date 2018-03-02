@@ -25,10 +25,10 @@ class CreateRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'regis_cardUID' => 'required|max:10',
-            'regis_memberId' => 'required|max:10',
-            'regis_name' => 'required|max:50',
-            'regis_lastname' => 'required|max:50'
+            // 'regis_cardUID' => 'required|max:10',
+            // 'regis_memberId' => 'required|max:10',
+            // 'regis_name' => 'required|max:50',
+            // 'regis_lastname' => 'required|max:50'
         ];
     }
 

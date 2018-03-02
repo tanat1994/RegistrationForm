@@ -3,5 +3,7 @@ return [
     'dashboard' => 'DASHBOARD',
     'member' => 'MEMBER MANAGEMENT',
     'group' => 'GROUP MANAGEMENT',
-    'history' => 'HISTORY'
+    'history' => 'HISTORY',
+    'cardmanagement' => 'VISITOR CARD MANAGEMENT',
+    'blacklist' => 'BLACKLIST',
 ];

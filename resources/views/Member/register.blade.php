@@ -1,4 +1,7 @@
-<?php use \App\Http\Controllers\memberController; ?>
+<?php 
+use \App\Http\Controllers\memberController;
+use \App\Http\Controllers\visitorController;
+?>
 @extends('core')
 
 @section('more_script')
@@ -314,37 +317,36 @@ tabbuttonactive
                                                 @endforeach
                                             </ul>
                                         @endif
-                                        <form class="form-horizontal" method="GET"  name="visitor_regis_form">
+                                        <form class="form-horizontal" method="POST" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}">
                                             <div class="col-md-7">
                                                 {{-- Input form section--}}
                                                 {{-- cardUID --}}
                                                 <div class="form-group row" style="position:relative;">
-                                                        <label for="" class="control-label col-md-4" style="text-align:left;">NationalId or PassportId :</label>
+                                                        <label for="" class="control-label col-md-4" style="text-align:left;">NATIONAL ID OR PASSPORT ID :</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="vis_cardId" name="vis_cardId" placeholder="NationalID or PassportId">
-
-                                                            <div id="cardUID_error" class="val_error"></div>
+                                                            <input type="text" class="form-control" id="regis_visitor_cardId" name="regis_visitor_cardId" placeholder="NATIONAL ID OR PASSPORT ID"/>
+                                                            <input type="button" onclick="search_vis_data();" class="form-control" id="vis_cardId_search" name="vis_cardId_search" value="search"/>
                                                         </div>
                                                 </div>
 
                                                 {{-- position --}}
                                                 <div class="form-group row" style="position:relative;">
-                                                        <label for="position" class="control-label col-md-4" style="text-align:left;">User Type :</label>
+                                                        <label for="type" class="control-label col-md-4" style="text-align:left;">USER TYPE :</label>
                                                         <div class="col-md-8">
                                                         <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                            <select id="regis_position" class="form-control" name="regis_position">
-                                                                <option selected value="3">Visitor</option>
-                                                                {{--  <option value="2">{{ trans('register.position_staff') }}</option>  --}}
+                                                            <select id="regis_visitor_type" class="form-control" name="regis_visitor_type">
+                                                                <option selected value="Visitor">Visitor</option>
                                                             </select>
                                                         </div>
                                                 </div>
 
                                                 {{-- Card Type--}}
                                                 <div class="form-group row" style="position:relative;">
-                                                        <label for="cardtype" class="control-label col-md-4" style="text-align:left;">CARD TYPE: </label>
+                                                        <label for="regis_visitor_card" class="control-label col-md-4" style="text-align:left;">VISITOR CARD: </label>
                                                         <div class="col-md-8">
-                                                            <select id="regis_cardtype" class="form-control" name="regis_cardtype">
-                                                                {{-- Option tags was in JS --}}
+                                                            <select id="regis_visitor_card" class="form-control" name="regis_visitor_card">
+                                                                <option value="" disabled selected>Please Choose...</option>
+                                                                <?php visitorCardList(); ?>
                                                             </select>
                                                         </div>
                                                 </div>
@@ -354,30 +356,58 @@ tabbuttonactive
                                                         <label for="title" class="control-label col-md-4" style="text-align:left;">{{ trans('register.title')}} :</label>
                                                         <div class="col-md-8">
                                                         <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                            <select id="regis_titleId" class="form-control" name="regis_titleId">
+                                                            <select id="regis_visitor_titleId" class="form-control" name="regis_visitor_titleId">
                                                                 <option selected value="1">{{ trans('register.title_mr') }}</option>
                                                                 <option value="2">{{ trans('register.title_mrs') }}</option>
                                                                 <option value="3">{{ trans('register.title_ms') }}</option>
                                                             </select>
                                                         </div>
                                                 </div>
-                                                {{-- firstname --}}
+                                                {{-- EN-firstname --}}
                                                 <div class="form-group row" style="position:relative;">
-                                                        <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }} :</label>
+                                                        <label for="vis_name_en" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }}(EN):</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="regis_name" name="regis_name" placeholder="{{ trans('register.firstname') }}">
-                                                            <div id="name_error" class="val_error"></div>
+                                                            <input type="text" class="form-control" id="vis_name_en" name="vis_name_en" placeholder="{{ trans('register.firstname') }}">
+                                                            <div id="vis_name_en_error" class="val_error"></div>
                                                         </div>
                                                 </div>
-                                                {{-- lastname --}}
+                                                {{-- EN-lastname --}}
                                                 <div class="form-group row">
-                                                        <label for="lastname" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }} :</label>
+                                                        <label for="vis_lastname_en" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }}(EN):</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="{{ trans('register.lastname') }}">
-                                                            <div id="lastname_error" class="val_error"></div>
+                                                            <input type="text" class="form-control" id="vis_lastname_en" name="vis_lastname_en" placeholder="{{ trans('register.lastname') }}">
+                                                            <div id="vis_lastname_en_error" class="val_error"></div>
                                                         </div>
                                                 </div>
-            
+                                                {{-- TH-firstname --}}
+                                                <div class="form-group row" style="position:relative;">
+                                                        <label for="vis_name_th" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }}(TH):</label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control" id="vis_name_th" name="vis_name_th" placeholder="{{ trans('register.firstname') }}">
+                                                            <div id="vis_name_th_error" class="val_error"></div>
+                                                        </div>
+                                                </div>
+                                                {{-- TH-lastname --}}
+                                                <div class="form-group row">
+                                                        <label for="vis_lastname_th" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }}(TH):</label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control" id="vis_lastname_th" name="vis_lastname_th" placeholder="{{ trans('register.lastname') }}">
+                                                            <div id="vis_lastname_th_error" class="val_error"></div>
+                                                        </div>
+                                                </div>
+
+                                                {{-- Address --}}
+                                                <div class="form-group row" style="position:relative;">
+                                                    <label for="regis_visitor_address" class="control-label col-md-4" style="text-align:left;">ADDRESS :</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" id="regis_visitor_address" name="regis_visitor_address" placeholder="ADDRESS">
+                                                        <div id="vis_address_error" class="val_error"></div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- Flag Variable --}}
+                                                <input type="hidden" id="regis_visitor_total" name="regis_visitor_total" value="1"/>
+                                                <input type="hidden" id="regis_visitor_flag" name="regis_visitor_flag" value="0"/>
                                                 {{-- expire_date--}}
                                                 {{ csrf_field() }}
                                                 <div><button type="submit" onclick="successAlert();" class="btn btn-primary pull-right" id="submit" style="margin-bottom:4%;">Submit</button></div>  
@@ -397,6 +427,7 @@ tabbuttonactive
                                             <tr>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;">NO.</th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR CARD NAME</th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR ID</th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR NAME</th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;">ACTION</th>
                                             </tr>
@@ -405,18 +436,15 @@ tabbuttonactive
                                         <tbody>
                                                 <?php $null_status_record = 0; 
                                                       $iterator = 1; ?>
-                                                @foreach($cardRecord as $record)
-                                                    @if (empty($record['cardStatus']))
-                                                        <?php $null_status_record++; ?>
-                                                    @else
+                                                @foreach($borrowRecord as $record)
                                                         <tr>
                                                             <td><?php echo $iterator; ?></td>
                                                             <td>{{$record['cardName']}}</td>
-                                                            <td>{{$record['cardStatus']}}</td>
+                                                            <td>{{$record['visitorId']}}</td>
+                                                            <td>{{$record['regis_fname_en']}}</td>
                                                             <td><a data-role="card_return" data-id="{{$record['cardId']}}">Return the card</a></td>
                                                             <?php $iterator++; ?>
                                                         </tr>
-                                                    @endif
                                                 @endforeach
                                             
                                         </tbody>
@@ -427,31 +455,75 @@ tabbuttonactive
                                 </div>
                             </div>
 
-                            {{-- Card Type --}}
-                            <script>
-                                $(document).ready(function(){
-                                    var null_status_record = <?php echo $null_status_record; ?>;
-                                    var cardtype_select = document.getElementById("regis_cardtype");
-                                    var cardtype_list = ["Visitor Card", "BLAH", "BLUH"];
-                                    var iterator = 1;
-                                    for(var i=0; i<cardtype_list.length; i++){
-                                        var option = document.createElement("option");
-                                        option.value = iterator++;
-                                        if(cardtype_list[i] == "Visitor Card"){
-                                            option.innerHTML = cardtype_list[i] + " ( " + null_status_record + " lefts )";
+                            {{-- Disable --}}
+                                {{-- Card Type --}}
+                                <!-- <script>
+                                    $(document).ready(function(){
+                                        var null_status_record = <?php echo $null_status_record; ?>;
+                                        var cardtype_select = document.getElementById("regis_cardtype");
+                                        var cardtype_list = ["Visitor Card", "BLAH", "BLUH"];
+                                        var iterator = 1;
+                                        for(var i=0; i<cardtype_list.length; i++){
+                                            var option = document.createElement("option");
+                                            option.value = iterator++;
+                                            if(cardtype_list[i] == "Visitor Card"){
+                                                option.innerHTML = cardtype_list[i] + " ( " + null_status_record + " lefts )";
+                                            }
+                                            else{
+                                                option.innerHTML = cardtype_list[i];
+                                            } 
+                                            cardtype_select.appendChild(option);
                                         }
-                                        else{
-                                            option.innerHTML = cardtype_list[i];
-                                        } 
-                                        cardtype_select.appendChild(option);
-                                    }
-                                });
+                                    });
+                                </script> -->
+                                {{-- End Card Type --}}
+                            {{-- Disable --}}
+
+
+                            <script>
+                                function search_vis_data () {
+                                    var vis_national_card = document.getElementById("regis_visitor_cardId").value; 
+                                    $.ajax({
+                                        url : $('#api_url').val()+'visitorController/searchVisitorById',
+                                        //url:  config('pathConfig.pathREST') +'checkLogin/check'
+                                        type : 'post',
+                                        data : {visitor_card_id: vis_national_card},
+                                        success : function(response){
+                                            if(response.length > 0){
+                                                swal({
+                                                    title: "Founded!",
+                                                    text: "We've found the record",
+                                                    icon: "success"
+                                                });
+
+                                                document.getElementById("vis_name_en").value = response[0]["regis_fname_en"];
+                                                document.getElementById("vis_lastname_en").value = response[0]["regis_lname_en"];
+                                                document.getElementById("vis_name_th").value = response[0]["regis_fname_th"];
+                                                document.getElementById("vis_lastname_th").value = response[0]["regis_lname_th"];
+                                                document.getElementById("regis_visitor_address").value = response[0]["regis_address"];
+                                                $total_registration = parseInt(response[0]["regis_total"]) + 1;
+                                                document.getElementById("regis_visitor_total").value = $total_registration;
+                                                document.getElementById("regis_visitor_flag").value = 1;
+                                            }
+                                            else{
+                                                swal({
+                                                    title: "Not Found!",
+                                                    text: "NationnalId or PassportId does not exist in our table!",
+                                                    icon: "warning"
+                                                });
+                                                document.getElementById("regis_visitor_total").value = 1;
+                                                document.getElementById("regis_visitor_flag").value = 0;
+                                            }
+                                        }
+                                    });  
+                                }
                             </script>
-                            {{-- End Card Type --}}
 
                         </div>
                     </div>
                     {{-- End Visitor Section --}}
+
+
                 </div> {{-- End Tab Content --}}
             </div> {{-- End Tab Pills --}}
 
@@ -495,6 +567,13 @@ tabbuttonactive
                 }else{
                     echo "<option value=".$value["majorId"].">".$value["majorName"]."</option>";
                 }
+            }
+        }
+
+        function visitorCardList() {
+            $visitorCardLists = visitorController::listAllVisitorCard();
+            foreach($visitorCardLists as $record){
+                echo "<option value=".$record["cardId"].">".$record["cardName"]."</option>";
             }
         }
     ?>
@@ -571,7 +650,7 @@ tabbuttonactive
         $(document).on('click', 'a[data-role=card_return]', function(){
             var visitor_cardId = $(this).data('id');
             $.ajax({
-                url : $('#api_url').val() + '/cardController/returnCard',
+                url : $('#api_url').val() + 'cardController/returnCard',
                 type : 'put',
                 data : {cardId: visitor_cardId},
                 success : function(response){

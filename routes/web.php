@@ -45,10 +45,13 @@ Route::get('/loading', function(){return view('Member.loading');});
 //Route::get('/groupmanagement','groupController@groupRecord');
 Route::get('/membermanagement','memberController@memberRecord'); 
 Route::get('/memberregister', 'visitorController@visitorCardRecord');
+Route::get('/cardmanagement', function(){return view('CardManagement.index');});
 
 Route::post('/memberController/postMemberInsert', 'memberController@postMemberInsert');
 Route::post('/memberController/memberSingleInsert', 'memberController@memberSingleInsert');
 // Route::post('/memberregister', 'ValidateController@store')->name;
+
+Route::post('/visitorController/postVisitorInsert', 'visitorController@postVisitorInsert');
 
 Route::get('/hello', function () { return view('Member.hello'); });
 Route::get('/file', function() {return view('Member.file'); });

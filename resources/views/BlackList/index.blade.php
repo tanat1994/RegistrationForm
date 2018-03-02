@@ -55,7 +55,7 @@
 @endsection
 
 @section('htmlheader_title')
-{{ trans('menu.member') }}
+{{ trans('menu.blacklist') }}
 @endsection
 
 @section('activeblacklist')
@@ -66,7 +66,7 @@ tabbuttonactive
     <div class="row-fluid">
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:#2e7ed0;"><strong>BlackList</strong></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.blacklist') }}</strong></a> </h2>
             <hr class="hrbreakline">
         </div>
         

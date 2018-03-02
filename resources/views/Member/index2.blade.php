@@ -443,7 +443,7 @@ tabbuttonactive
                                     }
 
                                     $(document).ready(function(){
-                                        $('#myTable').DataTable({
+                                        var table = $('#myTable').DataTable({
                                             language: {
                                                 paginate: {
                                                     previous: "{{trans('table.previous')}}",
