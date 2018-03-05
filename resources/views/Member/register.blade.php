@@ -38,6 +38,10 @@ use \App\Http\Controllers\visitorController;
         }
 </style>
 
+{{-- PARSLEY.JS VALIDATOR --}}
+<link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>
+<script src="{{asset('js/parsley/parsley.min.js')}}"></script>
+
 {{--DATATABLES--}}
 <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
 <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
@@ -92,14 +96,14 @@ tabbuttonactive
                                                     @endforeach
                                                 </ul>
                                             @endif
-                                            <form class="form-horizontal" method="POST"  name="regis_form" action="{{url('memberController/postMemberInsert')}}"> {{--  action="{{ url('memberController/memberSingleInsert') }}"  --}}
+                                            <form class="form-horizontal" method="POST"  name="regis_form" action="{{url('memberController/postMemberInsert')}}" data-parsley-validate=""> {{--  action="{{ url('memberController/memberSingleInsert') }}"  --}}
                                                 <div class="col-md-5">
                                                     {{-- Input form section--}}
                                                     {{-- cardUID --}}
                                                     <div class="form-group row" style="position:relative;">
                                                             <label for="cardUID" class="control-label col-md-4" style="text-align:left;">{{ trans('register.cardUID') }} :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_cardUID" name="regis_cardUID" placeholder="{{ trans('register.cardUID') }}">
+                                                                <input type="text" class="form-control" id="regis_cardUID" name="regis_cardUID" placeholder="{{ trans('register.cardUID') }}" data-parsley-trigger="change" required="">
                                                                 <div id="cardUID_error" class="val_error"></div>
                                                             </div>
                                                     </div>
@@ -107,7 +111,7 @@ tabbuttonactive
                                                     <div class="form-group row" style="position:relative;">
                                                             <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.memberId') }} :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_memberId" name="regis_memberId" placeholder="{{ trans('register.memberId') }}">
+                                                                <input type="text" class="form-control" id="regis_memberId" name="regis_memberId" placeholder="{{ trans('register.memberId') }}" data-parsley-trigger="change" required="">
                                                                 <div id="memberId_error" class="val_error"></div>
                                                             </div>
                                                     </div>
@@ -138,7 +142,7 @@ tabbuttonactive
                                                     <div class="form-group row" style="position:relative;">
                                                             <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }} :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_name" name="regis_name" placeholder="{{ trans('register.firstname') }}">
+                                                                <input type="text" class="form-control" id="regis_name" name="regis_name" placeholder="{{ trans('register.firstname') }}" data-parsley-trigger="change" required="">
                                                                 <div id="name_error" class="val_error"></div>
                                                             </div>
                                                     </div>
@@ -146,7 +150,7 @@ tabbuttonactive
                                                     <div class="form-group row">
                                                             <label for="lastname" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }} :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="{{ trans('register.lastname') }}">
+                                                                <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="{{ trans('register.lastname') }}" data-parsley-trigger="change" required="">
                                                                 <div id="lastname_error" class="val_error"></div>
                                                             </div>
                                                     </div>
@@ -317,34 +321,34 @@ tabbuttonactive
                                                 @endforeach
                                             </ul>
                                         @endif
-                                        <form class="form-horizontal" method="POST" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}">
+                                        <form class="form-horizontal" method="POST" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}" data-parsley-validate="">
                                             <div class="col-md-7">
                                                 {{-- Input form section--}}
                                                 {{-- cardUID --}}
                                                 <div class="form-group row" style="position:relative;">
                                                         <label for="" class="control-label col-md-4" style="text-align:left;">NATIONAL ID OR PASSPORT ID :</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="regis_visitor_cardId" name="regis_visitor_cardId" placeholder="NATIONAL ID OR PASSPORT ID"/>
+                                                            <input type="text" class="form-control" id="regis_visitor_cardId" name="regis_visitor_cardId" placeholder="NATIONAL ID OR PASSPORT ID" data-parsley-trigger="change" required=""/>
                                                             <input type="button" onclick="search_vis_data();" class="form-control" id="vis_cardId_search" name="vis_cardId_search" value="search"/>
                                                         </div>
                                                 </div>
 
                                                 {{-- position --}}
                                                 <div class="form-group row" style="position:relative;">
-                                                        <label for="type" class="control-label col-md-4" style="text-align:left;">USER TYPE :</label>
-                                                        <div class="col-md-8">
-                                                        <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                            <select id="regis_visitor_type" class="form-control" name="regis_visitor_type">
-                                                                <option selected value="Visitor">Visitor</option>
-                                                            </select>
-                                                        </div>
+                                                    <label for="type" class="control-label col-md-4" style="text-align:left;">USER TYPE :</label>
+                                                    <div class="col-md-8">
+                                                    <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
+                                                        <select id="regis_visitor_type" class="form-control" name="regis_visitor_type">
+                                                            <option selected value="Visitor">Visitor</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
                                                 {{-- Card Type--}}
                                                 <div class="form-group row" style="position:relative;">
                                                         <label for="regis_visitor_card" class="control-label col-md-4" style="text-align:left;">VISITOR CARD: </label>
                                                         <div class="col-md-8">
-                                                            <select id="regis_visitor_card" class="form-control" name="regis_visitor_card">
+                                                            <select id="regis_visitor_card" class="form-control" name="regis_visitor_card" required="">
                                                                 <option value="" disabled selected>Please Choose...</option>
                                                                 <?php visitorCardList(); ?>
                                                             </select>
@@ -367,7 +371,7 @@ tabbuttonactive
                                                 <div class="form-group row" style="position:relative;">
                                                         <label for="vis_name_en" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }}(EN):</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="vis_name_en" name="vis_name_en" placeholder="{{ trans('register.firstname') }}">
+                                                            <input type="text" class="form-control" id="vis_name_en" name="vis_name_en" placeholder="{{ trans('register.firstname') }}" data-parsley-trigger="change" required="">
                                                             <div id="vis_name_en_error" class="val_error"></div>
                                                         </div>
                                                 </div>
@@ -375,7 +379,7 @@ tabbuttonactive
                                                 <div class="form-group row">
                                                         <label for="vis_lastname_en" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }}(EN):</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="vis_lastname_en" name="vis_lastname_en" placeholder="{{ trans('register.lastname') }}">
+                                                            <input type="text" class="form-control" id="vis_lastname_en" name="vis_lastname_en" placeholder="{{ trans('register.lastname') }}" data-parsley-trigger="change" required="">
                                                             <div id="vis_lastname_en_error" class="val_error"></div>
                                                         </div>
                                                 </div>
@@ -383,7 +387,7 @@ tabbuttonactive
                                                 <div class="form-group row" style="position:relative;">
                                                         <label for="vis_name_th" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }}(TH):</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="vis_name_th" name="vis_name_th" placeholder="{{ trans('register.firstname') }}">
+                                                            <input type="text" class="form-control" id="vis_name_th" name="vis_name_th" placeholder="{{ trans('register.firstname') }}" data-parsley-trigger="change" required="">
                                                             <div id="vis_name_th_error" class="val_error"></div>
                                                         </div>
                                                 </div>
@@ -391,7 +395,7 @@ tabbuttonactive
                                                 <div class="form-group row">
                                                         <label for="vis_lastname_th" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }}(TH):</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="vis_lastname_th" name="vis_lastname_th" placeholder="{{ trans('register.lastname') }}">
+                                                            <input type="text" class="form-control" id="vis_lastname_th" name="vis_lastname_th" placeholder="{{ trans('register.lastname') }}" data-parsley-trigger="change" required="">
                                                             <div id="vis_lastname_th_error" class="val_error"></div>
                                                         </div>
                                                 </div>
@@ -400,7 +404,7 @@ tabbuttonactive
                                                 <div class="form-group row" style="position:relative;">
                                                     <label for="regis_visitor_address" class="control-label col-md-4" style="text-align:left;">ADDRESS :</label>
                                                     <div class="col-md-8">
-                                                        <input type="text" class="form-control" id="regis_visitor_address" name="regis_visitor_address" placeholder="ADDRESS">
+                                                        <input type="text" class="form-control" id="regis_visitor_address" name="regis_visitor_address" placeholder="ADDRESS" data-parsley-trigger="change" required="">
                                                         <div id="vis_address_error" class="val_error"></div>
                                                     </div>
                                                 </div>
@@ -643,6 +647,23 @@ tabbuttonactive
         }
     }
 </script>
+
+{{-- Form Validator --}}
+<script type="text/javascript">
+    $(function () {
+        $('#regis_form').parsley().on('field:validated', function () {
+        })
+        .on('form:submit', function() {
+            return true;
+        });
+
+        $('#visitor_regis_form').parsley().on('field:validated', function () {})
+            .on('form:submit', function() {
+                return true;
+            });
+    });
+</script>
+{{-- End Form Validator --}}
 
 {{-- Return Card Section --}}
 <script>
