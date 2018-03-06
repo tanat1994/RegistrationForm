@@ -34,7 +34,6 @@
   {{-- Loading Screen --}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/loadingstyle.css')}}"/>
 
-
   <style>
             .container{
             margin-top:20px;
@@ -141,10 +140,52 @@ tabbuttonactive
                                 <div class="col-md-12">
                                     {{-- Filter Section --}}
                                     <table>
-                                        <tr id="filter_col4" data-column="3"><td>FILTER: <input type="text" class="column_filter" id="col3_filter" placeholder="Position"/></td></tr>
-                                        <tr id="filter_col6" data-column="10"><td>FILTER: <input type="text" class="column_filter" id="col10_filter" placeholder="Degree"/></td></tr>
-                                        <tr id="filter_col7" data-column="12"><td>FILTER: <input type="text" class="column_filter" id="col12_filter" placeholder="Faculty"/></td></tr>
-                                        <tr id="filter_col9" data-column="16"><td>FILTER: <input type="text" class="column_filter" id="col16_filter" placeholder="Status"/></td></tr>
+                                        <tr id="filter_col4" data-column="3"> {{-- Position Select --}}
+                                            <td style="width: 160px;">
+                                                <!-- FILTER: <input type="text" class="column_filter" id="col3_filter" placeholder="Position"/> -->
+                                                <label for="filter_position">POSITION FILTER: </label>
+                                                <select class="form-control column_filter" id="col3_filter" onchange="positionOnSelect();">
+                                                    <option value="" selected>Show all</option>
+                                                    <option value="staff">Staff</option>
+                                                    <option value="student">Student</option>
+                                                </select>
+                                            </td>
+                                        <!-- </tr> -->
+
+                                        <!-- <tr id="filter_col6" data-column="10"> -->
+                                            <td style="width: 160px;">
+                                                <label for="filter_degree">DEGREE FILTER: </label>
+                                                <select class="form-control column_filter" id="col10_filter" onchange="degreeOnSelect();">
+                                                    <option value="" selected>Show all</option>
+                                                    <?php DegreeList(); ?>
+                                                </select>
+                                            </td>
+                                        <!-- </tr> -->
+                                            <!-- FILTER: <input type="text" class="column_filter" id="col10_filter" placeholder="Degree"/></td></tr> -->
+                                        
+                                        <!-- <tr id="filter_col7" data-column="12"> -->
+                                            <td style="width: 160px;">
+                                                <label for="filter_faculty">FACULTY FILTER: </label>
+                                                <select class="form-control column_filter" id="col12_filter" onchange="facultyOnSelect();">
+                                                    <option value="" selected>Show all</option>
+                                                    <?php FacultyList(); ?>
+                                                </select>
+                                                <!-- <input type="text" class="column_filter" id="col12_filter" placeholder="Faculty"/></td></tr> -->
+                                            </td>
+                                        <!-- </tr> -->
+
+                                        <!-- <tr id="filter_col9" data-column="16"> -->
+                                            <td style="width: 160px;">
+                                                <label for="filter_status">STATUS FILTER: </label>
+                                                <select class="form-control column_filter" id="col16_filter" onchange="statusOnSelect();">
+                                                    <option value="" selected>Show all</option>
+                                                    <option value="active">ACTIVE</option>
+                                                    <option value="inactive">INACTIVE</option>
+                                                    <option value="blacklist">BLACKLIST</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                                <!-- <input type="text" class="column_filter" id="col16_filter" placeholder="Status"/></td></tr> -->
                                     </table>
                                     {{-- End Filter Section --}}
                                     <a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a>
@@ -433,6 +474,39 @@ tabbuttonactive
                     
                         {{-- END NAVTAB --}}
                         
+                        {{-- SELECT ONCHANGE SECTION --}}
+                        <script>
+                            function positionOnSelect () {
+                                console.log(document.getElementById('col3_filter').value);
+                                $('#myTable').DataTable().column(3).search(
+                                    document.getElementById('col3_filter').value
+                                ).draw();
+                            }
+
+                            function degreeOnSelect () {
+                                console.log($("#col10_filter :selected").text());
+                                $('#myTable').DataTable().column(10).search(
+                                    //$('#col10_filter :selected').text()
+                                    document.getElementById('col10_filter').value
+                                ).draw();
+                            }
+
+                            function facultyOnSelect () {
+                                console.log($('#col12_filter :selected').text());
+                                $('#myTable').DataTable().column(12).search(
+                                    //$('#col12_filter :selected').text()
+                                    document.getElementById('col12_filter').value
+                                ).draw();
+                            }
+
+                            function statusOnSelect () {
+                                console.log(document.getElementById('col16_filter').value);
+                                $('#myTable').DataTable().column(16).search(
+                                    document.getElementById('col16_filter').value
+                                ).draw();
+                            }
+                        </script>
+                        {{-- END SELECT SECTION --}}
                     
                                 {{-- DataTables Script--}}
                                 <script>
@@ -440,6 +514,7 @@ tabbuttonactive
                                         $('#myTable').DataTable().column(i).search(
                                             $('#col' + i + '_filter').val()
                                         ).draw();
+                                        console.log(document.getElementById('col3_filter').value);
                                     }
 
                                     $(document).ready(function(){
@@ -724,10 +799,13 @@ tabbuttonactive
         //echo($st["data"][0]["degreeId"]); //single print
         foreach ($degreeArry["data"] as $key => $value){
             if($init_check == true){
-                echo "<option selected value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+                //echo "<option selected value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+                //echo "<option value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+                echo "<option value=".$value["degreeName"].">".$value["degreeName"]."</option>";
                 $init_check = false;
             }else{
-                echo "<option value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+                //echo "<option value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+                echo "<option value=".$value["degreeName"].">".$value["degreeName"]."</option>";
             }
         }
     }
@@ -736,10 +814,14 @@ tabbuttonactive
         $facArry = memberController::facultyList();
         foreach ($facArry["data"] as $key => $value){
             if($init_check == true){
-                echo "<option selected value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+                // echo "<option selected value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+                //echo "<option value=".$value["facultyId"].">".$value["facultyName"]."</option>";
+                echo "<option value=".$value["facultyName"].">".$value["facultyName"]."</option>";
                 $init_check = false;
             }else{
-                echo "<option value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+                //echo "<option value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+                //echo "<option value=".$value["facultyId"].">".$value["facultyName"]."</option>";
+                echo "<option value=".$value["facultyName"].">".$value["facultyName"]."</option>";
             }
         }
     }

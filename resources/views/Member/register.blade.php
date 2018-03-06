@@ -326,11 +326,17 @@ tabbuttonactive
                                                 {{-- Input form section--}}
                                                 {{-- cardUID --}}
                                                 <div class="form-group row" style="position:relative;">
-                                                        <label for="" class="control-label col-md-4" style="text-align:left;">NATIONAL ID OR PASSPORT ID :</label>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="regis_visitor_cardId" name="regis_visitor_cardId" placeholder="NATIONAL ID OR PASSPORT ID" data-parsley-trigger="change" required=""/>
-                                                            <input type="button" onclick="search_vis_data();" class="form-control" id="vis_cardId_search" name="vis_cardId_search" value="search"/>
+                                                    <label for="" class="control-label col-md-4" style="text-align:left;">NATIONAL ID OR PASSPORT ID :</label>
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="regis_visitor_cardId" name="regis_visitor_cardId" placeholder="NATIONAL ID OR PASSPORT ID" data-parsley-trigger="change" required="" data-parsley-errors-container="#regis_visitor_cardId_error"/>
+                                                            <span class="input-group-btn">
+                                                                <input type="button" onclick="search_vis_data();" class="form-control" id="vis_cardId_search" name="vis_cardId_search" value="Search">
+                                                                <!-- <button class="form-control"><i class="fa fa-user"></i></button> -->
+                                                            </span>
                                                         </div>
+                                                        <div id="regis_visitor_cardId_error"></div>
+                                                    </div>
                                                 </div>
 
                                                 {{-- position --}}
@@ -349,7 +355,7 @@ tabbuttonactive
                                                         <label for="regis_visitor_card" class="control-label col-md-4" style="text-align:left;">VISITOR CARD: </label>
                                                         <div class="col-md-8">
                                                             <select id="regis_visitor_card" class="form-control" name="regis_visitor_card" required="">
-                                                                <option value="" disabled selected>Please Choose...</option>
+                                                                <option value="" disabled selected>Please select a Visitor Card...</option>
                                                                 <?php visitorCardList(); ?>
                                                             </select>
                                                         </div>
@@ -414,7 +420,7 @@ tabbuttonactive
                                                 <input type="hidden" id="regis_visitor_flag" name="regis_visitor_flag" value="0"/>
                                                 {{-- expire_date--}}
                                                 {{ csrf_field() }}
-                                                <div><button type="submit" onclick="successAlert();" class="btn btn-primary pull-right" id="submit" style="margin-bottom:4%;">Submit</button></div>  
+                                                <div><button type="submit" class="btn btn-primary pull-right" id="submit" style="margin-bottom:4%;">Submit</button></div>  
                                             </div>
                                             
                                             <div class="col-md-7">&nbsp;</div>
@@ -446,7 +452,8 @@ tabbuttonactive
                                                             <td>{{$record['cardName']}}</td>
                                                             <td>{{$record['visitorId']}}</td>
                                                             <td>{{$record['regis_fname_en']}}</td>
-                                                            <td><a data-role="card_return" data-id="{{$record['cardId']}}">Return the card</a></td>
+                                                            <!-- <td><a data-role="card_return" data-id="{{$record['cardId']}}">Return the card</a></td> -->
+                                                            <td style="text-align:center;"><a data-role="card_return" data-id="{{$record['cardId']}}"><input type="image" src="{{ asset('images/card_return.png') }}" style="width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="card_return"/></a></td>
                                                             <?php $iterator++; ?>
                                                         </tr>
                                                 @endforeach
@@ -657,11 +664,14 @@ tabbuttonactive
             return true;
         });
 
-        $('#visitor_regis_form').parsley().on('field:validated', function () {})
-            .on('form:submit', function() {
-                return true;
-            });
+        $('#visitor_regis_form').parsley()
+        .on('field:validated', function () {
+        })
+        .on('form:submit', function() {
+            return true;
+        })
     });
+
 </script>
 {{-- End Form Validator --}}
 
@@ -669,14 +679,31 @@ tabbuttonactive
 <script>
     $(document).ready(function(){
         $(document).on('click', 'a[data-role=card_return]', function(){
-            var visitor_cardId = $(this).data('id');
-            $.ajax({
-                url : $('#api_url').val() + 'cardController/returnCard',
-                type : 'put',
-                data : {cardId: visitor_cardId},
-                success : function(response){
-                    alert("Return Complete")
-                    location.reload();
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    var visitor_cardId = $(this).data('id');
+                    $.ajax({
+                        url : $('#api_url').val() + 'cardController/returnCard',
+                        type : 'put',
+                        data : {cardId: visitor_cardId},
+                        success : function(response){
+                            swal({
+                                title: "Thank You!",
+                                text: "VisitorCard has been returned!",
+                                icon: "success"
+                            })
+                            setTimeout( function () {location.reload();}, 1500);
+                        }
+                    });
+                } else {
+                    ;
                 }
             });
         });
