@@ -38,16 +38,17 @@ use \App\Http\Controllers\visitorController;
         }
 </style>
 
-{{-- PARSLEY.JS VALIDATOR --}}
-<link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>
-<script src="{{asset('js/parsley/parsley.min.js')}}"></script>
-
 {{--DATATABLES--}}
 <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
 <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
 <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
 <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
 <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+
+{{-- PARSLEY.JS VALIDATOR --}}
+<link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>
+<script src="{{asset('js/parsley/parsley.min.js')}}"></script>
 @endsection
 
 @section('htmlheader_title')
@@ -321,7 +322,7 @@ tabbuttonactive
                                                 @endforeach
                                             </ul>
                                         @endif
-                                        <form class="form-horizontal" method="POST" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}" data-parsley-validate="">
+                                        <form class="form-horizontal visitor_regis_form" method="POST" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}" data-parsley-validate="" onsubmit="return isRecorded();">
                                             <div class="col-md-7">
                                                 {{-- Input form section--}}
                                                 {{-- cardUID --}}
@@ -656,22 +657,37 @@ tabbuttonactive
 </script>
 
 {{-- Form Validator --}}
-<script type="text/javascript">
-    $(function () {
-        $('#regis_form').parsley().on('field:validated', function () {
-        })
-        .on('form:submit', function() {
-            return true;
+<script>
+        // $('#regis_form').parsley().on('field:validated', function () {
+        // })
+        // .on('form:submit', function() {
+        //     return true;
+        // });
+
+    function isRecorded () {
+        var visitor_cardId = document.getElementById('regis_visitor_cardId').value;
+        var hasVisited = false;
+        $.ajax({
+            url : $('#api_url').val() + 'cardController/hasVisited',
+            type : 'post',
+            async: false,
+            data : {cardId: visitor_cardId},
+            success : function(response){
+                hasVisited = response;
+            }
         });
-
-        $('#visitor_regis_form').parsley()
-        .on('field:validated', function () {
-        })
-        .on('form:submit', function() {
+        if(hasVisited == false){
+            alert("no record get false" + hasVisited);
             return true;
-        })
-    });
-
+        }else{
+            swal({
+                title: "Warning!",
+                text: "VisitorId: " + visitor_cardId + " had taken the VisitorCard",
+                icon: "error"
+            });
+            return false;
+        }
+    }
 </script>
 {{-- End Form Validator --}}
 
@@ -699,7 +715,7 @@ tabbuttonactive
                                 text: "VisitorCard has been returned!",
                                 icon: "success"
                             })
-                            setTimeout( function () {location.reload();}, 1500);
+                            setTimeout( function () {location.reload();}, 1000);
                         }
                     });
                 } else {

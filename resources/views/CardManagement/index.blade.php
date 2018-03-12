@@ -20,21 +20,50 @@ tabbuttonactive
         </div>
 
         <div class="col-md-12">
-            <form action="{{ URL::to('/memberregister') }}" method="get" class="demo-form" id="main" name="main" data-parsley-validate="">
-                NAME: <input type="text" id="fname" name="lname" data-parsley-trigger="change" required="" data-parsley-minlength="2" data-parsley-maxlength="20" data-parsley-minlength-message="At least 2 char" data-parsley-maxlength-message="Maximum 20 chars"/>
-                EMAIL: <input type="email" id="email" name="email" data-parsley-trigger="change" required=""/>
-                <input type="submit" class="btn btn-success" value="validate"/>
-            </form>
 
-            <script type="text/javascript">
-            $(function () {
-                $('#main').parsley().on('field:validated', function () {
-                })
-                .on('form:submit', function() {
-                    return true;
-                });
-            });
-            </script>
+            {{-- Register New Visitor Card--}}
+            <div class="col-md-4">
+                <div class="col-md-12" style="background-color:white;">
+                    <h3><strong>VISITOR CARD REGISTRATION</strong></h3>
+                    <hr class="hrbreakline">
+
+                    <form class="form-horizontal" method="POST">
+
+                        {{-- CardName --}}
+                        <div class="form-group row" style="position:relative;">
+                            <div class="col-md-3">
+                                <label for="cardName" class="control-label">CARD NAME : </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="CARD NAME" name="vis_cardName" id="vis_cardName"/>
+                            </div>
+                        </div>
+
+                        {{-- CardUID --}}
+                        <div class="form-group row" style="position:relative;">
+                            <div class="col-md-3">
+                                <label for="cardUID" class="control-label">CARD UID : </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="CARD UID" name="vis_cardUID" id="vis_cardUID"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="position:relative;">
+                            <div class="col-md-9">
+                                <input type="submit" class="btn btn-primary pull-right" value="SUBMIT"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            {{-- List of visitor card--}}
+            <div class="col-md-8" style="background-color:green;">
+                <div class="col-md-12" style="background-color:white;">
+                    TABLE
+                </div>
+            </div>
         </div>
     </div>
 @endsection

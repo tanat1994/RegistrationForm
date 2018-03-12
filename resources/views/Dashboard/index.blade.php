@@ -59,12 +59,11 @@ tabbuttonactive
                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                     <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.memberId') }}</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.cardUID') }}</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.name') }}</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.degree') }}</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.faculty') }}</strong></th>
+                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
+                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>PATRON ID</strong></th>
+                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>UNIVERSITY ID</strong></th>
+                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME</strong></th>
+                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME</strong></th>
                                 </tr>
                             </thead>
                                 <tbody>
@@ -72,11 +71,10 @@ tabbuttonactive
                                     @foreach($memberRecord as $record)
                                         <tr>
                                             <td><?php echo $iterator;?></td>
-                                                <td><div contenteditable data-column="memberId">{{ $record['memberId'] }}</div></td>
-                                                <td>{{ $record['cardUID'] }}</td>
-                                                <td>{{ $record['positionName'] }}</td>
-                                                <td>{{ $record['firstname'] }}   {{ $record['lastname'] }}</td>
-                                                <td>{{ $record['facultyName'] }}</td>
+                                                <td><div contrntedieable data-column="{{$record['PtnId']}}}">{{ $record['PtnId'] }}</div></td>
+                                                <td>{{ $record['UnivId'] }}</td>
+                                                <td>{{ $record['FName'] }}</td>
+                                                <td>{{ $record['LName'] }}</td>
                                             <?php $iterator++; ?>
                                         </tr>
                                     @endforeach

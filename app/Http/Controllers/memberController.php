@@ -50,11 +50,11 @@ class memberController extends Controller
         return $memberNumber;
     }
 
-    public static function degreeList(){
+    public static function deptList(){
         $client = new Client();
         $result = $client->request(
             'GET',
-            config('pathConfig.pathAPI').'educationController/degreeList'
+            config('pathConfig.pathAPI').'educationController/deptList'
         )->getbody();
         $degreeList = json_decode($result, true);
         return $degreeList;
@@ -70,11 +70,21 @@ class memberController extends Controller
         return $facultyList;
     }
 
-    public static function majorList(){
+    public static function groupList(){
         $client = new Client();
         $result = $client->request(
             'GET',
-            config('pathConfig.pathAPI').'educationController/majorList'
+            config('pathConfig.pathAPI').'educationController/groupList'
+        )->getbody();
+        $majorList = json_decode($result, true);
+        return $majorList;
+    }
+
+    public static function classList(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'educationController/classList'
         )->getbody();
         $majorList = json_decode($result, true);
         return $majorList;
