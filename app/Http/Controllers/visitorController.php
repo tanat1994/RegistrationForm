@@ -55,9 +55,19 @@ class visitorController extends Controller
                     'regis_visitor_flag' => (int)$request->input('regis_visitor_flag')
                 ]
             ])->getBody();
-            $inputResult = json_decode($result, true);
-            $arryResult = $inputResult;
-            return redirect('memberregister');
+        $inputResult = json_decode($result, true);
+        $arryResult = $inputResult;
+        return redirect('memberregister');
+    }
+
+    public static function getAllVisitorLists(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'visitorController/getAllVisitorLists'
+        )->getbody();
+        $visitorLists = json_decode($result, true);
+        return $visitorLists;
     }
 
 }

@@ -49,6 +49,15 @@
             top: 0;
             left: 0; }
 
+            {{-- Button Animated --}}
+            .animateButton {
+                box-shadow: 0 1.5px #999;
+            }
+            .animateButton:active {
+                box-shadow: 0 1px #666;
+                transform: translateY(3px);
+            }
+
     </style>
 
 
@@ -81,14 +90,15 @@ tabbuttonactive
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>No.</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>BlacklistID</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>NO</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>BLACKLIST ID</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%;"><strong>{{ trans('table.name') }}</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>firstname</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>lastName</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:10%;"><strong>{{ trans('table.position') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>Listed Date</strong></th>
+                        <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>LISTED DATE</strong></th>
+                        <!-- <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>UNLISTED DATE</strong></th> -->
                         <th nowrap style="background-color:#2e7ed0;color:white; width:20%;"><strong>BLACKLIST TITLE</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white; width:20%; display:none;"><strong>BLACKLIST DESCRIPTION</strong></th>
                         <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
@@ -102,17 +112,24 @@ tabbuttonactive
                                     <td data-target="no"><?php echo $iterator;?></td>
                                     <td data-target="blacklistId" style="width:2%;">{{ $record['blacklistId'] }}</td>
                                     <td data-target="memberId">{{ $record['memberId'] }}</td>
-                                    <td data-target="fullname">{{ $record['firstname'] }}  {{ $record['lastname'] }}</td>
-                                    <td data-target="firstname" style="display:none">{{ $record['firstname'] }}</td>
-                                    <td data-target="lastname" style="display:none">{{ $record['lastname'] }}</td>
-                                    <td data-target="">{{ $record['positionName'] }}</td>
+                                    <td data-target="fullname">{{ $record['FName'] }}  {{ $record['LName'] }}</td>
+                                    <td data-target="FName" style="display:none">{{ $record['FName'] }}</td>
+                                    <td data-target="LName" style="display:none">{{ $record['LName'] }}</td>
+                                    @if(App::getLocale() == 'en')
+                                    <td data-target="">{{ $record['PatronclassEn'] }}</td>
+                                    @else
+                                    <td data-target="">{{ $record['PatronclassTh'] }}</td>
+                                    @endif
                                     <td data-target="">{{ $record['date_time'] }}</td>
                                     <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
                                     <td data-target="blacklist_title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 30%;">{{ $record['title'] }}</td>
-                                    <td style="text-align:center; width: 90px;">
-                                            <span class="outer-line"><a href="#" data-role="information" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-info-circle"></i></a></span>
-                                            <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span>
-                                            <span class="outer-line"><a href="#" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><img src="{{ asset('images/verified-user.png') }}" style="margin-bottom:4px;"/>
+                                    <td style="text-align:center; width: 240px;">
+                                            <!-- <span class="outer-line"><a href="#" data-role="information" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-info-circle"></i></a></span> -->
+                                            <button class="btn btn-info animateButton" data-role="information" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" ><i class="fa fa-info-circle"></i></button>
+                                            <!-- <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span> -->
+                                            <button class="btn btn-primary animateButton" data-role="update" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" ><i class="fa fa-pencil"></i></button>
+                                            <!-- <span class="outer-line"><a href="#" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><img src="{{ asset('images/verified-user.png') }}" style="margin-bottom:4px;"/> -->
+                                            <button class="btn btn-success animateButton" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" ><i class="fa fa-check"></i></button>
                                     </td>
                         </tr>
                         <?php $iterator++; ?>
@@ -300,10 +317,10 @@ tabbuttonactive
         {{-- BLACKLIST INFORMATION --}}
         <script>
                 $(document).ready(function(){
-                    $(document).on('click', 'a[data-role=information]', function(){
+                    $(document).on('click', 'button[data-role=information]', function(){
                         var memberId = $(this).data('id');
-                        var firstName = $('#' + memberId).children('td[data-target=firstname]').text();
-                        var lastName = $('#' + memberId).children('td[data-target=lastname]').text();
+                        var firstName = $('#' + memberId).children('td[data-target=FName]').text();
+                        var lastName = $('#' + memberId).children('td[data-target=LName]').text();
                         var blacklist_title = $('#' + memberId).children('td[data-target=blacklist_title]').text();
                         var blacklist_description = $('#' + memberId).children('td[data-target=blacklist_description]').text();
                         $('#info_blacklist_memberId').val(memberId);
@@ -320,10 +337,10 @@ tabbuttonactive
         {{-- BLACKLIST EDITOR --}}
         <script>
                 $(document).ready(function(){
-                    $(document).on('click', 'a[data-role=update]', function(){
+                    $(document).on('click', 'button[data-role=update]', function(){
                         var memberId = $(this).data('id');
-                        var firstName = $('#' + memberId).children('td[data-target=firstname]').text();
-                        var lastName = $('#' + memberId).children('td[data-target=lastname]').text();
+                        var firstName = $('#' + memberId).children('td[data-target=FName]').text();
+                        var lastName = $('#' + memberId).children('td[data-target=LName]').text();
                         var blacklist_title = $('#' + memberId).children('td[data-target=blacklist_title]').text();
                         var blacklist_description = $('#' + memberId).children('td[data-target=blacklist_description]').text();
                         $('#blacklist_memberId').val(memberId);
@@ -352,11 +369,10 @@ tabbuttonactive
         {{-- Unlisted Script --}}
         <script>
             $(document).ready(function(){
-                $(document).on('click', 'a[data-role=unlisted]', function(){
+                $(document).on('click', 'button[data-role=unlisted]', function(){
                     var memberId = $(this).data('id');
-
                     swal({
-                        title: "{{trans('table.banned_confirmation')}}",
+                        title: "Unlisted Confirmation!",
                         text: "Do you sure you want to unlisted this memberId: " + memberId,
                         icon: "warning",
                         buttons: true,
@@ -368,7 +384,6 @@ tabbuttonactive
                                 type : 'put',
                                 data : {memberId: memberId},
                                 success : function(response){
-                                    //alert("UNLISTED COMPLETE");
                                     location.reload();
                                 }
                             });  

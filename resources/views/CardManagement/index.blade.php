@@ -2,6 +2,13 @@
 @section('more_script')
 <link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>
 <script src="{{asset('js/parsley/parsley.min.js')}}"></script>
+
+{{--DATATABLES--}}
+<link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
+<script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
 @endsection
 
 @section('htmlheader_title')
@@ -59,11 +66,60 @@ tabbuttonactive
             </div>
             
             {{-- List of visitor card--}}
-            <div class="col-md-8" style="background-color:green;">
+            <div class="col-md-8">
                 <div class="col-md-12" style="background-color:white;">
-                    TABLE
+                    <div class="col-md-12">
+                        <?php $null_status_record = 0; ?>
+                        <div class="col-md-12" style="background-color:white;">
+                            <div class="col-md-12">&nbsp;</div>
+                            <div class="col-md-12">&nbsp;</div>
+                            <table class="table table-striped table-bordered table-hover display" id="visitorCard_table" cellspacing="0">
+                                <thead id="table_header">
+                                    <tr>
+                                        <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR CARD NO.</th>
+                                        <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR CARD NAME</th>
+                                        <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR NAME</th>
+                                        <th nowrap style="background-color:#2e7ed0;color:white;">ACTION</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#visitorCard_table').DataTable({
+            language: {
+                paginate: {
+                    previous: "{{trans('table.previous')}}",
+                    next: "{{trans('table.next')}}"
+                },
+                aria: {
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next"
+                    }
+                },
+                "search" : "{{trans('table.search')}}:",
+                "searchPlaceholder" : "{{trans('table.search')}}",
+                "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
+                "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
+                "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
+            }
+        });
+    });
+</script>
 @endsection
+

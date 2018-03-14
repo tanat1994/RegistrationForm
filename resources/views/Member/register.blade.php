@@ -100,30 +100,29 @@ tabbuttonactive
                                             <form class="form-horizontal" method="POST"  name="regis_form" action="{{url('memberController/postMemberInsert')}}" data-parsley-validate=""> {{--  action="{{ url('memberController/memberSingleInsert') }}"  --}}
                                                 <div class="col-md-5">
                                                     {{-- Input form section--}}
-                                                    {{-- cardUID --}}
+                                                    {{-- PATRON ID --}}
                                                     <div class="form-group row" style="position:relative;">
-                                                            <label for="cardUID" class="control-label col-md-4" style="text-align:left;">{{ trans('register.cardUID') }} :</label>
+                                                            <label for="PtnId" class="control-label col-md-4" style="text-align:left;">PATRON ID :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_cardUID" name="regis_cardUID" placeholder="{{ trans('register.cardUID') }}" data-parsley-trigger="change" required="">
+                                                                <input type="text" class="form-control" id="regis_PtnId" name="regis_PtnId" placeholder="PtnId" data-parsley-trigger="change" required="">
                                                                 <div id="cardUID_error" class="val_error"></div>
                                                             </div>
                                                     </div>
-                                                    {{-- memberId--}}
+                                                    {{-- UNIV ID--}}
                                                     <div class="form-group row" style="position:relative;">
-                                                            <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.memberId') }} :</label>
+                                                            <label for="UnivId" class="control-label col-md-4" style="text-align:left;">UNIV ID :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_memberId" name="regis_memberId" placeholder="{{ trans('register.memberId') }}" data-parsley-trigger="change" required="">
+                                                                <input type="text" class="form-control" id="regis_UnivId" name="regis_UnivId" placeholder="UnivId" data-parsley-trigger="change" required="">
                                                                 <div id="memberId_error" class="val_error"></div>
                                                             </div>
                                                     </div>
-                                                    {{-- position --}}
+                                                    {{-- PtnClassId --}}
                                                     <div class="form-group row" style="position:relative;">
-                                                            <label for="position" class="control-label col-md-4" style="text-align:left;">{{ trans('register.position')}} :</label>
+                                                            <label for="PtnClassId" class="control-label col-md-4" style="text-align:left;">PATRON CLASS :</label>
                                                             <div class="col-md-8">
                                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                                <select id="regis_position" class="form-control" name="regis_position">
-                                                                    <option selected value="1">{{ trans('register.position_student') }}</option>
-                                                                    <option value="2">{{ trans('register.position_staff') }}</option>
+                                                                <select id="regis_PtnClassId" class="form-control" name="regis_PtnClassId">
+                                                                    <?php PatronClassList(); ?>
                                                                 </select>
                                                             </div>
                                                     </div>
@@ -139,9 +138,9 @@ tabbuttonactive
                                                                 </select>
                                                             </div>
                                                     </div>
-                                                    {{-- firstname --}}
+                                                    {{-- FName --}}
                                                     <div class="form-group row" style="position:relative;">
-                                                            <label for="name" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }} :</label>
+                                                            <label for="FName" class="control-label col-md-4" style="text-align:left;">{{ trans('register.firstname') }} :</label>
                                                             <div class="col-md-8">
                                                                 <input type="text" class="form-control" id="regis_name" name="regis_name" placeholder="{{ trans('register.firstname') }}" data-parsley-trigger="change" required="">
                                                                 <div id="name_error" class="val_error"></div>
@@ -149,21 +148,10 @@ tabbuttonactive
                                                     </div>
                                                     {{-- lastname --}}
                                                     <div class="form-group row">
-                                                            <label for="lastname" class="control-label col-md-4" style="text-align:left;">{{ trans('register.lastname') }} :</label>
+                                                            <label for="LName" class="control-label col-md-4" style="text-align:left;">LAST NAME :</label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="{{ trans('register.lastname') }}" data-parsley-trigger="change" required="">
+                                                                <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="LAST NAME" data-parsley-trigger="change" required="">
                                                                 <div id="lastname_error" class="val_error"></div>
-                                                            </div>
-                                                    </div>
-                
-                                                    {{-- degree --}}
-                                                    <div class="form-group row" style="position:relative;">
-                                                            <label for="degree" class="control-label col-md-4" style="text-align:left;">{{ trans('register.degree')}} :</label>
-                                                            <div class="col-md-8">
-                                                            <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
-                                                                <select id="regis_degree" class="form-control" name="regis_degree">
-                                                                        <?php degreeList(); ?>
-                                                                </select>
                                                             </div>
                                                     </div>
                 
@@ -174,7 +162,7 @@ tabbuttonactive
                                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
                                                                 <select id="regis_faculty" class="form-control" name="regis_faculty">
                                                                     {{--  <option value="" selected="selected">Faculty</option>  --}}
-                                                                    <?php facultyList(); ?>
+                                                                    <?php FacultyList(); ?>
                                                                 </select>
                                                             </div>
                                                     </div>
@@ -184,7 +172,7 @@ tabbuttonactive
                                                             <div class="col-md-8">
                                                             <!-- <input type="text" class="form-control" id="regis_title" name="regis_title" placeholder="{{ trans('register.title') }}"> -->
                                                                 <select id="regis_major" class="form-control" name="regis_major">
-                                                                    <?php majorList(); ?>
+                                                                    <?php DeptList(); ?>
                                                                 </select>
                                                             </div>
                                                     </div>
@@ -544,43 +532,43 @@ tabbuttonactive
     
     
     <?php
-        function DegreeList(){
-            $init_check = true;
-            $degreeArry = memberController::degreeList();
-            //echo($st["data"][0]["degreeId"]); //single print
-            foreach ($degreeArry["data"] as $key => $value){
-                if($init_check == true){
-                    echo "<option selected value=".$value["degreeId"].">".$value["degreeName"]."</option>";
-                    $init_check = false;
-                }else{
-                    echo "<option value=".$value["degreeId"].">".$value["degreeName"]."</option>";
-                }
-            }
-        }
-        function FacultyList(){
-            $init_check = true;
-            $facArry = memberController::facultyList();
-            foreach ($facArry["data"] as $key => $value){
-                if($init_check == true){
-                    echo "<option selected value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
-                    $init_check = false;
-                }else{
-                    echo "<option value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
-                }
-            }
-        }
-        function MajorList(){
-            $init_check = true;
-            $majorArray = memberController::majorList();
-            foreach ($majorArray["data"] as $key => $value){
-                if($init_check == true){
-                    echo "<option selected value=".$value["majorId"].">".$value["majorName"]."</option>";
-                    $init_check = false;
-                }else{
-                    echo "<option value=".$value["majorId"].">".$value["majorName"]."</option>";
-                }
-            }
-        }
+        // function DegreeList(){
+        //     $init_check = true;
+        //     $degreeArry = memberController::degreeList();
+        //     //echo($st["data"][0]["degreeId"]); //single print
+        //     foreach ($degreeArry["data"] as $key => $value){
+        //         if($init_check == true){
+        //             echo "<option selected value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+        //             $init_check = false;
+        //         }else{
+        //             echo "<option value=".$value["degreeId"].">".$value["degreeName"]."</option>";
+        //         }
+        //     }
+        // }
+        // function FacultyList(){
+        //     $init_check = true;
+        //     $facArry = memberController::facultyList();
+        //     foreach ($facArry["data"] as $key => $value){
+        //         if($init_check == true){
+        //             echo "<option selected value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+        //             $init_check = false;
+        //         }else{
+        //             echo "<option value=".$value["facultyId"].">".$value["facultyId"]."-".$value["facultyName"]."</option>";
+        //         }
+        //     }
+        // }
+        // function MajorList(){
+        //     $init_check = true;
+        //     $majorArray = memberController::majorList();
+        //     foreach ($majorArray["data"] as $key => $value){
+        //         if($init_check == true){
+        //             echo "<option selected value=".$value["majorId"].">".$value["majorName"]."</option>";
+        //             $init_check = false;
+        //         }else{
+        //             echo "<option value=".$value["majorId"].">".$value["majorName"]."</option>";
+        //         }
+        //     }
+        // }
 
         function visitorCardList() {
             $visitorCardLists = visitorController::listAllVisitorCard();
@@ -758,3 +746,67 @@ tabbuttonactive
     <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
 @endsection
+
+<?php
+    function DeptList(){
+        $init_check = true;
+        $facArry = memberController::deptList();
+        $language = checkLocale();
+        foreach ($facArry["data"] as $key => $value){
+            if($init_check == true){
+                echo "<option value=".$value["DeptCode"].">".$value[$language]."</option>";
+                $init_check = false;
+            }else{
+                echo "<option value=".$value["DeptCode"].">".$value[$language]."</option>";
+            }
+        }
+    }
+    function FacultyList(){
+        $init_check = true;
+        $facArry = memberController::facultyList();
+        $language = checkLocale();
+        foreach ($facArry["data"] as $key => $value){
+            if($init_check == true){
+                echo "<option value=".$value["FacCode"].">".$value[$language]."</option>";
+                $init_check = false;
+            }else{
+                echo "<option value=".$value["FacCode"].">".$value[$language]."</option>";
+            }
+        }
+    }
+    function GroupList(){
+        $init_check = true;
+        $facArry = memberController::groupList();
+        $language = checkLocale();
+        foreach ($facArry["data"] as $key => $value){
+            if($init_check == true){
+                echo "<option value=".$value["PtnGroupId"].">".$value[$language]."</option>";
+                $init_check = false;
+            }else{
+                echo "<option value=".$value["PtnGroupId"].">".$value[$language]."</option>";
+            }
+        }
+    }
+
+    function PatronClassList(){
+        $init_check = true;
+        $classArry = memberController::classList();
+        $language = checkLocale();
+        foreach ($classArry["data"] as $key => $value){
+            if($init_check == true){
+                echo "<option value=".$value["PtnClassId"].">".$value[$language]."</option>";
+                $init_check = false;
+            }else{
+                echo "<option value=".$value["PtnClassId"].">".$value[$language]."</option>";
+            }
+        }
+    }
+    
+    function checkLocale() {
+        if(App::getLocale() == 'en'){ 
+            return "En_Name";
+        }else{
+            return "Th_Name";
+        }
+    }
+?>

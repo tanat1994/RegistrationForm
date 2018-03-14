@@ -1,4 +1,5 @@
 <?php use \App\Http\Controllers\memberController; ?>
+<?php use \App\Http\Controllers\visitorController; ?>
 @extends('core')
 
 @section('more_script')
@@ -605,7 +606,7 @@ tabbuttonactive
                                 <script>
                                         function modalAlert(command, PtnId){
                                             if(command == "update"){
-                                                swal("{{trans('table.memberId')}}: " + PtnId, "{{trans('table.update')}}  {{trans('table.complete')}}", "success");
+                                                swal("{{trans('table.memberId')}}: " + PtnId, "{{trans('table.update')}}  {{trans('table.complete')}}d", "success");
                                                 //alert(memberId);
                                             }
 
@@ -680,30 +681,24 @@ tabbuttonactive
 
                                         $('#update').click(function(){
                                             //GET statusId
-                                            var statusId = 0;
+                                            var statusId = 2;
                                             if($('#modal_status').prop('checked') == true){
-                                                statusId = 1; //ACTIVE
+                                                statusId = 2; //ACTIVE
                                             }else{
-                                                statusId = 0; //INACTIVE
+                                                statusId = 1; //INACTIVE
                                             }
 
                                             if(document.getElementById("statusHidden").value == "disabled"){
-                                                statusId = 2; //BLACKLIST
+                                                statusId = 3; //BLACKLIST
                                             }
                                             console.log("Updated StatusId : " + statusId);
                                             $.ajax({
                                                 url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/memberUpdate',
                                                 type : 'put',
-                                                data : {memberId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val(), 'statusId': statusId},
+                                                //data : {PtnId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val(), 'Status': "INACTIVE"},
+                                                data : {PtnId: $('#modal_memberId').val(), Status: statusId},
                                                 success : function(response){
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=cardUID]').text($('#modal_cardUID').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=positionId]').text($('#modal_position').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=titleId]').text($('#modal_title').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=firstname]').text($('#modal_firstName').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=lastname]').text($('#modal_lastName').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=degreeId]').text($('#modal_degree').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=facultyId]').text($('#modal_faculty').val());
-                                                    $('#' + $('#modal_memberId').val()).children('td[data-target=majorId]').text($('#modal_major').val());
+                                                    // $('#' + $('#modal_memberId').val()).children('td[data-target=cardUID]').text($('#modal_cardUID').val());
                                                     modalAlert("update",$('#modal_memberId').val());
                                                     $('#myActionModal').modal('toggle');
                                                     location.reload();
@@ -833,8 +828,153 @@ tabbuttonactive
 
                     {{-- Visitor Management Tabpills --}}
                         <div class="tab-pane" id="visitorManagement_tab">
+                            <div class="col-md-12" style="background-color:white; padding-top:1%;">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-hover display" id="visitorTable" cellspacing="0" width="100%">
+                                        <thead id="table_header">
+                                            <tr id="filter_global">
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>VISITOR UID</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>NATIONAL CARD ID</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME(EN)</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME(EN)</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME(TH)</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME(TH)</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>REGISTRATION COUNTER</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LATEST REGISTER</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <?php getAllVisitorLists(); ?>
+                                        </tbody>
 
+                                        <tfoot></tfoot>
+                                    </table>   
+                                </div>
+                            </div>
+                            {{-- Visitor Edit Modal--}}
+                                <div class="modal fade" id="visitor_edit_modal" role="dialog">
+                                    <div class="modal-dialog modal-md"> 
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+            
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h2 class="modal-title" style="color:#2e7ed0;"><strong>VISITOR INFORMATION</strong></h2>
+                                            </div>
+            
+                                                <div class="modal-body">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group" style="margin-left: 1%;">
+                                                            <div class="input-group">
+                                                                <div class="container">
+                                                                    <div class="row-fluid">
+                                                                        <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_card_id" class="control-label col-md-5" style="text-align:left;">NATIONAL/PASSPORT ID:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_card_id" name="modal_regis_card_id">
+                                                                                </div>
+                                                                            </div>
+                                                                    
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_uid" class="control-label col-md-5" style="text-align:left;">VISITOR ID:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_uid" name="modal_regis_uid">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_fname_en" class="control-label col-md-5" style="text-align:left;">VISITOR NAME(EN):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_fname_en" name="modal_regis_fname_en">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_lname_en" class="control-label col-md-5" style="text-align:left;">VISITOR LAST NAME(EN):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_lname_en" name="modal_regis_lname_en">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_fname_th" class="control-label col-md-5" style="text-align:left;">VISITOR NAME(TH):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_fname_th" name="modal_regis_fname_th">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_lname_th" class="control-label col-md-5" style="text-align:left;">VISITOR LAST NAME(TH):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_lname_th" name="modal_regis_lname_th">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                        </div>         
+                                                    </form>
+                                                </div> 
+                
+                                            <div class="modal-footer">
+                                                <a href="#" id="visitorupdate" class="btn btn-success pull-right">{{trans('table.update')}}</a>
+                                                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+                                </div>
+                            {{-- End Visitor Edit Modal --}}
+
+                            {{-- Visitor Update Script--}}
+                                <script>
+                                    $(document).ready(function(){
+                                        $(document).on('click', 'button[data-role=visitor_update]', function(){
+                                            var regis_card_id = $(this).data('id');
+                                            var regis_uid = $('#' + regis_card_id).children('td[data-target=regis_uid]').text();
+                                            var regis_fname_en = $('#' + regis_card_id).children('td[data-target=regis_fname_en]').text();
+                                            var regis_lname_en = $('#' + regis_card_id).children('td[data-target=regis_lname_en]').text();
+                                            var regis_fname_th = $('#' + regis_card_id).children('td[data-target=regis_fname_th]').text();
+                                            var regis_lname_th = $('#' + regis_card_id).children('td[data-target=regis_lname_th]').text();
+                                            $('#modal_regis_card_id').val(regis_card_id);
+                                            $('#modal_regis_uid').val(regis_uid);
+                                            $('#modal_regis_fname_en').val(regis_fname_en);
+                                            $('#modal_regis_lname_en').val(regis_lname_en)
+                                            $('#modal_regis_fname_th').val(regis_fname_th);
+                                            $('#modal_regis_lname_th').val(regis_lname_th);
+                                            $('#visitor_edit_modal').modal('toggle');
+                                        })
+                                    });
+                                </script>
+                            {{-- End of Visitor Update Script--}}
                         </div>
+                        <script>
+                            $(document).ready(function(){
+                                $('#visitorTable').DataTable({
+                                    language: {
+                                        paginate: {
+                                            previous: "{{trans('table.previous')}}",
+                                            next: "{{trans('table.next')}}"
+                                        },
+                                        aria: {
+                                            paginate: {
+                                                previous: "Previous",
+                                                next: "Next"
+                                            }
+                                        },
+                                        "search" : "{{trans('table.search')}}:",
+                                        "searchPlaceholder" : "{{trans('table.search')}}",
+                                        "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
+                                        "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
+                                        "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}"
+                                    }
+                                });
+                            });
+                        </script>
                     {{-- End Visitor Management Tabpills --}}
                 </div>
             </div>
@@ -904,6 +1044,29 @@ tabbuttonactive
             return "En_Name";
         }else{
             return "Th_Name";
+        }
+    }
+
+    function getAllVisitorLists () {
+        $visitorLists = visitorController::getAllVisitorLists();
+        $language = checkLocale();
+        foreach ($visitorLists["data"] as $key => $value){
+            echo "<tr id='".$value['regis_card_id']."' style='font-size: 15px;'>";
+            echo "<td data-target='regis_uid'>".$value['regis_uid']."</td>";
+            echo "<td data-target='regis_card_id'>".$value['regis_card_id']."</td>";
+            echo "<td data-target='regis_fname_en'>".$value['regis_fname_en']."</td>";
+            echo "<td data-target='regis_lname_en'>".$value['regis_lname_en']."</td>";
+            echo "<td data-target='regis_fname_th'>".$value['regis_fname_th']."</td>";
+            echo "<td data-target='regis_lname_th'>".$value['regis_lname_th']."</td>";
+            echo "<td data-target='regis_total'>".$value['regis_total']."</td>";
+            echo "<td data-target='regis_create_at'>".$value['regis_create_at']."</td>";
+
+            echo "<td style='text-align:center' id='visitor_column_action'>";
+                echo "<button class='btn btn-success animateButton' data-role='visitor_update' data-id='".$value['regis_card_id']."' style='margin-right:5px;' ><i class='fa fa-pencil' style='font-size:14px;'></i></button>";
+                echo "<button class='btn btn-danger animateButton' data-role='visitor_delete' data-id='".$value['regis_card_id']."'style='font-size:14px; margin-right:5px;' ><i class='fa fa-trash'></i></button>";
+            echo "</td>";
+
+            echo "</tr>";
         }
     }
 ?>
