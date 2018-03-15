@@ -6,4 +6,5 @@ return [
     'history' => 'HISTORY',
     'cardmanagement' => 'VISITOR CARD MANAGEMENT',
     'blacklist' => 'BLACKLIST',
+    'visitormanagement' => 'VISITOR MANAGEMENT'
 ];

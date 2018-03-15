@@ -116,6 +116,16 @@ tabbuttonactive
                                                                 <div id="memberId_error" class="val_error"></div>
                                                             </div>
                                                     </div>
+
+                                                    {{-- RFID--}}
+                                                    <div class="form-group row">
+                                                            <label for="rfid" class="control-label col-md-4" style="text-align:left;">RFID:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_rfid" name="regis_rfid" placeholder="RFID" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+
                                                     {{-- PtnClassId --}}
                                                     <div class="form-group row" style="position:relative;">
                                                             <label for="PtnClassId" class="control-label col-md-4" style="text-align:left;">PATRON CLASS :</label>
@@ -151,6 +161,58 @@ tabbuttonactive
                                                             <label for="LName" class="control-label col-md-4" style="text-align:left;">LAST NAME :</label>
                                                             <div class="col-md-8">
                                                                 <input type="text" class="form-control" id="regis_lastname" name="regis_lastname" placeholder="LAST NAME" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+
+                                                    {{-- Address-1 --}}
+                                                    <div class="form-group row">
+                                                            <label for="address1" class="control-label col-md-4" style="text-align:left;">ADDRESS:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_address1" name="regis_address1" placeholder="ADDRESS1" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+                                                    {{-- Address-2 --}}
+                                                    <div class="form-group row">
+                                                            <label for="address2" class="control-label col-md-4" style="text-align:left;">ADDRESS2:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_address2" name="regis_address2" placeholder="ADDRESS2" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+                                                    {{-- Address-3 --}}
+                                                    <div class="form-group row">
+                                                            <label for="address3" class="control-label col-md-4" style="text-align:left;">ADDRESS3:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_address3" name="regis_address3" placeholder="ADDRESS3" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+
+                                                    {{-- Phone1--}}
+                                                    <div class="form-group row">
+                                                            <label for="phone1" class="control-label col-md-4" style="text-align:left;">PHONE1:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_Phone1" name="regis_Phone1" placeholder="PHONE1" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+
+                                                    {{-- Phone2--}}
+                                                    <div class="form-group row">
+                                                            <label for="phone2" class="control-label col-md-4" style="text-align:left;">PHONE2:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_Phone2" name="regis_Phone2" placeholder="PHONE2" data-parsley-trigger="change" required="">
+                                                                <div id="lastname_error" class="val_error"></div>
+                                                            </div>
+                                                    </div>
+
+                                                    {{-- Email--}}
+                                                    <div class="form-group row">
+                                                            <label for="email" class="control-label col-md-4" style="text-align:left;">EMAIL:</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" id="regis_email" name="regis_email" placeholder="example@example.com" data-parsley-trigger="change" required="">
                                                                 <div id="lastname_error" class="val_error"></div>
                                                             </div>
                                                     </div>
@@ -320,7 +382,7 @@ tabbuttonactive
                                                         <div class="input-group">
                                                             <input type="text" class="form-control" id="regis_visitor_cardId" name="regis_visitor_cardId" placeholder="NATIONAL ID OR PASSPORT ID" data-parsley-trigger="change" required="" data-parsley-errors-container="#regis_visitor_cardId_error"/>
                                                             <span class="input-group-btn">
-                                                                <input type="button" onclick="search_vis_data();" class="form-control" id="vis_cardId_search" name="vis_cardId_search" value="Search">
+                                                                <input type="button" onclick="search_vis_data();" class="form-control btn btn-primary" id="vis_cardId_search" name="vis_cardId_search" value="Search" style="font-size:14px;">
                                                                 <!-- <button class="form-control"><i class="fa fa-user"></i></button> -->
                                                             </span>
                                                         </div>

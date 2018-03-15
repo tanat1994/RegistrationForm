@@ -141,10 +141,10 @@ tabbuttonactive
             <div id="exTab3" class="col-md-10">	
                 <ul  class="nav nav-pills">
                     <li class="active">
-                        <a  href="#memberManagement_tab" data-toggle="tab"><strong>MEMBER MANAGEMENT</strong></a>
+                        <a  href="#memberManagement_tab" data-toggle="tab"><strong>{{ trans('menu.member') }}</strong></a>
                     </li>
                     <li>
-                        <a href="#visitorManagement_tab" data-toggle="tab"><strong>VISITOR MANAGEMENT</strong></a>
+                        <a href="#visitorManagement_tab" data-toggle="tab"><strong>{{ trans('menu.visitormanagement') }}</strong></a>
                     </li>
                 </ul>
 
@@ -161,24 +161,24 @@ tabbuttonactive
                                                 <!-- FILTER: <input type="text" class="column_filter" id="col3_filter" placeholder="Position"/> -->
                                                 <label for="filter_patronClass">PATRON CLASS : </label>
                                                 <select class="form-control column_filter" id="col_patronClass_filter" onchange="classOnSelect();">
-                                                    <option value="" selected>Show all</option>
+                                                    <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php PatronClassList(); ?>
                                                 </select>
                                             </td>
                                         <!-- </tr> -->
                                             <td style="width: 160px; padding-right: 15px;">
-                                                <label for="filter_group">GROUP : </label>
+                                                <label for="filter_group">{{ trans('table.group') }} : </label>
                                                 <select class="form-control column_filter" id="col_group_filter" onchange="groupOnSelect();">
-                                                    <option value="" selected>Show all</option>
+                                                    <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php GroupList(); ?>
                                                 </select>
                                             </td>
 
                                         <!-- <tr id="filter_col6" data-column="10"> -->
                                             <td style="width: 160px; padding-right: 15px;">
-                                                <label for="filter_dept">DEPARTMENT : </label>
+                                                <label for="filter_dept">{{ trans('table.department') }} : </label>
                                                 <select class="form-control column_filter" id="col_dept_filter" onchange="deptOnSelect();">
-                                                    <option value="" selected>Show all</option>
+                                                    <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php DeptList(); ?>
                                                 </select>
                                             </td>
@@ -187,9 +187,9 @@ tabbuttonactive
                                         
                                         <!-- <tr id="filter_col7" data-column="12"> -->
                                             <td style="width: 160px; padding-right: 15px;">
-                                                <label for="filter_faculty">FACULTY : </label>
+                                                <label for="filter_faculty">{{ trans('table.faculty') }} : </label>
                                                 <select class="form-control column_filter" id="col_faculty_filter" onchange="facultyOnSelect();">
-                                                    <option value="" selected>Show all</option>
+                                                    <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php FacultyList(); ?>
                                                 </select>
                                                 <!-- <input type="text" class="column_filter" id="col12_filter" placeholder="Faculty"/></td></tr> -->
@@ -198,9 +198,9 @@ tabbuttonactive
 
                                         <!-- <tr id="filter_col9" data-column="16"> -->
                                             <td style="width: 160px; padding-right: 15px;">
-                                                <label for="filter_status">STATUS : </label>
+                                                <label for="filter_status">{{ trans('table.status') }} : </label>
                                                 <select class="form-control column_filter" id="col_status_filter" onchange="statusOnSelect();">
-                                                    <option value="" selected>Show all</option>
+                                                    <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <option value="active">ACTIVE</option>
                                                     <option value="inactive">INACTIVE</option>
                                                     <option value="blacklist">BLACKLIST</option>
@@ -225,16 +225,16 @@ tabbuttonactive
                                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>UNIVERSITY ID</strong></th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>PATRON CLASS</strong></th>
                                                 <th nowrap style="display:none">PATRONCLASSID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FACULTY</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('register.firstname') }}</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('register.lastname') }}</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.faculty') }}</strong></th>
                                                 <th nowrap style="display:none;">FACULTYID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>DEPARTMENT</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.department') }}</strong></th>
                                                 <th nowrap style="display:none;">DEPARTMENTID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>GROUP</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.group') }}</strong></th>
                                                 <th nowrap style="display:none;">PtnGroupId</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;" style=""><strong>EXPIRE DATE</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>STATUS</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;" style=""><strong>{{ trans('table.expire_date') }}</strong></th>
+                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.status') }}</strong></th>
                                                 <th nowrap style="display:none">RFID</th>
                                                 <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
                                             </tr>
@@ -392,7 +392,7 @@ tabbuttonactive
                                                                                                                 </div>
                                 
                                                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                                                        <label for="group" class="control-label col-md-5" style="text-align:left;">GROUP:</label>
+                                                                                                                        <label for="group" class="control-label col-md-5" style="text-align:left;">{{trans("table.group")}}:</label>
                                                                                                                         <div class="col-md-7">
                                                                                                                                     <select id="modal_group" class="form-control" name="modal_group">
                                                                                                                                         <?php groupList(); ?>
@@ -401,7 +401,7 @@ tabbuttonactive
                                                                                                                 </div>
                                 
                                                                                                                 <div class="form-group row" style="position:relative;">
-                                                                                                                        <label for="dept" class="control-label col-md-5" style="text-align:left;">DEPARTMENT:</label>
+                                                                                                                        <label for="dept" class="control-label col-md-5" style="text-align:left;">{{trans("table.department")}}:</label>
                                                                                                                         <div class="col-md-7">
                                                                                                                                     <select id="modal_dept" class="form-control" name="modal_dept">
                                                                                                                                         <?php DeptList(); ?>
@@ -411,7 +411,7 @@ tabbuttonactive
                                                                                                             </fieldset>
                                 
                                                                                                             <div class="form-group row" style="position:relative;">
-                                                                                                                    <label for="status" class="control-label col-md-5" style="text-align:left;">STATUS:</label>
+                                                                                                                    <label for="status" class="control-label col-md-5" style="text-align:left;">{{trans("table.status")}}:</label>
                                                                                                                     <div class="col-md-7">
                                                                                                                             <input type="checkbox" data-toggle="toggle" value="ACTIVE" id="modal_status" name="modal_status" class="form-control" data-on="<strong>ACTIVE</strong>" data-off="<strong>INACTIVE</strong>" data-onstyle="success" data-offstyle="danger" data-width="100">
                                                                                                                             <input type="hidden" id="statusHidden" value="enabled"/>
@@ -602,7 +602,7 @@ tabbuttonactive
                                     });
                                 </script>
 
-                                {{-- SweetAlert Function --}}
+                                {{-- SweetAlert Function --}} {{-- Member --}}
                                 <script>
                                         function modalAlert(command, PtnId){
                                             if(command == "update"){
@@ -951,6 +951,36 @@ tabbuttonactive
                                     });
                                 </script>
                             {{-- End of Visitor Update Script--}}
+
+                            {{-- Visitor Delete Script --}}
+                                <script>
+                                    $(document).on('click', 'button[data-role=visitor_delete]', function(){
+                                        var regis_card_id = $(this).data('id');
+                                        swal({
+                                            title: "{{trans('table.delete_confirmation')}}",
+                                            text: "{{trans('table.delete_dialog')}} : " + regis_card_id,
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        }).then((willDelete)=>{
+                                            if(willDelete){
+                                                $.ajax({
+                                                    url : 'http://127.0.0.1/Website-NAT/public/index.php/visitorController/deleteVisitorRecord',
+                                                    //url:  config('pathConfig.pathREST') +'checkLogin/check'
+                                                    type : 'delete',
+                                                    data : {regis_card_id: regis_card_id},
+                                                    success : function(response){
+                                                        swal("{{trans('table.memberId')}} : " + regis_card_id + " {{trans('table.delete_has_been_delete')}}", {
+                                                            icon: "success",
+                                                        });
+                                                        location.reload();
+                                                    }
+                                                });  
+                                            }
+                                        });
+                                    });
+                                </script>
+                            {{-- End of Visitor Delete Script --}}
                         </div>
                         <script>
                             $(document).ready(function(){

@@ -42,5 +42,9 @@ return [
     'groupname' => 'GROUP NAME',
     'nomember' => 'NO OF MEMBER',
     'datecreate' => 'DATE CREATE',
-    'usercreate' => 'USER CREATE'
+    'usercreate' => 'USER CREATE',
+    'show_all' => 'Show all',
+    'department' => 'DEPARTMENT',
+    'group' => 'GROUP',
+    'expire_date' => 'EXPIRE DATE',
 ];

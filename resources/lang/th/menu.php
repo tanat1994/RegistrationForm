@@ -6,4 +6,5 @@ return [
     'history' => 'ประวัติการใช้งาน',
     'cardmanagement' => 'การจัดการบัตรผู้เยี่ยมชม',
     'blacklist' => 'บัญชีดำ',
+    'visitormanagement' => 'การจัดการผู้มาเยี่ยมชม'
 ];

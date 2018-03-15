@@ -41,4 +41,8 @@ return [
     'nomember' => 'จำนวนสมาชิก',
     'datecreate' => 'วันที่สร้าง',
     'usercreate' => 'ผู้สร้าง',
+    'show_all' => 'แสดงทั้งหมด',
+    'department' => 'สาขาวิชา',
+    'group' => 'กลุ่ม',
+    'expire_date' => 'วันหมดอายุ',
 ];
