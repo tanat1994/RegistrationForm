@@ -86,6 +86,29 @@
                 transform: translateY(3px);
             }
 
+            .nav-pills > li.active > a,
+            .nav-pills > li.active > a:hover,
+            .nav-pills > li.active > a:focus {
+            border-top-color: {{config('pathConfig.tab_pills_color')}};
+            }
+
+            .nav-pills > li.active > a,
+            .nav-pills > li.active > a:hover,
+            .nav-pills > li.active > a:focus {
+            color: #ffffff;
+            background-color: {{config('pathConfig.tab_pills_color')}};
+            }
+
+            .tabbutton {
+                color: {{config('pathConfig.menu_underline_bar')}};;
+            }
+            .tabbutton::after{
+                background: {{config('pathConfig.menu_underline_bar')}};
+            }
+            .tabbuttonactive::after{
+                background: {{config('pathConfig.menu_underline_bar')}};
+            }
+
     </style>
 
 
@@ -127,7 +150,7 @@ tabbuttonactive
     <div class="row-fluid" id="myDisplaySection" style="display:none;"> <!-- <div class="row-fluid">-->
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o"></i></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o" style="color:{{config('pathConfig.title_word_color')}};"></i></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -219,24 +242,24 @@ tabbuttonactive
                                 
                                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                                         <thead id="table_header">
-                                            <tr id="filter_global">
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>PATRON ID</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>UNIVERSITY ID</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>PATRON CLASS</strong></th>
+                                            <tr id="filter_global" style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
+                                                <th nowrap style=""><strong>{{ trans('table.no') }}</strong></th>
+                                                <th nowrap style=""><strong>PATRON ID</strong></th>
+                                                <th nowrap style=""><strong>UNIVERSITY ID</strong></th>
+                                                <th nowrap style=""><strong>PATRON CLASS</strong></th>
                                                 <th nowrap style="display:none">PATRONCLASSID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('register.firstname') }}</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('register.lastname') }}</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.faculty') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('table.faculty') }}</strong></th>
                                                 <th nowrap style="display:none;">FACULTYID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.department') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('table.department') }}</strong></th>
                                                 <th nowrap style="display:none;">DEPARTMENTID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.group') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('table.group') }}</strong></th>
                                                 <th nowrap style="display:none;">PtnGroupId</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;" style=""><strong>{{ trans('table.expire_date') }}</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.status') }}</strong></th>
+                                                <th nowrap style="" style=""><strong>{{ trans('table.expire_date') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('table.status') }}</strong></th>
                                                 <th nowrap style="display:none">RFID</th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
+                                                <th nowrap style=""><strong>ACTION</strong></th>
                                             </tr>
                                         </thead>
                                         <tbody>

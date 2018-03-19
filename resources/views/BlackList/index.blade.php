@@ -57,6 +57,16 @@
                 box-shadow: 0 1px #666;
                 transform: translateY(3px);
             }
+            
+            .tabbutton {
+                color: {{config('pathConfig.menu_underline_bar')}};;
+            }
+            .tabbutton::after{
+                background: {{config('pathConfig.menu_underline_bar')}};
+            }
+            .tabbuttonactive::after{
+                background: {{config('pathConfig.menu_underline_bar')}};
+            }
 
     </style>
 
@@ -75,7 +85,7 @@ tabbuttonactive
     <div class="row-fluid">
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.blacklist') }}</strong></a> </h2>
+            <h2 style="color:{{config('pathConfig.title_word_color')}}; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};"><strong>{{ trans('menu.blacklist') }}</strong></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -89,19 +99,19 @@ tabbuttonactive
         <div class="col-md-10" style="background-color:white; padding-top:1%;" id="myDivTable">
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
-                    <tr>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>NO</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>BLACKLIST ID</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:15%;"><strong>{{ trans('table.name') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>firstname</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:15%; display:none;"><strong>lastName</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:10%;"><strong>{{ trans('table.position') }}</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>LISTED DATE</strong></th>
-                        <!-- <th nowrap style="background-color:#2e7ed0;color:white; width:14%;"><strong>UNLISTED DATE</strong></th> -->
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:20%;"><strong>BLACKLIST TITLE</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white; width:20%; display:none;"><strong>BLACKLIST DESCRIPTION</strong></th>
-                        <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
+                    <tr style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
+                        <th nowrap style="width:8%;"><strong>NO</strong></th>
+                        <th nowrap style="width:8%;"><strong>BLACKLIST ID</strong></th>
+                        <th nowrap style="width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
+                        <th nowrap style="width:15%;"><strong>{{ trans('table.name') }}</strong></th>
+                        <th nowrap style="width:15%; display:none;"><strong>firstname</strong></th>
+                        <th nowrap style="width:15%; display:none;"><strong>lastName</strong></th>
+                        <th nowrap style="width:10%;"><strong>{{ trans('table.position') }}</strong></th>
+                        <th nowrap style="width:14%;"><strong>LISTED DATE</strong></th>
+                        <!-- <th nowrap style=" width:14%;"><strong>UNLISTED DATE</strong></th> -->
+                        <th nowrap style="width:20%;"><strong>BLACKLIST TITLE</strong></th>
+                        <th nowrap style="width:20%; display:none;"><strong>BLACKLIST DESCRIPTION</strong></th>
+                        <th nowrap style=""><strong>ACTION</strong></th>
                     </tr>
                 </thead>
 

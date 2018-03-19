@@ -58,12 +58,12 @@ tabbuttonactive
             <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                             <thead>
-                                <tr>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.no') }}</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>PATRON ID</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>UNIVERSITY ID</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME</strong></th>
-                                    <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME</strong></th>
+                                <tr style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
+                                    <th nowrap style=""><strong>{{ trans('table.no') }}</strong></th>
+                                    <th nowrap style=""><strong>PATRON ID</strong></th>
+                                    <th nowrap style=""><strong>UNIVERSITY ID</strong></th>
+                                    <th nowrap style=""><strong>FIRST NAME</strong></th>
+                                    <th nowrap style=""><strong>LAST NAME</strong></th>
                                 </tr>
                             </thead>
                                 <tbody>

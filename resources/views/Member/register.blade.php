@@ -36,6 +36,29 @@ use \App\Http\Controllers\visitorController;
         .val_error{
             color: #FF1F1F;
         }
+
+        .nav-pills > li.active > a,
+        .nav-pills > li.active > a:hover,
+        .nav-pills > li.active > a:focus {
+        border-top-color: {{config('pathConfig.tab_pills_color')}};
+        }
+
+        .nav-pills > li.active > a,
+        .nav-pills > li.active > a:hover,
+        .nav-pills > li.active > a:focus {
+        color: #ffffff;
+        background-color: {{config('pathConfig.tab_pills_color')}};
+        }
+
+        .tabbutton {
+            color: {{config('pathConfig.menu_underline_bar')}};;
+        }
+        .tabbutton::after{
+            background: {{config('pathConfig.menu_underline_bar')}};
+        }
+        .tabbuttonactive::after{
+            background: {{config('pathConfig.menu_underline_bar')}};
+        }
 </style>
 
 {{--DATATABLES--}}
@@ -65,7 +88,7 @@ tabbuttonactive
         <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
             <!-- 1st HEADER -->
             <div class="col-md-12">
-                <h2 style="color:#2e7ed0;"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.member') }}</a>  >  {{ trans('register.register') }}</strong></h2>
+                <h2 style="color:{{config('pathConfig.title_word_color')}};"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};"><strong>{{ trans('menu.member') }}</a>  >  {{ trans('register.register') }}</strong></h2>
                 <hr class="hrbreakline">
             </div>
             
@@ -101,12 +124,9 @@ tabbuttonactive
                                                 <div class="col-md-5">
                                                     {{-- Input form section--}}
                                                     {{-- PATRON ID --}}
-                                                    <div class="form-group row" style="position:relative;">
-                                                            <label for="PtnId" class="control-label col-md-4" style="text-align:left;">PATRON ID :</label>
-                                                            <div class="col-md-8">
-                                                                <input type="text" class="form-control" id="regis_PtnId" name="regis_PtnId" placeholder="PtnId" data-parsley-trigger="change" required="">
-                                                                <div id="cardUID_error" class="val_error"></div>
-                                                            </div>
+                                                    <div class="form-group">
+                                                            <label for="PtnId" class="" style="">PATRON ID :</label>
+                                                            <input class="form-control" type="text" style="border-radius: 4 !important;" id="regis_PtnId" name="regis_PtnId" placeholder="PtnId" data-parsley-trigger="keyup" required="">
                                                     </div>
                                                     {{-- UNIV ID--}}
                                                     <div class="form-group row" style="position:relative;">

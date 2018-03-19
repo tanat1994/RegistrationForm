@@ -9,6 +9,18 @@
 <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
 <script src="{{asset('js/dataTables/jQuery.dataTables.min.js')}}"></script>
 <script src="{{asset('js/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+<style>
+    .tabbutton {
+        color: {{config('pathConfig.menu_underline_bar')}};;
+    }
+    .tabbutton::after{
+        background: {{config('pathConfig.menu_underline_bar')}};
+    }
+    .tabbuttonactive::after{
+        background: {{config('pathConfig.menu_underline_bar')}};
+    }
+</style>
 @endsection
 
 @section('htmlheader_title')
@@ -22,7 +34,7 @@ tabbuttonactive
 @section('content')
     <div class="row-fluid" id="myDisplaySection"> <!-- <div class="row-fluid">-->
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/cardmanagement') }}" style="text-decoration:none;color:#2e7ed0;" id="cardManagementTitle"><strong>{{ trans('menu.cardmanagement') }}</strong></a></h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/cardmanagement') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};" id="cardManagementTitle"><strong>{{ trans('menu.cardmanagement') }}</strong></a></h2>
             <hr class="hrbreakline">
         </div>
 
@@ -75,11 +87,11 @@ tabbuttonactive
                             <div class="col-md-12">&nbsp;</div>
                             <table class="table table-striped table-bordered table-hover display" id="visitorCard_table" cellspacing="0">
                                 <thead id="table_header">
-                                    <tr>
-                                        <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR CARD NO.</th>
-                                        <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR CARD NAME</th>
-                                        <th nowrap style="background-color:#2e7ed0;color:white;">VISITOR NAME</th>
-                                        <th nowrap style="background-color:#2e7ed0;color:white;">ACTION</th>
+                                    <tr style="background-color:{{config('pathConfig.table_header_color')}};color:{{config('pathConfig.table_header_title_color')}};">
+                                        <th nowrap style="">VISITOR CARD NO.</th>
+                                        <th nowrap style="">VISITOR CARD NAME</th>
+                                        <th nowrap style="">VISITOR ID</th>
+                                        <th nowrap style="">ACTION</th>
                                     </tr>
                                 </thead>
 
