@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/test',function (){
-    return view('GroupManagement.index2');
-});
+Route::get('/testPermission', 'loginController@menuPermission');
 
 Route::get('/test3', function(){
     return view('GroupManagement.dummy');
@@ -59,7 +57,7 @@ Route::get('/download', function() {return view('Member.download');});
 
 Route::get('/excelformat', 'Excelcontroller@getFormat');
 
-Route::get('/logout', function(){ Session::flush(); return Redirect::to('/loginPage'); });
+Route::get('/logout', function(){ Session::forget('menuPermission'); return Redirect::to('/loginPage'); });
 
 
 

@@ -83,7 +83,9 @@ tabbuttonactive
 
 @section('content')
     <div class="row-fluid">
-
+        <?php 
+            $permission = Session::get('menuPermission')["rc"]["bl"];
+        ?>
         <div class="col-md-12 divunderline">
             <h2 style="color:{{config('pathConfig.title_word_color')}}; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};"><strong>{{ trans('menu.blacklist') }}</strong></a> </h2>
             <hr class="hrbreakline">
@@ -134,12 +136,18 @@ tabbuttonactive
                                     <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
                                     <td data-target="blacklist_title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 30%;">{{ $record['title'] }}</td>
                                     <td style="text-align:center; width: 240px;">
-                                            <!-- <span class="outer-line"><a href="#" data-role="information" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-info-circle"></i></a></span> -->
-                                            <button class="btn btn-info animateButton" data-role="information" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" ><i class="fa fa-info-circle"></i></button>
-                                            <!-- <span class="outer-line"><a href="#" data-role="update" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><i class="fa fa-pencil"></i></a></span> -->
-                                            <button class="btn btn-primary animateButton" data-role="update" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" ><i class="fa fa-pencil"></i></button>
-                                            <!-- <span class="outer-line"><a href="#" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:25px; margin-right:8px;"><img src="{{ asset('images/verified-user.png') }}" style="margin-bottom:4px;"/> -->
-                                            <button class="btn btn-success animateButton" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" ><i class="fa fa-check"></i></button>
+                                        <button class="btn btn-info animateButton" data-role="information" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;"><i class="fa fa-info-circle"></i></button>
+                                        @if(strpos($permission, 'edit') !== false)
+                                        <button class="btn btn-primary animateButton" data-role="update" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;"><i class="fa fa-pencil"></i></button>
+                                        @else
+                                        <button class="btn btn-primary animateButton" data-role="update" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" disabled><i class="fa fa-pencil"></i></button>
+                                        @endif
+
+                                        @if(strpos($permission, 'ul') !== false)
+                                        <button class="btn btn-success animateButton" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;"><i class="fa fa-check"></i></button>
+                                        @else
+                                        <button class="btn btn-success animateButton" data-role="unlisted" data-id="{{$record['memberId']}}" style="font-size:18px; margin-right:5px;" disabled><i class="fa fa-check"></i></button>
+                                        @endif
                                     </td>
                         </tr>
                         <?php $iterator++; ?>

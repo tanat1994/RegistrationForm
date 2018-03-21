@@ -40,14 +40,30 @@ class loginController extends Controller
             $resultReport = $client->request('GET',config('pathConfig.pathAPI_Login').'permReport/'.$userID)->getbody();
             $permReport1 = json_decode($resultReport, true);
 
+            //Menu Permission
+            $menuPermission = self::menuPermission($userID);
+            $menuPermission = $menuPermission;
+
             if($permControl1["data"]["rc"] == 1){
                 Session::put('permControl1', $permControl1); //Session::get -> Session::put
                 Session::put('permReport1', $permReport1); //Session::get -> Session::put
+                Session::put('menuPermission', $menuPermission);
                 return redirect('/dashboard');
             }else if($permControl1["data"]["rc"] == 0){
                 Session::flash('error_msg', 'Login Permission Failed! You have no permission to access to Register Center');
                 return redirect('/loginPage');
             }
     	}
+    }
+
+    public static function menuPermission ($userID) {
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'registerMenuPermission/'.$userID
+        )->getbody();
+        $permissionResult = json_decode($result, true);
+        $permissionList = json_decode($permissionResult["data"][0]["permission_menu"],true);
+        return $permissionList;
     }
 }

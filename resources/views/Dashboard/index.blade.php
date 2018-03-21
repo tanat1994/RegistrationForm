@@ -47,7 +47,7 @@ tabbuttonactive
                         <span class="info-box-icon bg-yellow"><i class="fa fa-user-plus"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Register Today</span>
-                            <span class="info-box-number">93,139</span>
+                            <span class="info-box-number"><?php print_r(Session::get('menuPermission')["rc"]); ?></span>
                         </div>
                     </div>
             </div>
