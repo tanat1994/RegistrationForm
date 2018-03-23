@@ -103,13 +103,14 @@ tabbuttonactive
                 <thead>
                     <tr style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
                         <th nowrap style="width:8%;"><strong>NO</strong></th>
-                        <th nowrap style="width:8%;"><strong>BLACKLIST ID</strong></th>
+                        <!-- <th nowrap style="width:8%;"><strong>BLACKLIST ID</strong></th> -->
                         <th nowrap style="width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="width:15%;"><strong>{{ trans('table.name') }}</strong></th>
                         <th nowrap style="width:15%; display:none;"><strong>firstname</strong></th>
                         <th nowrap style="width:15%; display:none;"><strong>lastName</strong></th>
                         <th nowrap style="width:10%;"><strong>{{ trans('table.position') }}</strong></th>
                         <th nowrap style="width:14%;"><strong>LISTED DATE</strong></th>
+                        <th nowrap style="width:14%;"><strong>END OF BANNED</strong></th>
                         <!-- <th nowrap style=" width:14%;"><strong>UNLISTED DATE</strong></th> -->
                         <th nowrap style="width:20%;"><strong>BLACKLIST TITLE</strong></th>
                         <th nowrap style="width:20%; display:none;"><strong>BLACKLIST DESCRIPTION</strong></th>
@@ -122,7 +123,7 @@ tabbuttonactive
                         @foreach($blacklistRecord as $record)
                         <tr id="{{$record['memberId']}}" style="font-size: 15px;">
                                     <td data-target="no"><?php echo $iterator;?></td>
-                                    <td data-target="blacklistId" style="width:2%;">{{ $record['blacklistId'] }}</td>
+                                    <!-- <td data-target="blacklistId" style="width:2%;">{{ $record['blacklistId'] }}</td> -->
                                     <td data-target="memberId">{{ $record['memberId'] }}</td>
                                     <td data-target="fullname">{{ $record['FName'] }}  {{ $record['LName'] }}</td>
                                     <td data-target="FName" style="display:none">{{ $record['FName'] }}</td>
@@ -133,6 +134,7 @@ tabbuttonactive
                                     <td data-target="">{{ $record['PatronclassTh'] }}</td>
                                     @endif
                                     <td data-target="">{{ $record['date_time'] }}</td>
+                                    <td data-target="">{{ $record['end_of_banned'] }}</td>
                                     <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
                                     <td data-target="blacklist_title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 30%;">{{ $record['title'] }}</td>
                                     <td style="text-align:center; width: 240px;">

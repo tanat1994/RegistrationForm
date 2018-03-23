@@ -47,4 +47,5 @@ return [
     'department' => 'DEPARTMENT',
     'group' => 'GROUP',
     'expire_date' => 'EXPIRE DATE',
+    'patron_class' => 'PATRON CLASS',
 ];

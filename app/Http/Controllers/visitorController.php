@@ -12,6 +12,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use App\Http\Requests\CreateRegisterRequest;
 
+use File;
+
 class visitorController extends Controller
 {
     public function visitorCardRecord(){
@@ -37,6 +39,11 @@ class visitorController extends Controller
 
     public function postVisitorInsert(CreateRegisterRequest $request){
         $client = new Client();
+            $visitorImageDecoded = base64_decode($request->input('visitor_image_input'));
+            $filePath = public_path().'/images/'.$request->input('vis_name_en').'_'.$request->input('regis_visitor_cardId').'.jpg';
+            file_put_contents($filePath, $visitorImageDecoded);	
+            //$filePath->move(public_path().'/images/visitor_Image', $filePath);
+        
         $result = $client->request(
             'POST',
             "http://127.0.0.1/Website-Nat/public/index.php/visitorController/visitorSingleInsert",
@@ -52,7 +59,8 @@ class visitorController extends Controller
                     'vis_lastname_th' => $request->input('vis_lastname_th'),
                     'regis_visitor_address' => $request->input('regis_visitor_address'),
                     'regis_visitor_total' => (int)$request->input('regis_visitor_total'),
-                    'regis_visitor_flag' => (int)$request->input('regis_visitor_flag')
+                    'regis_visitor_flag' => (int)$request->input('regis_visitor_flag'),
+                    'regis_visitor_image' => $filePath
                 ]
             ])->getBody();
         $inputResult = json_decode($result, true);
@@ -67,7 +75,8 @@ class visitorController extends Controller
             config('pathConfig.pathAPI').'visitorController/getAllVisitorLists'
         )->getbody();
         $visitorLists = json_decode($result, true);
-        return $visitorLists;
+        //return $visitorLists;
+        return view('member.webcam',['visitorLists' => $visitorLists]);
     }
 
 }

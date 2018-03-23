@@ -45,4 +45,5 @@ return [
     'department' => 'สาขาวิชา',
     'group' => 'กลุ่ม',
     'expire_date' => 'วันหมดอายุ',
+    'patron_class' => 'ชนิดผู้ใช้บริการ',
 ];

@@ -6,6 +6,7 @@ use \App\Http\Controllers\visitorController;
 
 @section('more_script')
 <script src="{{asset('js/sweetalert.min.js')}}"></script>
+<script src="{{asset('js/webcam.js')}}"></script>
 <style>
         .container{
         margin-top:20px;
@@ -59,6 +60,15 @@ use \App\Http\Controllers\visitorController;
         .tabbuttonactive::after{
             background: {{config('pathConfig.menu_underline_bar')}};
         }
+
+        .img-thumbnail {
+            border : 1px solid #ddd;
+            border-radius : 4px;
+            padding : 5px;
+        }
+        .img-thumbnail:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
 </style>
 
 {{--DATATABLES--}}
@@ -83,6 +93,9 @@ tabbuttonactive
 @endsection
 
 @section('content')
+    <?php 
+        $permission = Session::get('menuPermission')["rc"]["mm"];
+    ?>
     <div class="container-fluid">
         <div class="row-fluid">
         <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
@@ -94,20 +107,22 @@ tabbuttonactive
             
             <div id="exTab3" class="col-md-12">	
                 <div class="col-md-12">
-                    <ul  class="nav nav-pills">
-                        <li class="active">
-                            <a  href="#member_register" data-toggle="tab"><strong>MEMBER REGISTER</strong></a>
-                        </li>
-                        <li>
-                            <a href="#visitor_register" data-toggle="tab"><strong>VISITOR REGISTER</strong></a>
-                        </li>
+                    <ul class="nav nav-pills">
+                            <li class="member_tab">
+                                <a href="#member_register" data-toggle="tab"><strong>MEMBER REGISTER</strong></a>
+                            </li>
+                            <li class="visitor_tab">
+                                <a href="#visitor_register" data-toggle="tab"><strong>VISITOR REGISTER</strong></a>
+                            </li>
                     </ul>
                 </div>
+                
+                
 
                 {{-- Tab Content --}}
                 <div class="tab-content clearfix">
                     {{-- Member Section --}}
-                    <div class="tab-pane active" id="member_register">
+                    <div class="tab-pane member_section" id="member_register">
                             <div class="col-md-12">
                                     <div class="col-md-8" style="background-color:white;">
                                         <h3 style="float:left"><strong>{{ trans('register.memberinformation') }}</strong></h3>
@@ -380,7 +395,7 @@ tabbuttonactive
                     </div>{{-- End Member Section--}}
                     
                     {{-- Visitor Section --}}
-                    <div class="tab-pane" id="visitor_register">
+                    <div class="tab-pane visitor_section" id="visitor_register">
                         <div class="col-md-12">
                             <div class="col-md-7" style="background-color:white">
                                     <h3 style="float:left"><strong>VISITOR INFORMATION</strong></h3>
@@ -486,6 +501,16 @@ tabbuttonactive
                                                     </div>
                                                 </div>
 
+                                                {{-- WebCam --}}
+                                                <div class="form-group row" style="position:relative;">
+                                                    <label for="regis_visitor_webcam" class="control-label col-md-4" style="text-align:left;">VISITOR IMAGE :</label>
+                                                    <div class="col-md-8">
+                                                        <button id="webcam_event" type="button" data-toggle="modal" onClick="webCamTrigger();" data-target="#webCamModal"><i class="fa fa-2x fa-camera"></i></button>
+                                                        <div id="webcam_result"></div>
+                                                        <input type="hidden" id="visitor_image_input" name="visitor_image_input" value=""/>
+                                                    </div>
+                                                </div>
+
                                                 {{-- Flag Variable --}}
                                                 <input type="hidden" id="regis_visitor_total" name="regis_visitor_total" value="1"/>
                                                 <input type="hidden" id="regis_visitor_flag" name="regis_visitor_flag" value="0"/>
@@ -536,6 +561,52 @@ tabbuttonactive
                                     </table>
                                 </div>
                             </div>
+
+                            {{-- Modal Webcam --}}
+                                <div class="modal fade" id="webCamModal" role="dialog">
+                                        <div class="modal-dialog modal-md"> 
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" id="modal_close" onClick="modalCloseTrigger();">&times;</button>
+                                                    <h2 class="modal-title" style="color:#2e7ed0;"><strong>VISITOR IMAGE</strong></h2>
+                                                </div>
+                
+                                                    <div class="modal-body">
+                                                        <div class="container">
+                                                            <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                <div class="form-group row" style="position:relative;">
+                                                                    <div class="col-md-1"></div>
+                                                                    <div class="col-md-10" style="margin-left:5%;">
+                                                                        <!-- <input type="text" class="form-control" id="modal_regis_card_id" name="modal_regis_card_id"> -->
+                                                                        <div id="live_webcam"></div>
+                                                                        
+                                                                        <div id="pre_take_button">
+                                                                            <input type="button" class="btn btn-primary" value="Take Snapshot" onclick="previewSnapshot();"/>
+                                                                        </div>
+                                                                        <div id="post_take_button" style="display:none;">
+                                                                            <input type="button" class="btn btn-primary" value="Take Another" onclick="cancel_preview();"/>
+                                                                            <input type="button" class="btn btn-success" value="Save Photo" onclick="save_photo();"/>
+                                                                        </div>
+                                                                        <!-- <a href="javascript:void(take_snapshot())">Take Snapshot</a> -->
+                                                                    </div>
+                                                                    <div class="col-md-1"></div>
+                                                                </div>
+                                                        
+                                                            </div>
+                                                        </div>        
+                                                    </div> 
+                    
+                                                <div class="modal-footer">
+                                                    <a href="#" id="visitorupdate" class="btn btn-success pull-right">{{trans('table.update')}}</a>
+                                                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                                                </div>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                            {{-- End Modal Webcam --}}
 
                             {{-- Disable --}}
                                 {{-- Card Type --}}
@@ -603,12 +674,33 @@ tabbuttonactive
 
                         </div>
                     </div>
+                    
                     {{-- End Visitor Section --}}
 
 
                 </div> {{-- End Tab Content --}}
             </div> {{-- End Tab Pills --}}
+            @if(strpos($permission, 'add_member') !== false)
+                <script>
+                    $('.member_tab').addClass('active');
+                    $('.member_section').addClass('active');
+                </script>
+                @if(strpos($permission, 'add_visitor') !== false)
+                <script></script>
+                @else
+                    <script>
+                        $('.visitor_tab').hide();
+                    </script>
+                @endif
+            @else
+                <script>
+                    $('.member_tab').hide();
+                    $('.visitor_tab').addClass('active');
+                    $('.visitor_section').addClass('active');
+                </script>       
+            @endif
 
+            
         </div>
     </div> {{-- End Container --}}
     
@@ -726,6 +818,60 @@ tabbuttonactive
     }
 </script>
 
+    {{-- Webcam Script--}}
+        <script language="JavaScript">
+
+            function previewSnapshot () {
+                Webcam.freeze();
+                document.getElementById('pre_take_button').style.display = 'none';
+                document.getElementById('post_take_button').style.display = '';
+            }
+
+            function cancel_preview () {
+                Webcam.unfreeze();
+                document.getElementById('pre_take_button').style.display = '';
+                document.getElementById('post_take_button').style.display = 'none';
+            }
+
+            function save_photo () {
+                Webcam.snap( function(data_uri) {
+                    
+                    document.getElementById('pre_take_button').style.display = 'none';
+                    document.getElementById('post_take_button').style.display = '';
+
+                    var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+                    document.getElementById('visitor_image_input').value = raw_image_data;
+                    console.log(document.getElementById('visitor_image_input').value);
+                    document.getElementById('webcam_result').innerHTML = '<img id="visitor_image" class="img-thumbnail" src="'+data_uri+'"/>';
+                });
+            }
+
+            function modalCloseTrigger() {
+                //Webcam.reset();
+            }
+
+            function webCamTrigger() {
+                Webcam.set({
+                    width: 320,
+                    height: 240,
+                    dest_width: 320,
+                    dest_height: 240,
+                    image_format: 'jpeg',
+                    jpeg_quality: 90,
+                    fps: 30
+                });
+                Webcam.attach( '#live_webcam' );
+            }
+            
+            function take_snapshot() {
+                Webcam.snap( function(data_uri) {
+                    document.getElementById('webcam_result').innerHTML = '<a target="_blank" href="'+data_uri+'"><img id="visitor_image" class="img-thumbnail" src="'+data_uri+'"/></a>';
+                    var visitor_pic = document.getElementById('visitor_image_input').src;
+                } );
+            }
+        </script>
+    {{-- End Webcam Script--}}
+
 {{-- Form Validator --}}
 <script>
         // $('#regis_form').parsley().on('field:validated', function () {
@@ -818,6 +964,7 @@ tabbuttonactive
                 "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
             },
         });
+        //"scrollX": true
     });
 </script>
 {{-- End Datatable Section--}}

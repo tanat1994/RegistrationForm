@@ -127,6 +127,9 @@ tabbuttonactive
 @endsection
 
 @section('content')
+    <?php 
+        $permission = Session::get('menuPermission')["rc"]["mm"];
+    ?>
     {{-- Loading Screen Section--}}
     <ul class="loadingStyle" id="myLoadingScreen">
         <li>L</li>
@@ -182,7 +185,7 @@ tabbuttonactive
                                         <tr id="" data-column="">
                                             <td style="width: 160px; padding-right: 15px;">
                                                 <!-- FILTER: <input type="text" class="column_filter" id="col3_filter" placeholder="Position"/> -->
-                                                <label for="filter_patronClass">PATRON CLASS : </label>
+                                                <label for="filter_patronClass">{{ trans('table.patron_class') }} : </label>
                                                 <select class="form-control column_filter" id="col_patronClass_filter" onchange="classOnSelect();">
                                                     <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php PatronClassList(); ?>
@@ -230,8 +233,10 @@ tabbuttonactive
                                                 </select>
                                             </td>
                                         </tr>
-                                        <a href="{{ URL::to('/memberregister') }}" style="position: relative;"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;"  id="addNewMember"/></a>
-                                                <!-- <input type="text" class="column_filter" id="col16_filter" placeholder="Status"/></td></tr> -->
+                                        @if(strpos($permission, 'add_member') === false && strpos($permission, 'add_visitor') === false)
+                                        @else
+                                            <a href="{{ URL::to('/memberregister') }}" style="position: relative;"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;"  id="addNewMember"/></a>
+                                        @endif
                                     </table>
                                     {{-- End Filter Section --}}
                                     <!-- <a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a> -->
@@ -246,7 +251,7 @@ tabbuttonactive
                                                 <th nowrap style=""><strong>{{ trans('table.no') }}</strong></th>
                                                 <th nowrap style=""><strong>PATRON ID</strong></th>
                                                 <th nowrap style=""><strong>UNIVERSITY ID</strong></th>
-                                                <th nowrap style=""><strong>PATRON CLASS</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('table.patron_class') }}</strong></th>
                                                 <th nowrap style="display:none">PATRONCLASSID</th>
                                                 <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
                                                 <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
@@ -310,11 +315,25 @@ tabbuttonactive
                                                         </td>
 
                                                         <td style="text-align:center" id="column_action">
+                                                        @if(strpos($permission, 'edit_member') !== false)
                                                             <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" ><i class="fa fa-pencil" style="font-size:14px;"></i></button>
+                                                        @else
+                                                            <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" disabled><i class="fa fa-pencil" style="font-size:14px;"></i></button>
+                                                        @endif
+
+                                                        @if(strpos($permission, 'del_member') !== false)
                                                             <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" ><i class="fa fa-trash"></i></button>
-                                                            @if($record['Status'] != "BLACKLIST")
+                                                        @else
+                                                            <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" disabled><i class="fa fa-trash"></i></button>
+                                                        @endif
+                                                            
+                                                        @if($record['Status'] != "BLACKLIST")
+                                                            @if(strpos($permission, 'bl_member') !== false)
                                                                 <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" ><i class="fa fa-ban"></i></button>
+                                                            @else
+                                                            <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" disabled><i class="fa fa-ban"></i></button>
                                                             @endif
+                                                        @endif
                                                         </td>
 
                                                     <?php $iterator++; ?>
@@ -855,16 +874,16 @@ tabbuttonactive
                                 <div class="col-md-12">
                                     <table class="table table-striped table-bordered table-hover display" id="visitorTable" cellspacing="0" width="100%">
                                         <thead id="table_header">
-                                            <tr id="filter_global">
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>VISITOR UID</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>NATIONAL CARD ID</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME(EN)</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME(EN)</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>FIRST NAME(TH)</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LAST NAME(TH)</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>REGISTRATION COUNTER</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>LATEST REGISTER</strong></th>
-                                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>ACTION</strong></th>
+                                            <tr id="filter_global" style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
+                                                <th nowrap style=""><strong>VISITOR UID</strong></th>
+                                                <th nowrap style=""><strong>NATIONAL CARD ID</strong></th>
+                                                <th nowrap style=""><strong>FIRST NAME(EN)</strong></th>
+                                                <th nowrap style=""><strong>LAST NAME(EN)</strong></th>
+                                                <th nowrap style=""><strong>FIRST NAME(TH)</strong></th>
+                                                <th nowrap style=""><strong>LAST NAME(TH)</strong></th>
+                                                <th nowrap style=""><strong>REGISTRATION COUNTER</strong></th>
+                                                <th nowrap style=""><strong>LATEST REGISTER</strong></th>
+                                                <th nowrap style=""><strong>ACTION</strong></th>
                                             </tr>
                                         </thead>
                                         
@@ -1110,13 +1129,21 @@ tabbuttonactive
             echo "<td data-target='regis_fname_en'>".$value['regis_fname_en']."</td>";
             echo "<td data-target='regis_lname_en'>".$value['regis_lname_en']."</td>";
             echo "<td data-target='regis_fname_th'>".$value['regis_fname_th']."</td>";
-            echo "<td data-target='regis_lname_th'>".$value['regis_lname_th']."</td>";
+            echo "<td data-target='regis_lname_th'><img src='".$value['regis_img_camera']."'/></td>";
             echo "<td data-target='regis_total'>".$value['regis_total']."</td>";
             echo "<td data-target='regis_create_at'>".$value['regis_create_at']."</td>";
-
+            $permission = Session::get('menuPermission')["rc"]["mm"];
             echo "<td style='text-align:center' id='visitor_column_action'>";
-                echo "<button class='btn btn-success animateButton' data-role='visitor_update' data-id='".$value['regis_card_id']."' style='margin-right:5px;' ><i class='fa fa-pencil' style='font-size:14px;'></i></button>";
-                echo "<button class='btn btn-danger animateButton' data-role='visitor_delete' data-id='".$value['regis_card_id']."'style='font-size:14px; margin-right:5px;' ><i class='fa fa-trash'></i></button>";
+                if(strpos($permission, 'edit_vist') !== false){
+                    echo "<button class='btn btn-success animateButton' data-role='visitor_update' data-id='".$value['regis_card_id']."' style='margin-right:5px;' ><i class='fa fa-pencil' style='font-size:14px;'></i></button>";
+                }else{
+                    echo "<button class='btn btn-success animateButton' data-role='visitor_update' data-id='".$value['regis_card_id']."' style='margin-right:5px;' disabled><i class='fa fa-pencil' style='font-size:14px;'></i></button>";
+                }
+                if(strpos($permission, 'del_vist') !== false) {
+                    echo "<button class='btn btn-danger animateButton' data-role='visitor_delete' data-id='".$value['regis_card_id']."'style='font-size:14px; margin-right:5px;' ><i class='fa fa-trash'></i></button>";
+                }else{
+                    echo "<button class='btn btn-danger animateButton' data-role='visitor_delete' data-id='".$value['regis_card_id']."'style='font-size:14px; margin-right:5px;' disabled><i class='fa fa-trash'></i></button>";
+                }
             echo "</td>";
 
             echo "</tr>";

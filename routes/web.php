@@ -54,6 +54,7 @@ Route::post('/visitorController/postVisitorInsert', 'visitorController@postVisit
 Route::get('/hello', function () { return view('Member.hello'); });
 Route::get('/file', function() {return view('Member.file'); });
 Route::get('/download', function() {return view('Member.download');});
+Route::get('/webcam', 'visitorController@getAllVisitorLists');
 
 Route::get('/excelformat', 'Excelcontroller@getFormat');
 

@@ -45,35 +45,40 @@ tabbuttonactive
                 <div class="col-md-12" style="background-color:white;">
                     <h3><strong>VISITOR CARD REGISTRATION</strong></h3>
                     <hr class="hrbreakline">
+                    <div class="col-md-12"> 
+                        <form class="form-horizontal" method="POST">
 
-                    <form class="form-horizontal" method="POST">
+                            {{-- CardName --}}
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-3">
+                                    <label for="cardName" class="control-label">CARD NAME : </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="CARD NAME" name="vis_cardName" id="vis_cardName"/>
+                                </div>
+                            </div>
 
-                        {{-- CardName --}}
-                        <div class="form-group row" style="position:relative;">
-                            <div class="col-md-3">
-                                <label for="cardName" class="control-label">CARD NAME : </label>
+                            {{-- CardUID --}}
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-3">
+                                    <label for="cardUID" class="control-label">CARD UID : </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="CARD UID" name="vis_cardUID" id="vis_cardUID"/>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="CARD NAME" name="vis_cardName" id="vis_cardName"/>
-                            </div>
-                        </div>
 
-                        {{-- CardUID --}}
-                        <div class="form-group row" style="position:relative;">
-                            <div class="col-md-3">
-                                <label for="cardUID" class="control-label">CARD UID : </label>
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-success pull-right" value="SUBMIT"/>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="CARD UID" name="vis_cardUID" id="vis_cardUID"/>
-                            </div>
-                        </div>
 
-                        <div class="form-group row" style="position:relative;">
-                            <div class="col-md-9">
-                                <input type="submit" class="btn btn-primary pull-right" value="SUBMIT"/>
+                            <div class="form-group row" style="position:relative;">
                             </div>
-                        </div>
-                    </form>
+                            
+                        </form>
+                    </div>
                 </div>
             </div>
             
