@@ -5,6 +5,6 @@ return [
     'group' => 'การจัดการกลุ่ม',
     'history' => 'ประวัติการใช้งาน',
     'cardmanagement' => 'การจัดการบัตรผู้เยี่ยมชม',
-    'blacklist' => 'บัญชีดำ',
+    'blacklist' => 'แบล็คลิสต์',
     'visitormanagement' => 'การจัดการผู้มาเยี่ยมชม'
 ];

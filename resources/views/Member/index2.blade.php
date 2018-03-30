@@ -1,5 +1,6 @@
 <?php use \App\Http\Controllers\memberController; ?>
 <?php use \App\Http\Controllers\visitorController; ?>
+<?php use \App\Http\Controllers\customizeController; ?>
 @extends('core')
 
 @section('more_script')
@@ -34,6 +35,9 @@
 
   {{-- Loading Screen --}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/loadingstyle.css')}}"/>
+
+    <link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>
+    <script src="{{asset('js/parsley/parsley.min.js')}}"></script>
 
   <style>
             .container{
@@ -89,24 +93,29 @@
             .nav-pills > li.active > a,
             .nav-pills > li.active > a:hover,
             .nav-pills > li.active > a:focus {
-            border-top-color: {{config('pathConfig.tab_pills_color')}};
+            border-top-color: <?php echo customizeController::themeColor(); ?>;
             }
 
             .nav-pills > li.active > a,
             .nav-pills > li.active > a:hover,
             .nav-pills > li.active > a:focus {
             color: #ffffff;
-            background-color: {{config('pathConfig.tab_pills_color')}};
+            background-color: <?php echo customizeController::themeColor(); ?>;
             }
 
             .tabbutton {
-                color: {{config('pathConfig.menu_underline_bar')}};;
+                color: <?php echo customizeController::themeColor(); ?>
             }
             .tabbutton::after{
-                background: {{config('pathConfig.menu_underline_bar')}};
+                background: <?php echo customizeController::themeColor(); ?>
             }
             .tabbuttonactive::after{
-                background: {{config('pathConfig.menu_underline_bar')}};
+                background: <?php echo customizeController::themeColor(); ?>
+            }
+
+            .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+            background-color: <?php echo customizeController::themeColor(); ?>;
+            border-color: <?php echo customizeController::themeColor(); ?>;
             }
 
     </style>
@@ -153,7 +162,7 @@ tabbuttonactive
     <div class="row-fluid" id="myDisplaySection" style="display:none;"> <!-- <div class="row-fluid">-->
 
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o" style="color:{{config('pathConfig.title_word_color')}};"></i></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:<?php echo customizeController::themeColor(); ?>" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o" style="color:{{config('pathConfig.title_word_color')}};"></i></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -179,65 +188,102 @@ tabbuttonactive
                         <div class="tab-pane active" id="memberManagement_tab">
                             <div class="col-md-12" style="background-color:white; padding-top:1%;" id="myDivTable">
                                 {{-- Add Member & Filtering Section --}}
-                                <div class="col-md-12" style="margin-bottom: 2%;">
-                                    {{-- Filter Section --}}
-                                    <table>
-                                        <tr id="" data-column="">
-                                            <td style="width: 160px; padding-right: 15px;">
-                                                <!-- FILTER: <input type="text" class="column_filter" id="col3_filter" placeholder="Position"/> -->
+                                
+                                <div class="col-md-12"></h1>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <form name="search_form" id="search_form" class="search_form" onsubmit="searchSubmit();" action="">
+                                            <input type="text" class="form-control input-lg" id="searchString" name="searchString" placeholder="Search" style="width: 100%;border-radius:50px;text-align:center;">
+
+                                            {{-- Search PatronClass --}}
+                                            <div class="col-md-4" style="margin-top:1%;">
                                                 <label for="filter_patronClass">{{ trans('table.patron_class') }} : </label>
-                                                <select class="form-control column_filter" id="col_patronClass_filter" onchange="classOnSelect();">
+                                                <select class="form-control column_filter" id="PtnClassId">
                                                     <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php PatronClassList(); ?>
                                                 </select>
-                                            </td>
-                                        <!-- </tr> -->
-                                            <td style="width: 160px; padding-right: 15px;">
+                                            </div>
+
+                                            {{-- Search PatronGroup --}}
+                                            <div class="col-md-4" style="margin-top:1%;">
                                                 <label for="filter_group">{{ trans('table.group') }} : </label>
-                                                <select class="form-control column_filter" id="col_group_filter" onchange="groupOnSelect();">
+                                                <select class="form-control column_filter" id="PtnGroup">
                                                     <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php GroupList(); ?>
                                                 </select>
-                                            </td>
+                                            </div>
 
-                                        <!-- <tr id="filter_col6" data-column="10"> -->
-                                            <td style="width: 160px; padding-right: 15px;">
+                                            {{-- Search Department --}}
+                                            <div class="col-md-4" style="margin-top:1%;">
                                                 <label for="filter_dept">{{ trans('table.department') }} : </label>
-                                                <select class="form-control column_filter" id="col_dept_filter" onchange="deptOnSelect();">
+                                                <select class="form-control column_filter" id="DeptId">
                                                     <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php DeptList(); ?>
                                                 </select>
-                                            </td>
-                                        <!-- </tr> -->
-                                            <!-- FILTER: <input type="text" class="column_filter" id="col10_filter" placeholder="Degree"/></td></tr> -->
-                                        
-                                        <!-- <tr id="filter_col7" data-column="12"> -->
-                                            <td style="width: 160px; padding-right: 15px;">
+                                            </div>
+
+                                            {{-- Search Faculty --}}
+                                            <div class="col-md-4" style="margin-top:1%;">
                                                 <label for="filter_faculty">{{ trans('table.faculty') }} : </label>
-                                                <select class="form-control column_filter" id="col_faculty_filter" onchange="facultyOnSelect();">
+                                                <select class="form-control column_filter" id="FacId">
                                                     <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <?php FacultyList(); ?>
                                                 </select>
-                                                <!-- <input type="text" class="column_filter" id="col12_filter" placeholder="Faculty"/></td></tr> -->
-                                            </td>
-                                        <!-- </tr> -->
+                                            </div>
 
-                                        <!-- <tr id="filter_col9" data-column="16"> -->
-                                            <td style="width: 160px; padding-right: 15px;">
+                                            {{-- Status --}}
+                                            <div class="col-md-4" style="margin-top:1%;">
                                                 <label for="filter_status">{{ trans('table.status') }} : </label>
-                                                <select class="form-control column_filter" id="col_status_filter" onchange="statusOnSelect();">
+                                                <select class="form-control column_filter" id="Status">
                                                     <option value="" selected>{{ trans('table.show_all') }}</option>
                                                     <option value="active">ACTIVE</option>
                                                     <option value="inactive">INACTIVE</option>
                                                     <option value="blacklist">BLACKLIST</option>
                                                 </select>
-                                            </td>
-                                        </tr>
-                                        @if(strpos($permission, 'add_member') === false && strpos($permission, 'add_visitor') === false)
-                                        @else
-                                            <a href="{{ URL::to('/memberregister') }}" style="position: relative;"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;"  id="addNewMember"/></a>
-                                        @endif
-                                    </table>
+                                            </div>
+
+                                            {{-- Empty div--}}
+                                            <!-- <div class="col-md-3"></div> -->
+
+                                            {{-- Submit Form --}}
+                                            <div class="col-md-4" style="margin-top:1%;">
+                                                <label for="">  </label>
+                                                <button type="submit" class="form-control btn btn-success">Submit</button>
+                                            </div>
+                                        </form>
+
+                                        <script>
+                                            function searchSubmit() {
+                                            var searchString = document.getElementById('searchString').value;
+                                            var PtnClassId = document.getElementById('PtnClassId').value;
+                                            var PtnGroup = document.getElementById('PtnGroup').value;
+                                            var DeptId = document.getElementById('DeptId').value;
+                                            var FacId = document.getElementById('FacId').value;
+                                            var Status = document.getElementById('Status').value;
+                                            $.ajax({
+                                                url : $('#api_url').val() + 'memberController/memberSearchFilter',
+                                                type : 'post',
+                                                data : {searchString: searchString, PtnClassId: PtnClassId, PtnGroup: PtnGroup, DeptId: DeptId, FacId: FacId, Status: Status},
+                                                success : function(response){
+                                                    console.log(response["data"])
+                                                    // location.reload();
+                                                }
+                                            });
+                                            }
+                                        </script>
+                                        
+                                        <table style="margin-top:1.1%;">
+                                            @if(strpos($permission, 'add_member') === false && strpos($permission, 'add_visitor') === false)
+                                            @else
+                                                <!-- <a href="{{ URL::to('/memberregister') }}" style="position: relative;"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;"  id="addNewMember"/></a> -->
+                                            @endif
+                                        </table>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                                <div class="col-md-12" style="margin-bottom: 2%;margin-top: 1.5%;">
+                                    {{-- Filter Section --}}
                                     {{-- End Filter Section --}}
                                     <!-- <a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a> -->
                                     <!-- <div class="col-md-12"><a href=""><button class="btn btn-success pull-right">HELLo</button></a></div>
@@ -247,10 +293,11 @@ tabbuttonactive
                                 
                                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                                         <thead id="table_header">
-                                            <tr id="filter_global" style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
+                                            <tr id="filter_global" style="background-color:<?php echo customizeController::themeColor(); ?>; color:{{config('pathConfig.table_header_title_color')}};">
                                                 <th nowrap style=""><strong>{{ trans('table.no') }}</strong></th>
-                                                <th nowrap style=""><strong>PATRON ID</strong></th>
-                                                <th nowrap style=""><strong>UNIVERSITY ID</strong></th>
+                                                <th nowrap style=""><strong>{{trans('register.patronId')}}</strong></th>
+                                                <th nowrap style=""><strong>{{trans('register.univId')}}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.stdCode') }}</strong></th>
                                                 <th nowrap style=""><strong>{{ trans('table.patron_class') }}</strong></th>
                                                 <th nowrap style="display:none">PATRONCLASSID</th>
                                                 <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
@@ -270,74 +317,68 @@ tabbuttonactive
                                         <tbody>
                                             <?php $iterator = 1;?>
                                             @foreach($memberRecord as $record)
-                                                <tr id="{{$record['PtnId']}}" style="font-size: 15px;">
-                                                    <td><?php echo $iterator;?></td>
-                                                        <td data-target="PtnId">{{ $record['PtnId'] }}</td> 
-                                                        <td data-target="UnivId">{{ $record['UnivId'] }}</td> 
-
-                                                        @if(App::getLocale() == 'en')
-                                                            <td data-target="PatronEn">{{ $record['PatronEn'] }}</td>
-                                                        @else
-                                                            <td data-target="PatronTh">{{ $record['PatronTh'] }}</td>
-                                                        @endif
-                                                        <td data-target="PtnClassId" style="display:none">{{ $record['PtnClassId'] }}</td>
-
-                                                        <td data-target="FName">{{ $record['FName'] }}</td> 
-                                                        <td data-target="LName">{{ $record['LName'] }}</td> 
-                                                        @if(App::getLocale() == 'en')
-                                                            <td data-target="FacCode" style="display:none;">{{ $record['FacCode'] }}</td>
-                                                            <td data-target="FacultyEn">{{ $record['FacultyEn'] }}</td> 
-                                                            <td data-target="DeptCode" style="display:none;">{{ $record['DeptCode'] }}</td> 
-                                                            <td data-target="DeptEn">{{ $record['DeptEn'] }}</td> 
-                                                            <td data-target="PtnGroupId" style="display:none;">{{ $record['PtnGroupId'] }}</td> 
-                                                            <td data-target="GroupEn">{{ $record['GroupEn'] }}</td> 
-                                                        @else
-                                                            <td data-target="FacCode" style="display:none;">{{ $record['FacCode'] }}</td> 
-                                                            <td data-target="FacultyTh">{{ $record['FacultyTh'] }}</td> 
-                                                            <td data-target="DeptCode" style="display:none;">{{ $record['DeptCode'] }}</td> 
-                                                            <td data-target="DeptTh">{{ $record['DeptTh'] }}</td> 
-                                                            <td data-target="PtnGroupId" style="display:none;">{{ $record['PtnGroupId'] }}</td> 
-                                                            <td data-target="GroupTh">{{ $record['GroupTh'] }}</td> 
-                                                        @endif
-
-                                                        <td data-target="Exp_Date">{{ $record['Exp_Date'] }}</td> 
-                                                        <td data-target="RFId" style="display:none;">{{ $record['RFId'] }}</td> 
-
-                                                        <td data-target="Status" id="column_Status">
-                                                            @if($record['Status'] == "ACTIVE")
-                                                                <span class="badge badge-success" style="background-color:#00a65a">
-                                                            @elseif($record['Status'] == "INACTIVE")
-                                                                <span class="badge badge-danger" style="background-color:#dd4b39">
-                                                            @elseif($record['Status'] == "BLACKLIST")
-                                                                <span class="badge badge-warning">
-                                                            @endif
-                                                            {{$record['Status']}}</span>
-                                                        </td>
-
-                                                        <td style="text-align:center" id="column_action">
-                                                        @if(strpos($permission, 'edit_member') !== false)
-                                                            <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" ><i class="fa fa-pencil" style="font-size:14px;"></i></button>
-                                                        @else
-                                                            <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" disabled><i class="fa fa-pencil" style="font-size:14px;"></i></button>
-                                                        @endif
-
-                                                        @if(strpos($permission, 'del_member') !== false)
-                                                            <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" ><i class="fa fa-trash"></i></button>
-                                                        @else
-                                                            <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" disabled><i class="fa fa-trash"></i></button>
-                                                        @endif
-                                                            
-                                                        @if($record['Status'] != "BLACKLIST")
-                                                            @if(strpos($permission, 'bl_member') !== false)
-                                                                <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" ><i class="fa fa-ban"></i></button>
+                                                    <tr id="{{$record['PtnId']}}" style="font-size: 15px;">
+                                                        <td><?php echo $iterator; ?></td>
+                                                            <td data-target="PtnId">{{ $record['PtnId'] }}</td> 
+                                                            <td data-target="UnivId">{{ $record['UnivId'] }}</td> 
+                                                            <td data-target="StdCode">{{ $record['StdCode'] }}</td>
+                                                            <td data-target="PatronEn">{{ $record['Patronclass'] }}</td>
+                                                            <td data-target="PtnClassId" style="display:none">{{ $record['PtnClassId'] }}</td>
+                                                            @if(App::getLocale() == 'en')
+                                                                <td data-target="FName">{{ $record['FNameE'] }}</td> 
+                                                                <td data-target="LName">{{ $record['LNameE'] }}</td> 
+                                                                <td data-target="FacCode" style="display:none;">{{ $record['FacId'] }}</td>
+                                                                <td data-target="FacultyEn">{{ $record['Faculty_En_Name'] }}</td> 
+                                                                <td data-target="DeptCode" style="display:none;">{{ $record['DeptId'] }}</td> 
+                                                                <td data-target="DeptEn">{{ $record['Dept_En_Name'] }}</td> 
                                                             @else
-                                                            <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" disabled><i class="fa fa-ban"></i></button>
+                                                                <td data-target="FName">{{ $record['FName'] }}</td> 
+                                                                <td data-target="LName">{{ $record['LName'] }}</td> 
+                                                                <td data-target="FacCode" style="display:none;">{{ $record['FacId'] }}</td> 
+                                                                <td data-target="FacultyTh">{{ $record['Faculty_Th_Name'] }}</td> 
+                                                                <td data-target="DeptCode" style="display:none;">{{ $record['DeptId'] }}</td> 
+                                                                <td data-target="DeptTh">{{ $record['Dept_Th_Name'] }}</td> 
                                                             @endif
-                                                        @endif
-                                                        </td>
+                                                            <td data-target="PtnGroupId" style="display:none;">{{ $record['PtnGroup'] }}</td> 
+                                                            <td data-target="GroupTh">{{ $record['Patrongroup'] }}</td> 
+                                                            <td data-target="Exp_Date">{{ $record['Exp_Date'] }}</td> 
+                                                            <td data-target="RFId" style="display:none;">{{ $record['RFId'] }}</td> 
 
-                                                    <?php $iterator++; ?>
-                                                </tr>
+                                                            <td data-target="Status" id="column_Status">
+                                                                @if($record['Status'] == "ACTIVE")
+                                                                    <span class="badge badge-success" style="background-color:#00a65a">
+                                                                @elseif($record['Status'] == "INACTIVE")
+                                                                    <span class="badge badge-danger" style="background-color:#dd4b39">
+                                                                @elseif($record['Status'] == "BLACKLIST")
+                                                                    <span class="badge badge-warning">
+                                                                @endif
+                                                                {{$record['Status']}}</span>
+                                                            </td>
+
+                                                            <td style="text-align:center" id="column_action">
+                                                            @if(strpos($permission, 'edit_member') !== false)
+                                                                <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" ><i class="fa fa-pencil" style="font-size:14px;"></i></button>
+                                                            @else
+                                                                <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" disabled><i class="fa fa-pencil" style="font-size:14px;"></i></button>
+                                                            @endif
+
+                                                            @if(strpos($permission, 'del_member') !== false)
+                                                                <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" ><i class="fa fa-trash"></i></button>
+                                                            @else
+                                                                <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" disabled><i class="fa fa-trash"></i></button>
+                                                            @endif
+                                                                
+                                                            @if($record['Status'] != "BLACKLIST")
+                                                                @if(strpos($permission, 'bl_member') !== false)
+                                                                    <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" ><i class="fa fa-ban"></i></button>
+                                                                @else
+                                                                <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" disabled><i class="fa fa-ban"></i></button>
+                                                                @endif
+                                                            @endif
+                                                            </td>
+
+                                                        <?php $iterator++; ?>
+                                                    </tr>
                                             @endforeach
                                         </tbody>
                                 
@@ -356,7 +397,7 @@ tabbuttonactive
                                     
                                                                     <div class="modal-header">
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                        <h2 class="modal-title" style="color:#2e7ed0;"><strong>{{trans("table.edit_data")}}</strong></h2>
+                                                                        <h2 class="modal-title" style="color:<?php echo customizeController::themeColor(); ?>;"><strong>{{trans("table.edit_data")}}</strong></h2>
                                                                     </div>
                                     
                                                                         <div class="modal-body">
@@ -375,12 +416,12 @@ tabbuttonactive
                                                                                                                     </div>
                                                                                                             
                                                                                                                     <div class="form-group row" style="position:relative;">
-                                                                                                                            <label for="UnivId" class="control-label col-md-5" style="text-align:left;">UniversityId:</label>
+                                                                                                                            <label for="UnivId" class="control-label col-md-5" style="text-align:left;">{{trans('register.univId')}}:</label>
                                                                                                                             <div class="col-md-7">
                                                                                                                                 <input type="text" class="form-control" id="modal_Univ" name="modal_Univ">
                                                                                                                             </div>
                                                                                                                     </div>
-                                                                                                            </fieldset>
+                                                                                                            
                                                                                                             <div class="form-group row" style="position:relative;">
                                                                                                                     <label for="RFId" class="control-label col-md-5" style="text-align:left;">RFID:</label>
                                                                                                                     <div class="col-md-7">
@@ -389,25 +430,25 @@ tabbuttonactive
                                                                                                             </div>
                                 
                                                                                                             <div class="form-group row" style="position:relative;">
-                                                                                                                    <label for="patronClass" class="control-label col-md-5" style="text-align:left;">{{trans("table.position")}}:</label>
+                                                                                                                    <label for="patronClass" class="control-label col-md-5" style="text-align:left;">{{ trans('table.patron_class') }}:</label>
                                                                                                                     <div class="col-md-7">
                                                                                                                                 <select id="modal_patronClass" class="form-control" name="modal_patronClass">
                                                                                                                                     <?php PatronClassList(); ?>
                                                                                                                                 </select>
                                                                                                                     </div>
                                                                                                             </div>
-                                
+                                                                                                        
                                                                                                             <div class="form-group row" style="position:relative;">
                                                                                                                     <label for="title" class="control-label col-md-5" style="text-align:left;">{{trans("table.title")}}:</label>
                                                                                                                     <div class="col-md-7">
                                                                                                                                 <select id="modal_title" class="form-control" name="modal_title">
-                                                                                                                                    <option selected value="1">{{ trans('register.title_mr') }}</option>
-                                                                                                                                    <option value="2">{{ trans('register.title_mrs') }}</option>
-                                                                                                                                    <option value="3">{{ trans('register.title_ms') }}</option>
+                                                                                                                                    <option selected value="Mr.">{{ trans('register.title_mr') }}</option>
+                                                                                                                                    <option value="Mrs.">{{ trans('register.title_mrs') }}</option>
+                                                                                                                                    <option value="Ms.">{{ trans('register.title_ms') }}</option>
                                                                                                                                 </select>
                                                                                                                     </div>
                                                                                                             </div>
-                                
+                                                                                                        </fieldset>
                                                                                                             <fieldset disabled>
                                                                                                                 <div class="form-group row" style="position:relative;">
                                                                                                                         <label for="firstName" class="control-label col-md-5" style="text-align:left;">{{trans("register.firstname")}}:</label>
@@ -485,11 +526,11 @@ tabbuttonactive
                                     
                                                                         <div class="modal-header">
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                            <h2 class="modal-title" style="color:#2e7ed0;"><strong>{{trans("table.blacklist")}}</strong></h2>
+                                                                            <h2 class="modal-title" style="color:#2e7ed0;"><strong>{{trans("menu.blacklist")}}</strong></h2>
                                                                         </div>
                                     
                                                                         <div class="modal-body">
-                                                                            <form class="form-horizontal">
+                                                                            <form class="form-horizontal" data-parsley-validate>
                                                                                 <div class="form-group" style="margin-left: 1%;">
                                                                                     <div class="input-group">
                                                                                             <div class="container">
@@ -521,7 +562,7 @@ tabbuttonactive
                                                                                                             </fieldset>
                                 
                                                                                                             <div class="form-group row" style="position:relative;">
-                                                                                                                    <label for="blacklist_title" class="control-label col-md-6" style="text-align:left;">BLACKLIST TITLE:</label>
+                                                                                                                    <label for="blacklist_title" class="control-label col-md-6" style="text-align:left;">{{trans('table.blacklist_title')}}:</label>
                                                                                                                     <div class="col-md-6">
                                                                                                                         <input type="text" class="form-control" id="blacklist_title" name="blacklist_title">
                                                                                                                     </div>
@@ -533,17 +574,28 @@ tabbuttonactive
                                                                                                                         <textarea class="form-control" id="blacklist_description" name="blacklist_description" style="width:100%; height: 200px; resize: none;"></textarea>
                                                                                                                     </div>
                                                                                                             </div>
+
+                                                                                                            <div class="form-group row" style="position:relative;">
+                                                                                                                    <label for="blacklist_no_of_day" class="control-label col-md-6" style="text-align:left;">{{trans('table.restricted_for')}} :</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <div class="input-group">
+                                                                                                                            <input type="text" class="form-control" id="restricted_day" name="restricted_day" placeholder="" data-parsley-trigger="change" required=""/>
+                                                                                                                            <span class="input-group-btn">
+                                                                                                                                <input type="button" class="form-control" id="restricted_day_tag" name="restricted_day_tag" value="{{trans('table.restricted_day')}}" style="background-color:<?php echo customizeController::themeColor(); ?>;color:white;border-color:<?php echo customizeController::themeColor(); ?>;">
+                                                                                                                            </span>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                            </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            {{--  <hr class="hrbreakline" style="margin-top:1%;margin-left:1.5%;width:70%;">  --}}
                                                                                     </div>
                                                                                 </div>         
                                                                             </form>
                                                                         </div> 
                                             
                                                                         <div class="modal-footer">
-                                                                            <a href="#" id="banned" class="btn btn-success pull-right">{{trans("table.listed_on_blacklist")}}</a>
+                                                                            <button type="submit" id="banned" class="btn btn-success pull-right">{{trans("table.listed_on_blacklist")}}</button>
                                                                             <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
                                                                         </div>
                                     
@@ -561,8 +613,8 @@ tabbuttonactive
                             function classOnSelect () {
                                 console.log($("#col_patronClass_filter :selected").text());
                                 var ptnClass = $('#col_patronClass_filter :selected').text();
-                                if(ptnClass == "Show all"){ ptnClass = ""; }
-                                $('#myTable').DataTable().column(3).search(
+                                if(ptnClass == "Show all" || ptnClass == "แสดงทั้งหมด"){ ptnClass = ""; }
+                                $('#myTable').DataTable().column(4).search(
                                     ptnClass
                                 ).draw();
                             }
@@ -570,8 +622,8 @@ tabbuttonactive
                             function deptOnSelect () {
                                 console.log($("#col_dept_filter :selected").text());
                                 var deptText = $('#col_dept_filter :selected').text();
-                                if(deptText == "Show all"){ deptText = ""; }
-                                $('#myTable').DataTable().column(10).search(
+                                if(deptText == "Show all" || deptText == "แสดงทั้งหมด"){ deptText = ""; }
+                                $('#myTable').DataTable().column(11).search(
                                     //document.getElementById('col10_filter').value
                                     deptText
                                 ).draw();
@@ -582,8 +634,8 @@ tabbuttonactive
                             function facultyOnSelect () {
                                 console.log($('#col_faculty_filter :selected').text());
                                 var facultyText = $('#col_faculty_filter :selected').text();
-                                if(facultyText == "Show all"){ facultyText = ""; }
-                                $('#myTable').DataTable().column(8).search(
+                                if(facultyText == "Show all" || facultyText == "แสดงทั้งหมด"){ facultyText = ""; }
+                                $('#myTable').DataTable().column(9).search(
                                     //document.getElementById('col12_filter').value
                                     facultyText
                                 ).draw();
@@ -592,7 +644,7 @@ tabbuttonactive
                             function statusOnSelect () {
                                 console.log(document.getElementById('col_status_filter').value);
                                 var statusText = "(( )|^)" + document.getElementById('col_status_filter').value + "(( )|$)"
-                                $('#myTable').DataTable().column(15).search(
+                                $('#myTable').DataTable().column(16).search(
                                     statusText, true, false
                                 ).draw();
                             }
@@ -600,8 +652,8 @@ tabbuttonactive
                             function groupOnSelect () {
                                 var groupText = $('#col_group_filter :selected').text();
                                 console.log(groupText);
-                                if(groupText == "Show all"){ groupText = ""; }
-                                $('#myTable').DataTable().column(12).search(
+                                if(groupText == "Show all" || groupText == "แสดงทั้งหมด"){ groupText = ""; }
+                                $('#myTable').DataTable().column(13).search(
                                     groupText
                                 ).draw();
                             }
@@ -636,6 +688,9 @@ tabbuttonactive
                                                 "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
                                                 "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
                                             },
+                                            "searching": false,
+                                            "lengthChange": false,
+                                            "info": false
                                         });
 
                                         $('input.column_filter').on( 'keyup click', function() {
@@ -662,7 +717,7 @@ tabbuttonactive
                                                 }).then((willDelete)=>{
                                                     if(willDelete){
                                                         $.ajax({
-                                                            url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/deleteMember',
+                                                            url : $('#api_url').val() + 'memberController/deleteMember',
                                                             //url:  config('pathConfig.pathREST') +'checkLogin/check'
                                                             type : 'delete',
                                                             data : {PtnId: PtnId},
@@ -735,7 +790,7 @@ tabbuttonactive
                                             }
                                             console.log("Updated StatusId : " + statusId);
                                             $.ajax({
-                                                url : 'http://127.0.0.1/Website-NAT/public/index.php/memberController/memberUpdate',
+                                                url : $('#api_url').val() + 'memberController/memberUpdate',
                                                 type : 'put',
                                                 //data : {PtnId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val(), 'Status': "INACTIVE"},
                                                 data : {PtnId: $('#modal_memberId').val(), Status: statusId},
@@ -785,7 +840,7 @@ tabbuttonactive
                                                             $.ajax({
                                                                 url : $('#api_url').val() + 'blackListController/addBlackList',
                                                                 type : 'post',
-                                                                data : {memberId: $('#blacklist_memberId').val(), note: $('#blacklist_description').val(), title: $('#blacklist_title').val()},
+                                                                data : {memberId: $('#blacklist_memberId').val(), note: $('#blacklist_description').val(), title: $('#blacklist_title').val(), end_of_banned: $('#restricted_day').val()},
                                                                 success : function(response){
                                                                     alert("BANNED COMPLETE");
                                                                     $('#blackListModal').modal('toggle');
@@ -874,15 +929,23 @@ tabbuttonactive
                                 <div class="col-md-12">
                                     <table class="table table-striped table-bordered table-hover display" id="visitorTable" cellspacing="0" width="100%">
                                         <thead id="table_header">
-                                            <tr id="filter_global" style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
-                                                <th nowrap style=""><strong>VISITOR UID</strong></th>
-                                                <th nowrap style=""><strong>NATIONAL CARD ID</strong></th>
-                                                <th nowrap style=""><strong>FIRST NAME(EN)</strong></th>
-                                                <th nowrap style=""><strong>LAST NAME(EN)</strong></th>
-                                                <th nowrap style=""><strong>FIRST NAME(TH)</strong></th>
-                                                <th nowrap style=""><strong>LAST NAME(TH)</strong></th>
-                                                <th nowrap style=""><strong>REGISTRATION COUNTER</strong></th>
-                                                <th nowrap style=""><strong>LATEST REGISTER</strong></th>
+                                            <tr id="filter_global" style="background-color:<?php echo customizeController::themeColor(); ?>; color:{{config('pathConfig.table_header_title_color')}};">
+                                                <th nowrap style=""><strong>{{ trans('register.visitorNo') }}</strong>
+                                                <th nowrap style=""><strong>{{ trans('register.visitor_uid') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.nationalcard') }}</strong></th>
+                                                @if(App::getLocale() == 'en')
+                                                    <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.lastname') }}</strong></th>
+                                                @else 
+                                                    <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.lastname') }}</strong></th>
+                                                @endif
+                                                <th nowrap style=""><strong>{{ trans('register.registration_counter') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.lastest_register') }}</strong></th>
                                                 <th nowrap style=""><strong>ACTION</strong></th>
                                             </tr>
                                         </thead>
@@ -913,43 +976,45 @@ tabbuttonactive
                                                                 <div class="container">
                                                                     <div class="row-fluid">
                                                                         <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                        <fieldset disabled>
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                <label for="modal_regis_card_id" class="control-label col-md-5" style="text-align:left;">NATIONAL/PASSPORT ID:</label>
+                                                                                <label for="modal_regis_card_id" class="control-label col-md-5" style="text-align:left;">{{ trans('register.nationalcard') }}:</label>
                                                                                 <div class="col-md-7">
                                                                                     <input type="text" class="form-control" id="modal_regis_card_id" name="modal_regis_card_id">
                                                                                 </div>
                                                                             </div>
                                                                     
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                <label for="modal_regis_uid" class="control-label col-md-5" style="text-align:left;">VISITOR ID:</label>
+                                                                                <label for="modal_regis_uid" class="control-label col-md-5" style="text-align:left;">{{ trans('register.visitor_uid') }}:</label>
                                                                                 <div class="col-md-7">
                                                                                     <input type="text" class="form-control" id="modal_regis_uid" name="modal_regis_uid">
                                                                                 </div>
                                                                             </div>
+                                                                        </fieldset>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                <label for="modal_regis_fname_en" class="control-label col-md-5" style="text-align:left;">VISITOR NAME(EN):</label>
+                                                                                <label for="modal_regis_fname_en" class="control-label col-md-5" style="text-align:left;">{{ trans('register.firstname') }} (EN):</label>
                                                                                 <div class="col-md-7">
                                                                                     <input type="text" class="form-control" id="modal_regis_fname_en" name="modal_regis_fname_en">
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                <label for="modal_regis_lname_en" class="control-label col-md-5" style="text-align:left;">VISITOR LAST NAME(EN):</label>
+                                                                                <label for="modal_regis_lname_en" class="control-label col-md-5" style="text-align:left;">{{ trans('register.lastname') }} (EN):</label>
                                                                                 <div class="col-md-7">
                                                                                     <input type="text" class="form-control" id="modal_regis_lname_en" name="modal_regis_lname_en">
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                <label for="modal_regis_fname_th" class="control-label col-md-5" style="text-align:left;">VISITOR NAME(TH):</label>
+                                                                                <label for="modal_regis_fname_th" class="control-label col-md-5" style="text-align:left;">{{ trans('register.firstname') }} (TH):</label>
                                                                                 <div class="col-md-7">
                                                                                     <input type="text" class="form-control" id="modal_regis_fname_th" name="modal_regis_fname_th">
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="form-group row" style="position:relative;">
-                                                                                <label for="modal_regis_lname_th" class="control-label col-md-5" style="text-align:left;">VISITOR LAST NAME(TH):</label>
+                                                                                <label for="modal_regis_lname_th" class="control-label col-md-5" style="text-align:left;">{{ trans('register.lastname') }} (TH):</label>
                                                                                 <div class="col-md-7">
                                                                                     <input type="text" class="form-control" id="modal_regis_lname_th" name="modal_regis_lname_th">
                                                                                 </div>
@@ -963,7 +1028,7 @@ tabbuttonactive
                                                 </div> 
                 
                                             <div class="modal-footer">
-                                                <a href="#" id="visitorupdate" class="btn btn-success pull-right">{{trans('table.update')}}</a>
+                                                <a href="#" id="visitorupdate" data-role="visitorupdate" name="visitorupdate" class="btn btn-success pull-right">{{trans('table.update')}}</a>
                                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
                                             </div>
             
@@ -972,7 +1037,7 @@ tabbuttonactive
                                 </div>
                             {{-- End Visitor Edit Modal --}}
 
-                            {{-- Visitor Update Script--}}
+                            {{-- Visitor Update Button Display Modal --}}
                                 <script>
                                     $(document).ready(function(){
                                         $(document).on('click', 'button[data-role=visitor_update]', function(){
@@ -992,7 +1057,31 @@ tabbuttonactive
                                         })
                                     });
                                 </script>
-                            {{-- End of Visitor Update Script--}}
+                            {{-- End of Visitor Update Button Display Modal --}}
+
+                            {{-- Visitor Update Info --}}
+                                <script>
+                                    var id = $('#modal_regis_card_id').val();
+                                    $('#visitorupdate').click(function(){
+                                        $.ajax({
+                                            url : $('#api_url').val() + 'visitorController/updateVisitorInfo',
+                                            type : 'put',
+                                            data : {
+                                                regis_card_id: $('#modal_regis_card_id').val(),
+                                                regis_uid: $('#modal_regis_uid').val(),
+                                                regis_fname_en: $('#modal_regis_fname_en').val(),
+                                                regis_lname_en: $('#modal_regis_lname_en').val(),
+                                                regis_fname_th: $('#modal_regis_fname_th').val(),
+                                                regis_lname_th: $('#modal_regis_lname_th').val()
+                                            },
+                                            success : function(response){
+                                                modalAlert("update", id);
+                                                location.reload();
+                                            }
+                                        });
+                                    });
+                                </script>
+                            {{-- End of Visitor Update Info --}}
 
                             {{-- Visitor Delete Script --}}
                                 <script>
@@ -1007,7 +1096,7 @@ tabbuttonactive
                                         }).then((willDelete)=>{
                                             if(willDelete){
                                                 $.ajax({
-                                                    url : 'http://127.0.0.1/Website-NAT/public/index.php/visitorController/deleteVisitorRecord',
+                                                    url : $('#api_url').val() + 'visitorController/deleteVisitorRecord',
                                                     //url:  config('pathConfig.pathREST') +'checkLogin/check'
                                                     type : 'delete',
                                                     data : {regis_card_id: regis_card_id},
@@ -1062,10 +1151,10 @@ tabbuttonactive
         $language = checkLocale();
         foreach ($facArry["data"] as $key => $value){
             if($init_check == true){
-                echo "<option value=".$value["DeptCode"].">".$value[$language]."</option>";
+                echo "<option value=".$value["DeptId"].">".$value[$language]."</option>";
                 $init_check = false;
             }else{
-                echo "<option value=".$value["DeptCode"].">".$value[$language]."</option>";
+                echo "<option value=".$value["DeptId"].">".$value[$language]."</option>";
             }
         }
     }
@@ -1076,10 +1165,10 @@ tabbuttonactive
         $language = checkLocale();
         foreach ($facArry["data"] as $key => $value){
             if($init_check == true){
-                echo "<option value=".$value["FacCode"].">".$value[$language]."</option>";
+                echo "<option value=".$value["FacId"].">".$value[$language]."</option>";
                 $init_check = false;
             }else{
-                echo "<option value=".$value["FacCode"].">".$value[$language]."</option>";
+                echo "<option value=".$value["FacId"].">".$value[$language]."</option>";
             }
         }
     }
@@ -1089,10 +1178,10 @@ tabbuttonactive
         $language = checkLocale();
         foreach ($facArry["data"] as $key => $value){
             if($init_check == true){
-                echo "<option value=".$value["PtnGroupId"].">".$value[$language]."</option>";
+                echo "<option value=".$value["PtnGroupId"].">".$value["Th_Name"]."</option>";
                 $init_check = false;
             }else{
-                echo "<option value=".$value["PtnGroupId"].">".$value[$language]."</option>";
+                echo "<option value=".$value["PtnGroupId"].">".$value["Th_Name"]."</option>";
             }
         }
     }
@@ -1103,10 +1192,10 @@ tabbuttonactive
         $language = checkLocale();
         foreach ($classArry["data"] as $key => $value){
             if($init_check == true){
-                echo "<option value=".$value["PtnClassId"].">".$value[$language]."</option>";
+                echo "<option value=".$value["PtnClassId"].">".$value["Th_Name"]."</option>";
                 $init_check = false;
             }else{
-                echo "<option value=".$value["PtnClassId"].">".$value[$language]."</option>";
+                echo "<option value=".$value["PtnClassId"].">".$value["Th_Name"]."</option>";
             }
         }
     }
@@ -1122,14 +1211,24 @@ tabbuttonactive
     function getAllVisitorLists () {
         $visitorLists = visitorController::getAllVisitorLists();
         $language = checkLocale();
+        $iterator = 1;
         foreach ($visitorLists["data"] as $key => $value){
             echo "<tr id='".$value['regis_card_id']."' style='font-size: 15px;'>";
+            echo "<td data-target='visitor_no'>".$iterator."</td>";
             echo "<td data-target='regis_uid'>".$value['regis_uid']."</td>";
             echo "<td data-target='regis_card_id'>".$value['regis_card_id']."</td>";
-            echo "<td data-target='regis_fname_en'>".$value['regis_fname_en']."</td>";
-            echo "<td data-target='regis_lname_en'>".$value['regis_lname_en']."</td>";
-            echo "<td data-target='regis_fname_th'>".$value['regis_fname_th']."</td>";
-            echo "<td data-target='regis_lname_th'><img src='".$value['regis_img_camera']."'/></td>";
+            if($language == 'En_Name'){
+                echo "<td data-target='regis_fname_en'>".$value['regis_fname_en']."</td>";
+                echo "<td data-target='regis_lname_en'>".$value['regis_lname_en']."</td>";
+                echo "<td data-target='regis_fname_th' style='display:none;'>".$value['regis_fname_th']."</td>";
+                echo "<td data-target='regis_lname_th' style='display:none;'>".$value['regis_lname_th']."</td>";
+            }else{
+                echo "<td data-target='regis_fname_th'>".$value['regis_fname_th']."</td>";
+                echo "<td data-target='regis_lname_th'>".$value['regis_lname_th']."</td>";
+                echo "<td data-target='regis_fname_en' style='display:none;'>".$value['regis_fname_en']."</td>";
+                echo "<td data-target='regis_lname_en' style='display:none;'>".$value['regis_lname_en']."</td>";
+            }
+            //<a href="{{ asset('images/visitor_Images/'.$result['regis_img_camera']) }}" ><img src="{{ asset('images/visitor_Images/'.$result['regis_img_camera']) }}"/></a>
             echo "<td data-target='regis_total'>".$value['regis_total']."</td>";
             echo "<td data-target='regis_create_at'>".$value['regis_create_at']."</td>";
             $permission = Session::get('menuPermission')["rc"]["mm"];
@@ -1147,6 +1246,7 @@ tabbuttonactive
             echo "</td>";
 
             echo "</tr>";
+            $iterator++;
         }
     }
 ?>

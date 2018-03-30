@@ -10,6 +10,7 @@ use App\Http\Controllers\isEmpty;
 use App\Http\Requests;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use App\Http\Requests\CreateRegisterRequest;
 
 class groupController extends Controller
 {
@@ -29,22 +30,6 @@ class groupController extends Controller
         return view('GroupManagement.test');
     }
 
-    public static function groupRecord(){
-        $client = new Client();
-        $result = $client->request(
-            'GET',
-            config('pathConfig.pathAPI').'groupController/groupInitial',
-            [
-                'form_params' =>[
-                    'groupId' => 0
-                ]
-            ]
-        )->getbody();
-        $searchResult = json_decode($result, true);
-        $arryResult = $searchResult['data'];
-        return view('GroupManagement.test',['groupRecord' => $arryResult]);
-    }
-
     public static function test(){
         return 'hrello';
     }
@@ -53,11 +38,12 @@ class groupController extends Controller
         $client = new Client();
         $result = $client->request(
             'GET',
-            config('pathConfig.pathAPI').'/groupController/groupInitial'
+            config('pathConfig.pathAPI').'/groupController/getGroupList'
         )->getbody();
         $groupInit = json_decode($result, true);
         $groupRecord = $groupInit['data'];
-        return view('GroupManagement.test',['groupRecord' => $groupRecord]);//response()->json(['groupInit' => $groupRecord]);
+        //dd($groupRecord);
+        return view('GroupManagement.test',['groupRecord' => $groupRecord]);
     }
 
     public function hasChild(){
@@ -86,5 +72,32 @@ class groupController extends Controller
         $searchResult = json_decode($result, true);
         $arryResult = $searchResult['data'];
         return $arryResult;
+    }
+
+    public static function postVisitorCardInsert(CreateRegisterRequest $request){
+        $client = new Client();
+        $result = $client->request(
+            'POST',
+            config('pathConfig.pathAPI').'groupController/insertGroup',
+            ['form_params' =>
+                [
+                    'regis_groupId' => $request->input('regis_groupId'),
+                    'regis_groupName' => $request->input('regis_groupName')
+                ]
+            ]
+        )->getbody();
+        $inputResult = json_decode($result, true);
+        $arryResult = $inputResult;
+        return redirect('groupmanagement');
+    }
+
+    public static function groupNumber(){
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'/groupController/countGroup'
+        )->getbody();
+        $groupNumber = json_decode($result, true);
+        return $groupNumber;
     }
 }

@@ -34,6 +34,9 @@
   {{-- Loading Screen --}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/loadingstyle.css')}}"/>
 
+  <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.3/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.3/combined/js/gijgo.min.js" type="text/javascript"></script>
+
   <style>
             .container{
             margin-top:20px;

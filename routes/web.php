@@ -11,11 +11,14 @@
 |
 */
 
-Route::get('/testPermission', 'loginController@menuPermission');
+//DATASYNC
+Route::GET('/datasync/syncClassToDb', 'dbSyncController@syncClassToDb');
+Route::GET('/datasync/syncGroupToDb', 'dbSyncController@syncGroupToDb');
+Route::GET('/datasync/syncFacultyToDb', 'dbSyncController@syncFacultyToDb');
+Route::GET('/datasync/syncDeptToDb', 'dbSyncController@syncDeptToDb');
+Route::GET('/datasync/syncPatronToDb', 'dbSyncController@syncPatronToDb');
 
-Route::get('/test3', function(){
-    return view('GroupManagement.dummy');
-});
+Route::get('/testPermission', 'loginController@menuPermission');
 
 Route::get('/change/{locale}', function ($locale) {
 	Session::put('locale', $locale);
@@ -35,18 +38,20 @@ Route::post('/login', 'loginController@checkLoginAPI');
 //     Route::get('/membermanagement','memberController@memberRecord'); 
 //     Route::get('/memberregister', function () {return view('Member.register'); });
 // });
-
-Route::get('/dashboard', 'memberController@memberRecordDashboard');
+Route::get('/testpage', function(){return view('Member.test');});
+Route::get('/dashboard', 'visitorController@visitorCardRecordonDashBoard');
 Route::get('/loading', function(){return view('Member.loading');});
 //Route::get('/groupmanagement', function () {return view('GroupManagement.index'); });
 //Route::get('/membermanagement','bdReportController@index');
 //Route::get('/groupmanagement','groupController@groupRecord');
 Route::get('/membermanagement','memberController@memberRecord'); 
 Route::get('/memberregister', 'visitorController@visitorCardRecord');
-Route::get('/cardmanagement', function(){return view('CardManagement.index');});
+Route::get('/cardmanagement', 'visitorController@listAllCard');
 
+Route::post('/groupController/postVisitorCardInsert', 'groupController@postVisitorCardInsert');
 Route::post('/memberController/postMemberInsert', 'memberController@postMemberInsert');
 Route::post('/memberController/memberSingleInsert', 'memberController@memberSingleInsert');
+Route::post('/visitorController/postVisitorCardInsert', 'visitorController@postVisitorCardInsert');
 // Route::post('/memberregister', 'ValidateController@store')->name;
 
 Route::post('/visitorController/postVisitorInsert', 'visitorController@postVisitorInsert');
@@ -54,7 +59,7 @@ Route::post('/visitorController/postVisitorInsert', 'visitorController@postVisit
 Route::get('/hello', function () { return view('Member.hello'); });
 Route::get('/file', function() {return view('Member.file'); });
 Route::get('/download', function() {return view('Member.download');});
-Route::get('/webcam', 'visitorController@getAllVisitorLists');
+Route::get('/webcam', function() {return view('Member.webcam');});
 
 Route::get('/excelformat', 'Excelcontroller@getFormat');
 
@@ -74,8 +79,8 @@ Route::get('/newtree', function(){return view('GroupManagement.newtree'); });
 Route::resource('get', 'groupController');
 //Route::get('/groupmanagement', 'groupController@groupRecord');
 Route::get('/groupmanagement', 'groupController@groupInitial');
-Route::get('/groupmanagement/{groupName}', function(){return view('GroupManagement.test');});
-Route::get('/grouptree', 'groupController@groupInitial');
+// Route::get('/groupmanagement/{groupName}', function(){return view('GroupManagement.test');});
+// Route::get('/grouptree', 'groupController@groupInitial');
 
 Route::get('/blacklist', 'blackListController@getAllBlackList');
 

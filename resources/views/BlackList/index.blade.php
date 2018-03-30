@@ -1,4 +1,5 @@
 <?php use \App\Http\Controllers\memberController; ?>
+<?php use \App\Http\Controllers\customizeController; ?>
 @extends('core')
 
 @section('more_script')
@@ -59,13 +60,18 @@
             }
             
             .tabbutton {
-                color: {{config('pathConfig.menu_underline_bar')}};;
+                color: <?php echo customizeController::themeColor(); ?>
             }
             .tabbutton::after{
-                background: {{config('pathConfig.menu_underline_bar')}};
+                background: <?php echo customizeController::themeColor(); ?>
             }
             .tabbuttonactive::after{
-                background: {{config('pathConfig.menu_underline_bar')}};
+                background: <?php echo customizeController::themeColor(); ?>
+            }
+
+            .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+            background-color: <?php echo customizeController::themeColor(); ?>;
+            border-color: <?php echo customizeController::themeColor(); ?>;
             }
 
     </style>
@@ -87,7 +93,7 @@ tabbuttonactive
             $permission = Session::get('menuPermission')["rc"]["bl"];
         ?>
         <div class="col-md-12 divunderline">
-            <h2 style="color:{{config('pathConfig.title_word_color')}}; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:{{config('pathConfig.title_word_color')}};"><strong>{{ trans('menu.blacklist') }}</strong></a> </h2>
+            <h2 style="color:{{config('pathConfig.title_word_color')}}; margin-left: 0.2%"><a href="{{ URL::to('/blacklist') }}" style="text-decoration:none;color:<?php echo customizeController::themeColor(); ?>;"><strong>{{ trans('menu.blacklist') }}</strong></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -101,18 +107,18 @@ tabbuttonactive
         <div class="col-md-10" style="background-color:white; padding-top:1%;" id="myDivTable">
             <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                 <thead>
-                    <tr style="background-color:{{config('pathConfig.table_header_color')}}; color:{{config('pathConfig.table_header_title_color')}};">
-                        <th nowrap style="width:8%;"><strong>NO</strong></th>
+                    <tr style="background-color:<?php echo customizeController::themeColor(); ?>; color:{{config('pathConfig.table_header_title_color')}};">
+                        <th nowrap style="width:8%;"><strong>{{ trans('table.no') }}</strong></th>
                         <!-- <th nowrap style="width:8%;"><strong>BLACKLIST ID</strong></th> -->
                         <th nowrap style="width:8%;"><strong>{{ trans('table.memberId') }}</strong></th>
                         <th nowrap style="width:15%;"><strong>{{ trans('table.name') }}</strong></th>
                         <th nowrap style="width:15%; display:none;"><strong>firstname</strong></th>
                         <th nowrap style="width:15%; display:none;"><strong>lastName</strong></th>
-                        <th nowrap style="width:10%;"><strong>{{ trans('table.position') }}</strong></th>
-                        <th nowrap style="width:14%;"><strong>LISTED DATE</strong></th>
-                        <th nowrap style="width:14%;"><strong>END OF BANNED</strong></th>
+                        <th nowrap style="width:10%;"><strong>{{trans('table.patron_class')}}</strong></th>
+                        <th nowrap style="width:14%;"><strong>{{ trans('table.listed_date') }}</strong></th>
+                        <th nowrap style="width:14%;"><strong>{{ trans('table.end_of_banned') }}</strong></th>
                         <!-- <th nowrap style=" width:14%;"><strong>UNLISTED DATE</strong></th> -->
-                        <th nowrap style="width:20%;"><strong>BLACKLIST TITLE</strong></th>
+                        <th nowrap style="width:20%;"><strong>{{ trans('table.blacklist_title') }}</strong></th>
                         <th nowrap style="width:20%; display:none;"><strong>BLACKLIST DESCRIPTION</strong></th>
                         <th nowrap style=""><strong>ACTION</strong></th>
                     </tr>
@@ -128,11 +134,9 @@ tabbuttonactive
                                     <td data-target="fullname">{{ $record['FName'] }}  {{ $record['LName'] }}</td>
                                     <td data-target="FName" style="display:none">{{ $record['FName'] }}</td>
                                     <td data-target="LName" style="display:none">{{ $record['LName'] }}</td>
-                                    @if(App::getLocale() == 'en')
-                                    <td data-target="">{{ $record['PatronclassEn'] }}</td>
-                                    @else
+
                                     <td data-target="">{{ $record['PatronclassTh'] }}</td>
-                                    @endif
+
                                     <td data-target="">{{ $record['date_time'] }}</td>
                                     <td data-target="">{{ $record['end_of_banned'] }}</td>
                                     <td data-target="blacklist_description" style="display:none;">{{ $record['note'] }}</td>
@@ -169,7 +173,7 @@ tabbuttonactive
 
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h2 class="modal-title" style="color:#2e7ed0;"><strong>BLACKLIST INFORMATION</strong></h2>
+                                <h2 class="modal-title" style="color:<?php echo customizeController::themeColor(); ?>;"><strong>BLACKLIST INFORMATION</strong></h2>
                             </div>
 
                             <div class="modal-body">
@@ -181,7 +185,7 @@ tabbuttonactive
                                                         <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
                                                                 <fieldset disabled>
                                                                     <div class="form-group row" style="position:relative;">
-                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">memberId:</label>
+                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">{{ trans('table.memberId') }}:</label>
                                                                             <div class="col-md-7">
                                                                                 <input type="text" class="form-control" id="info_blacklist_memberId" name="info_blacklist_memberId">
                                                                             </div>
@@ -202,7 +206,7 @@ tabbuttonactive
                                                                     </div>
 
                                                                     <div class="form-group row" style="position:relative;">
-                                                                            <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">Blacklist Title:</label>
+                                                                            <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">{{trans('table.blacklist_title')}}:</label>
                                                                             <div class="col-md-7">
                                                                                 <input type="text" class="form-control" id="info_blacklist_title" name="info_blacklist_title">
                                                                             </div>
@@ -240,7 +244,7 @@ tabbuttonactive
 
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h2 class="modal-title" style="color:#2e7ed0;"><strong>EDIT BLACKLIST INFORMATION</strong></h2>
+                                <h2 class="modal-title" style="color:<?php echo customizeController::themeColor(); ?>;"><strong>EDIT BLACKLIST INFORMATION</strong></h2>
                             </div>
 
                             <div class="modal-body">
@@ -252,7 +256,7 @@ tabbuttonactive
                                                         <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
                                                                 <fieldset disabled>
                                                                     <div class="form-group row" style="position:relative;">
-                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">memberId:</label>
+                                                                            <label for="memberId" class="control-label col-md-5" style="text-align:left;">{{ trans('table.memberId') }}:</label>
                                                                             <div class="col-md-7">
                                                                                 <input type="text" class="form-control" id="blacklist_memberId" name="blacklist_memberId">
                                                                             </div>
@@ -273,7 +277,7 @@ tabbuttonactive
                                                                     </div>
                                                                 </fieldset>
                                                                     <div class="form-group row" style="position:relative;">
-                                                                            <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">Blacklist Title:</label>
+                                                                            <label for="blacklist_title" class="control-label col-md-5" style="text-align:left;">{{trans('table.blacklist_title')}}:</label>
                                                                             <div class="col-md-7">
                                                                                 <input type="text" class="form-control" id="blacklist_title" name="blacklist_title">
                                                                             </div>
@@ -373,7 +377,7 @@ tabbuttonactive
 
                     $('#edit_info').click(function(){
                         $.ajax({
-                            url : 'http://127.0.0.1/Website-NAT/public/index.php/blackListController/blacklistInfoUpdate',
+                            url : $('#api_url').val() + 'blackListController/blacklistInfoUpdate',
                             type : 'put',
                             data : {memberId: $('#blacklist_memberId').val(), title: $('#blacklist_title').val(), note: $('#blacklist_description').val()},
                             success : function(response){

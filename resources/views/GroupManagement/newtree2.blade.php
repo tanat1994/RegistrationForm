@@ -14,7 +14,8 @@
     $groupArry = json_encode($groupArry);
 ?>
 <script>
-    var groupArry  = <?php echo($groupArry); ?>;
+    // var groupArry  = <?php //echo($groupArry); ?>;
+    var groupArry = "PATRON GROUP";
 
     function treeBuilder(arr){
         var tree = [],
@@ -46,37 +47,40 @@
       return tree;
     }
 
-    var tree = treeBuilder(groupArry);
+    // var tree = treeBuilder(groupArry);
 
     //Selectable Tree
     var initSelectableTree = function() {
             return $('#treeview-selectable').treeview({
-            data: tree,
-            multiSelect: $('#chk-select-multi').is(':checked'),
-            onNodeSelected: function(event, node) {
-                //$('#selectable-output').prepend('<p>' + node.text + ' was selected</p>');
-                $.ajax({
-                    url : 'http://127.0.0.1/Website-NAT/public/index.php/groupController/getGroupInfoByName/' + node.text,
-                    //url:  config('pathConfig.pathREST') +'checkLogin/check'
-                    type : 'get',
-                    success : function(response){
-                        response_data = JSON.stringify(response);
-                        var responseArray = JSON.parse(response_data);
+                data : [{
+                    text: "PATRON GROUP"
+                }]
+                // data: tree,
+                // multiSelect: $('#chk-select-multi').is(':checked'),
+                // onNodeSelected: function(event, node) {
+                //     //$('#selectable-output').prepend('<p>' + node.text + ' was selected</p>');
+                //     $.ajax({
+                //         url : 'http://127.0.0.1/Website-NAT/public/index.php/groupController/getGroupInfoByName/' + node.text,
+                //         //url:  config('pathConfig.pathREST') +'checkLogin/check'
+                //         type : 'get',
+                //         success : function(response){
+                //             response_data = JSON.stringify(response);
+                //             var responseArray = JSON.parse(response_data);
 
-                        var newRows;
-                        newRows += "<tr><td>" + responseArray[0]["groupId"] + "</td>"
-                        newRows += "<td>" + responseArray[0]["text"] + "</td>"
-                        newRows += "<td>0</td>"
-                        newRows += "<td>" + responseArray[0]["date_create"] + "</td>"
-                        newRows += "<td>" + responseArray[0]["user_create"] + "</td>"
-                        $("#data-group-fetch").html(newRows);
-                       // alert(responseArray["0"]["text"]);
-                    }
-                });
-                },
-            onNodeUnselected: function (event, node) {
-                //$('#selectable-output').prepend('<p>' + node.text + ' was unselected</p>');
-            }
+                //             var newRows;
+                //             newRows += "<tr><td>" + responseArray[0]["groupId"] + "</td>"
+                //             newRows += "<td>" + responseArray[0]["text"] + "</td>"
+                //             newRows += "<td>0</td>"
+                //             newRows += "<td>" + responseArray[0]["date_create"] + "</td>"
+                //             newRows += "<td>" + responseArray[0]["user_create"] + "</td>"
+                //             $("#data-group-fetch").html(newRows);
+                //         // alert(responseArray["0"]["text"]);
+                //         }
+                //     });
+                //     },
+                // onNodeUnselected: function (event, node) {
+                //     //$('#selectable-output').prepend('<p>' + node.text + ' was unselected</p>');
+                // }
             });
     }
     var $selectableTree = initSelectableTree();

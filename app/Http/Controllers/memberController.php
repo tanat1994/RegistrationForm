@@ -17,7 +17,6 @@ class memberController extends Controller
     public function memberRecord(){
         
         $client = new Client();
-        //$result = $client->request('GET', 'http://127.0.0.1/WebsiteAPI-NAT/public/index.php/bdReportController/bdReportToday')->getbody();
         $result = $client->request(
             'GET',
             config('pathConfig.pathAPI').'memberController/memberRecord'
@@ -94,18 +93,27 @@ class memberController extends Controller
         $client = new Client();
         $result = $client->request(
             'POST',
-            "http://127.0.0.1/Website-NAT/public/index.php/memberController/memberSingleInsert",
+            config('pathConfig.pathAPI').'memberController/memberSingleInsert',
             ['form_params' =>
                 [
-                    'memberId' => $request->input('regis_memberId'),        
-                    'cardUID' => $request->input('regis_cardUID'),
-                    'positionId' => $request->input('regis_position'),
-                    'titleId' => $request->input('regis_titleId'),
-                    'firstname' => $request->input('regis_name'),
-                    'lastname' => $request->input('regis_lastname'),
-                    'degreeId' => (int)$request->input('regis_degree'),
-                    'facultyId' => (int)$request->input('regis_faculty'),
-                    'majorId' => (int)$request->input('regis_major'),       
+                    'PtnId' => $request->input('regis_PtnId'),        
+                    'PtnClassId' => (int)$request->input('regis_PtnClassId'),
+                    'PtnGroup' => $request->input('regis_group'),
+                    'FacCode' => $request->input('regis_faculty'),
+                    'Dept' => $request->input('regis_dept'),
+                    'Exp_Date' => $request->input('regis_expire_date'),
+                    'RFId' => $request->input('regis_rfid'),
+                    'UnivId' => $request->input('regis_UnivId'),
+                    'Barcode' => $request->input('regis_barcode'),       
+                    'Title' => $request->input('regis_titleId'),
+                    'FName' => $request->input('regis_name'),
+                    'LName' => $request->input('regis_lastname'),
+                    'Address1' => $request->input('regis_address1'),
+                    'Address2' => $request->input('regis_address2'),
+                    'Address3' => $request->input('regis_address3'),
+                    'Phone1' => $request->input('regis_Phone1'),
+                    'Phone2' => $request->input('regis_Phone2'),
+                    'Email' => $request->input('regis_email'),
                 ]
             ])->getBody();
             $inputResult = json_decode($result, true);

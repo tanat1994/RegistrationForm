@@ -48,4 +48,9 @@ return [
     'group' => 'GROUP',
     'expire_date' => 'EXPIRE DATE',
     'patron_class' => 'PATRON CLASS',
+    'blacklist_title' => 'BLACKLIST TITLE',
+    'listed_date' => 'LISTED DATE',
+    'end_of_banned' => 'END OF BANNED',
+    'restricted_for' => 'RESTRICTED ACCESS FOR',
+    'restricted_day' => 'day(s)'
 ];

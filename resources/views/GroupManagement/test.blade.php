@@ -1,5 +1,7 @@
 @extends('core')
-<?php use App\Http\Controllers\groupController; ?>
+<?php use App\Http\Controllers\groupController;
+use \App\Http\Controllers\customizeController; ?>
+
 @section('more_script')
 
   {{--DATATABLES--}}
@@ -12,6 +14,8 @@
 
   <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/filestyle/bootstrap-filestyle.min.js') }}"></script>
+
+  <script src="{{asset('js/sweetalert.min.js')}}"></script>
 
   <style>
             .container{
@@ -39,6 +43,36 @@
             .image-preview-input-title {
                 margin-left:2px;
             }
+
+            .nav-pills > li.active > a,
+            .nav-pills > li.active > a:hover,
+            .nav-pills > li.active > a:focus {
+            border-top-color: <?php echo customizeController::themeColor(); ?>
+            }
+
+            .nav-pills > li.active > a,
+            .nav-pills > li.active > a:hover,
+            .nav-pills > li.active > a:focus {
+            color: #ffffff;
+            background-color: <?php echo customizeController::themeColor(); ?>
+            }
+
+            .tabbutton {
+                color: <?php echo customizeController::themeColor(); ?>
+            }
+            .tabbutton::after{
+                background: <?php echo customizeController::themeColor(); ?>
+            }
+            .tabbuttonactive::after{
+                background: <?php echo customizeController::themeColor(); ?>
+            }
+
+            .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+            background-color: <?php echo customizeController::themeColor(); ?>;
+            border-color: <?php echo customizeController::themeColor(); ?>;
+            }
+
+            
     </style>
 
 @endsection
@@ -54,19 +88,55 @@ tabbuttonactive
 @section('content')
 
     <div class="row-fluid">
-
+    <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/groupmanagement') }}" style="text-decoration:none;color:#2e7ed0;"><strong>{{ trans('menu.group') }}</strong></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/groupmanagement') }}" style="text-decoration:none;color:<?php echo customizeController::themeColor(); ?>;"><strong>{{ trans('menu.group') }}</strong></a> </h2>
             <hr class="hrbreakline">
         </div>
         
-            <div class="col-md-3" style="background-color:#F5F5F5;">
+            <div class="col-md-4" style="background-color:#F5F5F5;">
+
                 <div class="col-md-12" style="background-color:white;">
-                    @include('GroupManagement.newtree2')
+                    <h2><strong>{{trans('register.group_registration')}}</strong></h2>
+                    <hr class="hrbreakline">
+                    <div class="col-md-12"> 
+                        <form class="form-horizontal" method="POST" action="{{url('groupController/postVisitorCardInsert')}}">
+                            {!! csrf_field() !!}
+                            {{-- GROUP ID --}}
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-4">
+                                    <label for="cardName" class="control-label">{{ trans('table.groupId') }} : </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="{{ trans('table.groupId') }} " name="regis_groupId" id="regis_groupId"/>
+                                </div>
+                            </div>
+
+                            {{-- GROUP NAME --}}
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-4">
+                                    <label for="cardUID" class="control-label">{{ trans('table.groupname') }} : </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="{{ trans('table.groupname') }}" name="regis_groupName" id="regis_groupName"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-success pull-right" value="{{trans('register.submit_register')}}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="position:relative;">
+                            </div>
+                            
+                        </form>
+                    </div>
                 </div>
             </div>
             
-            <div class="col-md-9" style="background-color:#F5F5F5;">
+            <div class="col-md-8" style="background-color:#F5F5F5;">
                 <!--<div class="col-md-12" style="background-color:white;">
                     <div class="col-md-12">
                         <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;" data-toggle="modal" data-target="#myModal"/>
@@ -75,27 +145,28 @@ tabbuttonactive
                 
                 <div class="col-md-12" style="background-color:white; margin-top: 0px;">
                     <div class="col-md-12">
-                            <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1.5%;" data-toggle="modal" data-target="#myModal"/>
+                            <!-- <input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1.5%;" data-toggle="modal" data-target="#myModal"/> -->
                     </div>
                     <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
                         <thead>
-                            <tr>
-                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.groupId') }}</strong></th>
-                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.groupname') }}</strong></th>
-                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.nomember') }}</strong></th>
-                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.datecreate') }}</strong></th>
-                                <th nowrap style="background-color:#2e7ed0;color:white;"><strong>{{ trans('table.usercreate') }}</strong></th>
+                            <tr style="background-color:<?php echo customizeController::themeColor(); ?>";>
+                                <th nowrap style="color:white;"><strong>{{trans('register.visitorNo')}}</strong></th>
+                                <th nowrap style="color:white;"><strong>{{ trans('table.groupId') }}</strong></th>
+                                <th nowrap style="color:white;"><strong>{{ trans('table.groupname') }}</strong></th>
+                                <th nowrap style="color:white;"><strong>ACTION</strong></th>
                             </tr>
                         </thead>
                             <tbody id="data-group-fetch">
-
+                                <?php $null_status_record = 0; $iterator = 1; ?>
                                 @foreach($groupRecord as $record)
-                                    <tr>
-                                        <td id="{{$record['text']}}">{{ $record['groupId'] }}</td>
-                                        <td>{{ $record['text'] }}</td>
-                                        <td>0</td>
-                                        <td>{{ $record['date_create'] }}</td>
-                                        <td>{{ $record['user_create'] }}</td>
+                                    <tr id="{{$record['PtnGroupId']}}">
+                                        <td><?php echo $iterator++; ?></td>
+                                        <td data-target="{{ $record['PtnGroupId'] }}">{{ $record['PtnGroupId'] }}</td>
+                                        <td data-target="groupName">{{ $record['Th_Name'] }}</td>
+                                        <td style="text-align:center;">
+                                            <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnGroupId']}}" style="margin-right:5px;" ><i class="fa fa-pencil" style="font-size:14px;"></i></button>
+                                            <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnGroupId']}}" style="font-size:14px; margin-right:5px;" ><i class="fa fa-trash"></i></button>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 
@@ -106,67 +177,110 @@ tabbuttonactive
                             </tfoot>
                     </table>
                 </div>
-
-                <!--*************** MODAL SECTION *************-->
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" role="dialog">
-                        <div class="modal-dialog modal-lg">
+                {{-- Modal Section --}}
+                    <div class="modal fade" id="updateModal" role="dialog">
+                        <div class="modal-dialog modal-md">
                             <!-- Modal content-->
                             <div class="modal-content">
 
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h2 class="modal-title" style="color:#2e7ed0;"><strong>CREATE METHOD</strong></h2>
+                                    <h2 class="modal-title" style="color:<?php echo customizeController::themeColor(); ?>;"><strong>Visitor Card Information</strong></h2>
                                 </div>
 
-                                    <div class="modal-body">
-                                        <form class="form-horizontal">
-                                            <div class="form-group" style="margin-left: 1%;">
-                                                <div class="input-group">
-                                                    <h4><strong>1. {{trans('register.importfile')}}</strong></h4>
-
-                                                        {{-- INPUT FILE SECTION --}}
-                                                        <div class="container">
-                                                            <div class="row-fluid">
-                                                                <div class="col-xs-12 col-md-4 ">  
-                                                                    <!-- image-preview-filename input [CUT FROM HERE]-->
-                                                                    <div class="input-group image-preview">
-                                                                        <input type="text" class="form-control image-preview-filename"> <!-- don't give a name === doesn't send on POST/GET -->
-                                                                        <span class="input-group-btn">
-                                                                            <!-- image-preview-clear button -->
-                                                                            <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                                                                <span class="glyphicon glyphicon-remove"></span> Clear
-                                                                            </button>
-                                                                            <!-- image-preview-input -->
-                                                                            <div class="btn btn-default image-preview-input">
-                                                                                <span class="glyphicon glyphicon-folder-open"></span>
-                                                                                <span class="image-preview-input-title">{{trans('register.choosefile')}}</span>
-                                                                                <input type="file" name="input-file-preview"/> <!-- rename it -->
+                                <div class="modal-body">
+                                    <form class="form-horizontal">
+                                        <div class="form-group" style="margin-left: 1%;">
+                                            <div class="input-group">
+                                                    <div class="container">
+                                                        <div class="row-fluid">
+                                                            <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                <fieldset disabled>
+                                                                    <div class="form-group row" style="position:relative;">
+                                                                            <label for="cardId" class="control-label col-md-6" style="text-align:left;">{{trans("table.groupId")}}:</label>
+                                                                            <div class="col-md-6">
+                                                                                <input type="text" class="form-control" id="modal_groupId" name="modal_groupId">
                                                                             </div>
-                                                                        </span>
-                                                                    </div><!-- /input-group image-preview [TO HERE]--> 
-                                                                    <p style="margin-top:5px;">** <a href="#">{{trans('register.clickhere')}}</a> {{trans('register.downloadimportformat')}}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>{{-- END FILE SECTION --}}
-                                                        <hr class="hrbreakline" style="margin-top:-1%;margin-left:1.5%;width:70%;">
-                                                    <h4><strong>2. {{trans('register.creategroup')}}</strong></h4>
-                                                </div>
-                                            </div>         
-                                        </form>
-                                    </div> 
+                                                                    </div>
+                                                                </fieldset>
 
-                                   
+                                                                <div class="form-group row" style="position:relative;">
+                                                                        <label for="cardUID" class="control-label col-md-6" style="text-align:left;">{{trans("table.groupname")}}:</label>
+                                                                        <div class="col-md-6">
+                                                                            <input type="text" class="form-control" id="modal_groupName" name="modal_groupName">
+                                                                        </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>         
+                                    </form>
+                                </div> 
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <a href="#" id="modal_update_button" class="btn btn-success pull-right">{{ trans('table.update') }}</a>
+                                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
                                 </div>
 
                             </div>
-                        
                         </div>
                     </div>
-                <!--***************  END MODAL SECTION *************-->
+            {{-- End Modal Section --}}
+
+            {{-- UPDATE SCRIPT --}}
+            <script>
+            $(document).ready(function() {
+                $(document).on('click', 'button[data-role=update]', function() {
+                    var PtnGroupId = $(this).data('id');
+                    var groupName = $('#' + PtnGroupId).children('td[data-target=groupName]').text();
+                    $('#modal_groupId').val(PtnGroupId);
+                    $('#modal_groupName').val(groupName);
+                    $('#updateModal').modal('toggle');
+
+                    $('#modal_update_button').click(function(){
+                        $.ajax({
+                            url : $('#api_url').val() + '/groupController/updateGroupInfo',
+                            type : 'put',
+                            data : {groupId: $('#modal_groupId').val(), groupName: $('#modal_groupName').val()},
+                            success : function(response){
+                                $('#updateModal').modal('toggle');
+                                swal("Update Complete", "Click the button to continue!", "success");
+                                setTimeout(1000);
+                                location.reload();
+                            }
+                        });
+                    });
+                });
+
+                $(document).on('click', 'button[data-role=delete]', function() {
+                    var PtnGroupId = $(this).data('id');
+                    swal({
+                        title: "{{trans('table.delete_confirmation')}}",
+                        text: "Remove GroupID: " + PtnGroupId,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete)=>{
+                        if(willDelete){
+                            $.ajax({
+                                url : $('#api_url').val() + 'groupController/deleteGroup',
+                                type : 'delete',
+                                data : {groupId: PtnGroupId},
+                                success : function(response){
+                                    swal("{{trans('table.memberId')}} : " + PtnGroupId + " {{trans('table.delete_has_been_delete')}}", {
+                                        icon: "success",
+                                    });
+                                    location.reload();
+                                }
+                            });  
+                        }
+                    });
+                });
+            });
+            </script>
+            {{-- END UPDATE SCRIPT --}}
 
                     {{-- INPUT FILE SCRIPT --}}
                     <script>

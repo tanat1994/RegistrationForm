@@ -7,10 +7,12 @@ return [
     'logo_image_path' => 'images/logo.png',
     'header_background_color' => '#2e7ed0',
     'header_title_word' => 'HELLOWORLD',
-    'header_title_word_color' => 'red',
+    'header_title_word_color' => 'white',
     'tab_pills_color' => 'yellow',
-    'title_word_color' => 'red',
-    'table_header_color' => 'orange',
-    'table_header_title_color' => 'blue',
-    'menu_underline_bar' => 'green',
+    'title_word_color' => 'white',
+    'table_header_color' => 'white',
+    'table_header_title_color' => 'white',
+    'menu_underline_bar' => 'black',
+    'pathAPI_header_title' => 'http://61.19.51.178:8080/api_adminModule/index.php/config/show',
+    'pathAPI_customize' => 'http://61.19.51.178:8080/api_adminModule/index.php/policy/show/rc'
 ];

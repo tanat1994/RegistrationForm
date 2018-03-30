@@ -6,7 +6,7 @@ return [
     'name' => 'ชื่อ - นามสกุล',
     'position' => 'ตำแหน่ง',
     'status' => 'สถานะ',
-    'cardUID' => 'รหัสบัตร',
+    'cardUID' => 'รหัสบัตร(UID)',
     'degree' => 'ระดับการศึกษา',
     'title' => 'คำนำหน้า',
     'faculty' => 'คณะ',
@@ -46,4 +46,9 @@ return [
     'group' => 'กลุ่ม',
     'expire_date' => 'วันหมดอายุ',
     'patron_class' => 'ชนิดผู้ใช้บริการ',
+    'blacklist_title' => 'หัวข้อแบล็คลิสต์',
+    'listed_date' => 'วันที่แบล็คลิสต์',
+    'end_of_banned' => 'วันที่ปลด',
+    'restricted_for' => 'จำกัดการเข้าใช้เป็นเวลา',
+    'restricted_day' => 'วัน'
 ];
