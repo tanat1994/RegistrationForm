@@ -125,7 +125,7 @@ class memberController extends Controller
         $client = new Client();
         $result = $client->request(
             'POST',
-            "http://127.0.0.1/Website-NAT/public/index.php/memberController/memberSingleInsert",
+            config('pathConfig.pathAPI')."memberController/memberSingleInsert",
             ['form_params' =>
                 [
                     'memberId' => $request->input('regis_memberId'),        
@@ -142,5 +142,38 @@ class memberController extends Controller
         $inputResult = json_decode($result, true);
         $arryResult = $inputResult;
         dd($arryResult);
+    }
+
+    public static function memberSearchandFilter (Request $request) {
+        $client = new Client();
+        $stringsearch = $request->input('searchString');
+        if($stringsearch == ''){
+            $stringsearch = 'null';
+        }else{
+            ;
+        }
+        $result = $client->request(
+            'POST',
+            config('pathConfig.pathAPI')."memberController/memberSearchFilter",
+            [
+                'form_params' => [
+                    'searchString' => $stringsearch,
+                    'PtnClassId' => $request->input('PtnClassId'),
+                    'PtnGroup' => $request->input('PtnGroup'),
+                    'DeptId' => $request->input('DeptId'),
+                    'FacId' => $request->input('FacId'),
+                    'Status' => $request->input('Status')
+                ]
+            ]
+        )->getBody();
+        $outputResult = json_decode($result, true);
+        $arryResult = $outputResult["data"];
+        // dd($arryResult);
+        return view('Member.searchFilter',['searchResult' => $arryResult]);
+        // if($stringsearch == ''){
+        //     echo "Empty";
+        // }else{
+        //     echo "Has value";
+        // }
     }
 }

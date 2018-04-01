@@ -13,6 +13,6 @@ return [
     'table_header_color' => 'white',
     'table_header_title_color' => 'white',
     'menu_underline_bar' => 'black',
-    'pathAPI_header_title' => 'http://61.19.51.178:8080/api_adminModule/index.php/config/show',
+    'pathAPI_header_title' => 'http://61.19.51.178:8080/api_adminModule/index.php/policy/show/rc',
     'pathAPI_customize' => 'http://61.19.51.178:8080/api_adminModule/index.php/policy/show/rc'
 ];

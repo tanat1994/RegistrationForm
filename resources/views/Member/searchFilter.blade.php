@@ -392,7 +392,7 @@ tabbuttonactive
                                         </thead>
                                         <tbody id="bodyTable" name="bodyTable">
                                             <?php $iterator = 1;?>
-                                            @foreach($memberRecord as $record)
+                                            @foreach($searchResult as $record)
                                                     <tr id="{{$record['PtnId']}}" style="font-size: 15px;">
                                                         <td><?php echo $iterator; ?></td>
                                                             <td id="table_PtnId" data-target="PtnId">{{ $record['PtnId'] }}</td> 

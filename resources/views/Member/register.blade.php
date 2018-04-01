@@ -3,6 +3,9 @@ use \App\Http\Controllers\memberController;
 use \App\Http\Controllers\visitorController;
 use \App\Http\Controllers\customizeController;
 ?>
+<?php
+    header('Access-Control-Allow-Origin:*');
+?>
 @extends('core')
 
 @section('more_script')
@@ -350,7 +353,7 @@ tabbuttonactive
                                     </div>
                     
                                     {{-- Embedded Device Section --}}
-                                    <div class="col-md-4" style="background-color: #F5F5F5; padding-right:0;">
+                                    <!-- <div class="col-md-4" style="background-color: #F5F5F5; padding-right:0;">
                                         <div class="col-md-12" style="background-color: white;">
                                             <div class="col-md-1">&nbsp;</div>
                                                 <div class="col-md-10" style="background-color:red;">
@@ -367,7 +370,7 @@ tabbuttonactive
                                             </div>
                                             <div class="col-md-1">&nbsp;</div>
                                         </div>
-                                    </div> {{-- End Embedded Device Section--}}
+                                    </div> {{-- End Embedded Device Section--}} -->
                                 </div>
                     
                                     <!--*************** MODAL SECTION *************-->
@@ -632,7 +635,7 @@ tabbuttonactive
                                                             <td>{{$record['visitorId']}}</td>
                                                             <td>{{$record['regis_fname_en']}}</td>
                                                             <!-- <td><a data-role="card_return" data-id="{{$record['cardId']}}">Return the card</a></td> -->
-                                                            <td style="text-align:center;"><a data-role="card_return" data-id="{{$record['cardId']}}"><input type="image" src="{{ asset('images/card_return.png') }}" style="width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="card_return"/></a></td>
+                                                            <td style="text-align:center;"><a data-role="card_return" data-id="{{$record['cardUID']}}"><input type="image" src="{{ asset('images/card_return.png') }}" style="width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="card_return"/></a></td>
                                                             <?php $iterator++; ?>
                                                         </tr>
                                                 @endforeach
@@ -997,40 +1000,40 @@ tabbuttonactive
 </script>
 {{-- End Form Validator --}}
 
-{{-- Return Card Section --}}
-<script>
-    $(document).ready(function(){
-        $(document).on('click', 'a[data-role=card_return]', function(){
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-                })
-                .then((willDelete) => {
-                if (willDelete) {
-                    var visitor_cardId = $(this).data('id');
-                    $.ajax({
-                        url : $('#api_url').val() + 'cardController/returnCard',
-                        type : 'put',
-                        data : {cardId: visitor_cardId},
-                        success : function(response){
-                            swal({
-                                title: "Thank You!",
-                                text: "VisitorCard has been returned!",
-                                icon: "success"
-                            })
-                            setTimeout( function () {location.reload();}, 1000);
+        {{-- Card Return --}}
+        <script>
+            $(document).ready(function(){
+                $(document).on('click', 'a[data-role=card_return]', function(){
+                    swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this imaginary file!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                        if (willDelete) {
+                            var visitor_cardUId = $(this).data('id');
+                            $.ajax({
+                                url : $('#api_url').val() + 'cardController/returnCard',
+                                type : 'put',
+                                data : {cardUID: visitor_cardUId},
+                                success : function(response){
+                                    swal({
+                                        title: "Thank You!",
+                                        text: "VisitorCard has been returned!",
+                                        icon: "success"
+                                    })
+                                    setTimeout( function () {location.reload();}, 1000);
+                                }
+                            });
+                        } else {
+                            ;
                         }
                     });
-                } else {
-                    ;
-                }
+                });
             });
-        });
-    });
-</script>
+        </script>
 
 {{-- Datatable Section --}}
 <script>

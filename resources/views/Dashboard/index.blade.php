@@ -2,6 +2,9 @@
 <?php use \App\Http\Controllers\customizeController; ?>
 <?php use \App\Http\Controllers\groupController; ?>
 <?php use \App\Http\Controllers\visitorController; ?>
+<?php
+    header('Access-Control-Allow-Origin:*');
+?>
 @extends('core')
 
 @section('more_script')
@@ -26,6 +29,15 @@
     .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
         background-color: <?php echo customizeController::themeColor(); ?>;
         border-color: <?php echo customizeController::themeColor(); ?>;
+    }
+
+    {{-- Button Animated --}}
+    .animateButton {
+        box-shadow: 0 1.5px #999;
+    }
+    .animateButton:active {
+        box-shadow: 0 1px #666;
+        transform: translateY(3px);
     }
 </style>
 @endsection
@@ -77,9 +89,9 @@ tabbuttonactive
         {{-- Second Column--}}
         <div class="col-md-6"  style="background-color:white; padding-top: 2%;">
             <?php $null_status_record = 0; ?>
-            <div class="col-md-12" style="background-color:white;">
+            <!-- <div class="col-md-12" style="background-color:white;">
                 Return Card
-            </div>
+            </div> -->
             
             <div class="col-md-12" style="background-color:white;">
                 <div class="col-md-12">&nbsp;</div>
@@ -118,8 +130,9 @@ tabbuttonactive
         </div>
 
         {{-- Third Column--}}
-        <div class="col-md-3"  style="background-color:green;">
+        <div class="col-md-3"  style="">
             <div class="col-md-12">
+                <a href="{{ URL::to('/memberregister') }}"><button type="button" style="height: 100px;" class="btn btn-lg btn-success animateButton form-control"><label style="font-size:1.7em;"><strong>REGISTER</strong></label></button></a>
             </div>
         </div>
     </div>

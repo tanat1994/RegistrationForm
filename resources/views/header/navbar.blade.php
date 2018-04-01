@@ -9,7 +9,10 @@
         {{--  <li class="tabbutton @yield('activehistory')" style="margin-left:5px;"><a href="#">{{ trans('menu.history') }}</a></li>  --}}
         <li class="tabbutton @yield('activeblacklist')" style="margin-left:5px;"><a href="{{ URL::to('/blacklist') }}">{{ trans('menu.blacklist') }}</a><li>
         <li class="tabbutton @yield('activecardmanagement')" style="margin-left:5px;"><a href="{{ URL::to('/cardmanagement') }}">{{ trans('menu.cardmanagement') }}</a><li>
+      </ul>
 
+      <ul class="nav navbar-nav navbar-right">
+        <li class="pull-right" style="float:right"><a href="{{ URL::to('/logout') }}">LOGOUT</a></li>
       </ul>
     </div>
 

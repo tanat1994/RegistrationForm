@@ -1,4 +1,7 @@
 <?php use \App\Http\Controllers\customizeController; ?>
+<?php
+    header('Access-Control-Allow-Origin:*');
+?>
 @extends('core')
 @section('more_script')
 <link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>

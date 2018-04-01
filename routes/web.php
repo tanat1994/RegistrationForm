@@ -38,6 +38,7 @@ Route::post('/login', 'loginController@checkLoginAPI');
 //     Route::get('/membermanagement','memberController@memberRecord'); 
 //     Route::get('/memberregister', function () {return view('Member.register'); });
 // });
+
 Route::get('/testpage', function(){return view('Member.test');});
 Route::get('/dashboard', 'visitorController@visitorCardRecordonDashBoard');
 Route::get('/loading', function(){return view('Member.loading');});
@@ -45,12 +46,16 @@ Route::get('/loading', function(){return view('Member.loading');});
 //Route::get('/membermanagement','bdReportController@index');
 //Route::get('/groupmanagement','groupController@groupRecord');
 Route::get('/membermanagement','memberController@memberRecord'); 
+
+Route::post('/membersearchandfilter', function(){return view('Member.searchFilter');});
+
 Route::get('/memberregister', 'visitorController@visitorCardRecord');
 Route::get('/cardmanagement', 'visitorController@listAllCard');
 
 Route::post('/groupController/postVisitorCardInsert', 'groupController@postVisitorCardInsert');
 Route::post('/memberController/postMemberInsert', 'memberController@postMemberInsert');
 Route::post('/memberController/memberSingleInsert', 'memberController@memberSingleInsert');
+Route::post('/memberController/memberSearchandFilter', 'memberController@memberSearchandFilter');
 Route::post('/visitorController/postVisitorCardInsert', 'visitorController@postVisitorCardInsert');
 // Route::post('/memberregister', 'ValidateController@store')->name;
 
