@@ -12,10 +12,6 @@
 
   {{-- Button Select --}}
 
-  {{-- Semantic --}}
-  <!-- <link rel="stylesheet" type="text/css" href="{{asset('css/semantic/semantic.min.css')}}"/>
-  <script src="{{asset('js/semantic/semantic.min.js')}}"></script> -->
-
   {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
@@ -127,7 +123,7 @@
 {{ trans('menu.member') }}
 @endsection
 
-@section('activemember')
+@section('active_visitor')
 tabbuttonactive
 @endsection
 
@@ -162,7 +158,7 @@ tabbuttonactive
     <div class="row-fluid" id="myDisplaySection" style="display:none;"> <!-- <div class="row-fluid">-->
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="col-md-12 divunderline">
-            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:<?php echo customizeController::themeColor(); ?>" id="memberManagementTitle"><strong>{{ trans('menu.member') }}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o" style="color:{{config('pathConfig.title_word_color')}};"></i></a> </h2>
+            <h2 style="color:#2e7ed0; margin-left: 0.2%"><a href="{{ URL::to('/membermanagement') }}" style="text-decoration:none;color:<?php echo customizeController::themeColor(); ?>" id="memberManagementTitle"><strong>{{trans('menu.visitormanagement')}}</strong></a><a id="helper" data-role="helper" style="font-size:15px;"><i class="fa fa-1x fa-question-circle-o" style="color:{{config('pathConfig.title_word_color')}};"></i></a> </h2>
             <hr class="hrbreakline">
         </div>
         
@@ -170,199 +166,25 @@ tabbuttonactive
             <div class="col-md-1">
                 &nbsp;
             </div>
-                
 
             {{-- TAB --}}
-            <div id="exTab3" class="col-md-10">	
+            <div class="col-md-10">
                 <ul  class="nav nav-pills">
                     <li class="active">
-                        <a  href="#memberManagement_tab" data-toggle="tab"><strong>{{ trans('menu.member') }}</strong></a>
+                        <a  href="_tab" data-toggle="tab"><strong>{{trans('menu.visitormanagement')}}</strong></a>
                     </li>
                 </ul>
-
                 <div class="tab-content clearfix">
                     {{-- Member Management Tabpills--}}
-                        <div class="tab-pane active" id="memberManagement_tab">
-                            <div class="col-md-12" style="background-color:white; padding-top:1%;" id="myDivTable">
                                 {{-- Add Member & Filtering Section --}}
-
                                 <div class="col-md-12"></h1>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-10">
-
-                                    <form action="{{ URL::to('/memberController/memberSearchandFilter') }}" method="post" id="search_form" name="search_form" class="search_form">
-                                    {!! csrf_field() !!}
-                                        <input type="text" value='' class="form-control input-lg" id="searchString" name="searchString" placeholder="Search e.g. PatronId, StdCode, UnivId, FirstName, LastName" style="width: 100%;border-radius:50px;text-align:center;">
-                                        {{-- Search PatronClass --}}
-                                        <div class="col-md-4" style="margin-top:1%;">
-                                            <label for="filter_patronClass">{{ trans('table.patron_class') }} : </label>
-                                            <select class="form-control column_filter" id="PtnClassId" name="PtnClassId" >
-                                                <option value="null" selected>{{ trans('table.show_all') }}</option>
-                                                <?php PatronClassList(); ?>
-                                            </select>
-                                        </div>
-
-                                        {{-- Search PatronGroup --}}
-                                        <div class="col-md-4" style="margin-top:1%;">
-                                            <label for="filter_group">{{ trans('table.group') }} : </label>
-                                            <select class="form-control column_filter" id="PtnGroup" name="PtnGroup">
-                                                <option value="null" selected>{{ trans('table.show_all') }}</option>
-                                                <?php GroupList(); ?>
-                                            </select>
-                                        </div>
-
-                                        {{-- Search Department --}}
-                                        <div class="col-md-4" style="margin-top:1%;">
-                                            <label for="filter_dept">{{ trans('table.department') }} : </label>
-                                            <select class="form-control column_filter" id="DeptId" name="DeptId">
-                                                <option value="null" selected>{{ trans('table.show_all') }}</option>
-                                                <?php DeptList(); ?>
-                                            </select>
-                                        </div>
-
-                                        {{-- Search Faculty --}}
-                                        <div class="col-md-4" style="margin-top:1%;">
-                                            <label for="filter_faculty">{{ trans('table.faculty') }} : </label>
-                                            <select class="form-control column_filter" id="FacId" name="FacId">
-                                                <option value="null" selected>{{ trans('table.show_all') }}</option>
-                                                <?php FacultyList(); ?>
-                                            </select>
-                                        </div>
-
-                                        {{-- Status --}}
-                                        <div class="col-md-4" style="margin-top:1%;">
-                                            <label for="filter_status">{{ trans('table.status') }} : </label>
-                                            <select class="form-control column_filter" id="Status" name="Status">
-                                                <option value="null" selected>{{ trans('table.show_all') }}</option>
-                                                <option value="active">ACTIVE</option>
-                                                <option value="inactive">INACTIVE</option>
-                                                <option value="blacklist">BLACKLIST</option>
-                                            </select>
-                                        </div>
-
-                                        {{-- Empty div--}}
-                                        <!-- <div class="col-md-3"></div> -->
-
-                                        {{-- Submit Form --}}
-                                        <div class="col-md-4" style="margin-top:1%;">
-                                            <label for="">  </label>
-                                            <button type="submit" id="search_button" class="form-control btn btn-success">Submit</button>
-                                        </div>
-                                    </form>
-
-                                        <table style="margin-top:1.1%;">
-                                            @if(strpos($permission, 'add_member') === false && strpos($permission, 'add_visitor') === false)
-                                            @else
-                                                <!-- <a href="{{ URL::to('/memberregister') }}" style="position: relative;"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 1%;"  id="addNewMember"/></a> -->
-                                            @endif
-                                        </table>
                                     </div>
                                     <div class="col-md-1"></div>
                                 </div>
 
-                                <div class="col-md-12" style="margin-bottom: 2%;margin-top: 1.5%;">
-                                    {{-- Filter Section --}}
-                                    {{-- End Filter Section --}}
-                                    <!-- <a href="{{ URL::to('/memberregister') }}"><input type="image" src="{{ asset('images/plus.png') }}" style="float:right; width:35px; height:35px; margin-top: 0.5%; margin-bottom: 1%;"  id="addNewMember"/></a> -->
-                                    <!-- <div class="col-md-12"><a href=""><button class="btn btn-success pull-right">HELLo</button></a></div>
-                                    <div class="col-md-12"><div class="input-group pull-right" style="width:155px; margin-bottom: 1%;"><span class="input-group-addon"><i class="fa fa-x fa-plus"></i></span><button class="form-control">Add Member</button></div></div> -->
-                                </div>
                                 {{-- End Add Member & Filtering Section --}}
-                                
-                                    <table class="table table-striped table-bordered table-hover display" id="myTable" cellspacing="0" width="100%">
-                                        <thead id="table_header">
-                                            <tr id="filter_global" style="background-color:<?php echo customizeController::themeColor(); ?>; color:{{config('pathConfig.table_header_title_color')}};">
-                                                <th nowrap style=""><strong>{{ trans('table.no') }}</strong></th>
-                                                <th nowrap style=""><strong>{{trans('register.patronId')}}</strong></th>
-                                                <th nowrap style=""><strong>{{trans('register.univId')}}</strong></th>
-                                                <th nowrap style=""><strong>{{ trans('register.stdCode') }}</strong></th>
-                                                <th nowrap style=""><strong>{{ trans('table.patron_class') }}</strong></th>
-                                                <th nowrap style="display:none">PATRONCLASSID</th>
-                                                <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
-                                                <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
-                                                <th nowrap style=""><strong>{{ trans('table.faculty') }}</strong></th>
-                                                <th nowrap style="display:none;">FACULTYID</th>
-                                                <th nowrap style=""><strong>{{ trans('table.department') }}</strong></th>
-                                                <th nowrap style="display:none;">DEPARTMENTID</th>
-                                                <th nowrap style=""><strong>{{ trans('table.group') }}</strong></th>
-                                                <th nowrap style="display:none;">PtnGroupId</th>
-                                                <th nowrap style="" style=""><strong>{{ trans('table.expire_date') }}</strong></th>
-                                                <th nowrap style=""><strong>{{ trans('table.status') }}</strong></th>
-                                                <th nowrap style="display:none">RFID</th>
-                                                <th nowrap style=""><strong>ACTION</strong></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="bodyTable" name="bodyTable">
-                                            <?php $iterator = 1;?>
-                                            @foreach($memberRecord as $record)
-                                                    <tr id="{{$record['PtnId']}}" style="font-size: 15px;">
-                                                        <td><?php echo $iterator; ?></td>
-                                                            <td id="table_PtnId" data-target="PtnId">{{ $record['PtnId'] }}</td> 
-                                                            <td data-target="UnivId">{{ $record['UnivId'] }}</td> 
-                                                            <td data-target="StdCode">{{ $record['StdCode'] }}</td>
-                                                            <td data-target="PatronEn">{{ $record['Patronclass'] }}</td>
-                                                            <td data-target="PtnClassId" style="display:none">{{ $record['PtnClassId'] }}</td>
-                                                            @if(App::getLocale() == 'en')
-                                                                <td data-target="FName">{{ $record['FNameE'] }}</td> 
-                                                                <td data-target="LName">{{ $record['LNameE'] }}</td> 
-                                                                <td data-target="FacCode" style="display:none;">{{ $record['FacId'] }}</td>
-                                                                <td data-target="FacultyEn">{{ $record['Faculty_En_Name'] }}</td> 
-                                                                <td data-target="DeptCode" style="display:none;">{{ $record['DeptId'] }}</td> 
-                                                                <td data-target="DeptEn">{{ $record['Dept_En_Name'] }}</td> 
-                                                            @else
-                                                                <td data-target="FName">{{ $record['FName'] }}</td> 
-                                                                <td data-target="LName">{{ $record['LName'] }}</td> 
-                                                                <td data-target="FacCode" style="display:none;">{{ $record['FacId'] }}</td> 
-                                                                <td data-target="FacultyTh">{{ $record['Faculty_Th_Name'] }}</td> 
-                                                                <td data-target="DeptCode" style="display:none;">{{ $record['DeptId'] }}</td> 
-                                                                <td data-target="DeptTh">{{ $record['Dept_Th_Name'] }}</td> 
-                                                            @endif
-                                                            <td data-target="PtnGroupId" style="display:none;">{{ $record['PtnGroup'] }}</td> 
-                                                            <td data-target="GroupTh">{{ $record['Patrongroup'] }}</td> 
-                                                            <td data-target="Exp_Date">{{ $record['Exp_Date'] }}</td> 
-                                                            <td data-target="RFId" style="display:none;">{{ $record['RFId'] }}</td> 
-
-                                                            <td data-target="Status" id="column_Status">
-                                                                @if($record['Status'] == "ACTIVE")
-                                                                    <span class="badge badge-success" style="background-color:#00a65a">
-                                                                @elseif($record['Status'] == "INACTIVE")
-                                                                    <span class="badge badge-danger" style="background-color:#dd4b39">
-                                                                @elseif($record['Status'] == "BLACKLIST")
-                                                                    <span class="badge badge-warning">
-                                                                @endif
-                                                                {{$record['Status']}}</span>
-                                                            </td>
-
-                                                            <td style="text-align:center" id="column_action">
-                                                            @if(strpos($permission, 'edit_member') !== false)
-                                                                <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" ><i class="fa fa-pencil" style="font-size:14px;"></i></button>
-                                                            @else
-                                                                <button class="btn btn-success animateButton" data-role="update" data-id="{{$record['PtnId']}}" style="margin-right:5px;" disabled><i class="fa fa-pencil" style="font-size:14px;"></i></button>
-                                                            @endif
-
-                                                            @if(strpos($permission, 'del_member') !== false)
-                                                                <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" ><i class="fa fa-trash"></i></button>
-                                                            @else
-                                                                <button class="btn btn-danger animateButton" data-role="delete" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px;" disabled><i class="fa fa-trash"></i></button>
-                                                            @endif
-                                                                
-                                                            @if($record['Status'] != "BLACKLIST")
-                                                                @if(strpos($permission, 'bl_member') !== false)
-                                                                    <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" ><i class="fa fa-ban"></i></button>
-                                                                @else
-                                                                <button class="btn bg-warning animateButton" data-role="blacklist" data-id="{{$record['PtnId']}}" style="font-size:14px; margin-right:5px; background-color:#777777; color: white;" disabled><i class="fa fa-ban"></i></button>
-                                                                @endif
-                                                            @endif
-                                                            </td>
-
-                                                        <?php $iterator++; ?>
-                                                    </tr>
-                                            @endforeach
-                                        </tbody>
-                                
-                                        <tfoot>
-                                        </tfoot>
-                                    </table>
                                     
                                     <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
                                         <!--*************** MODAL SECTION *************-->
@@ -481,7 +303,6 @@ tabbuttonactive
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>  
-                                                                                            {{--  <hr class="hrbreakline" style="margin-top:1%;margin-left:1.5%;width:70%;">  --}}
                                                                                     </div>
                                                                                 </div>         
                                                                             </form>
@@ -579,103 +400,11 @@ tabbuttonactive
                                     
                                                                     </div>
                                                                 </div>
-                                                        </div>
                                                 <!--***************  END MODAL SECTION *************-->
 
                                                 
                     
                         {{-- END NAVTAB --}}
-                        
-                        {{-- SELECT ONCHANGE SECTION --}}
-                        <script>
-                            function classOnSelect () {
-                                console.log($("#col_patronClass_filter :selected").text());
-                                var ptnClass = $('#col_patronClass_filter :selected').text();
-                                if(ptnClass == "Show all" || ptnClass == "แสดงทั้งหมด"){ ptnClass = ""; }
-                                $('#myTable').DataTable().column(4).search(
-                                    ptnClass
-                                ).draw();
-                            }
-
-                            function deptOnSelect () {
-                                console.log($("#col_dept_filter :selected").text());
-                                var deptText = $('#col_dept_filter :selected').text();
-                                if(deptText == "Show all" || deptText == "แสดงทั้งหมด"){ deptText = ""; }
-                                $('#myTable').DataTable().column(11).search(
-                                    //document.getElementById('col10_filter').value
-                                    deptText
-                                ).draw();
-
-                                //+2
-                            }
-
-                            function facultyOnSelect () {
-                                console.log($('#col_faculty_filter :selected').text());
-                                var facultyText = $('#col_faculty_filter :selected').text();
-                                if(facultyText == "Show all" || facultyText == "แสดงทั้งหมด"){ facultyText = ""; }
-                                $('#myTable').DataTable().column(9).search(
-                                    //document.getElementById('col12_filter').value
-                                    facultyText
-                                ).draw();
-                            }
-
-                            function statusOnSelect () {
-                                console.log(document.getElementById('col_status_filter').value);
-                                var statusText = "(( )|^)" + document.getElementById('col_status_filter').value + "(( )|$)"
-                                $('#myTable').DataTable().column(16).search(
-                                    statusText, true, false
-                                ).draw();
-                            }
-
-                            function groupOnSelect () {
-                                var groupText = $('#col_group_filter :selected').text();
-                                console.log(groupText);
-                                if(groupText == "Show all" || groupText == "แสดงทั้งหมด"){ groupText = ""; }
-                                $('#myTable').DataTable().column(13).search(
-                                    groupText
-                                ).draw();
-                            }
-                        </script>
-                        {{-- END SELECT SECTION --}}
-                    
-                                {{-- DataTables Script--}}
-                                <script>
-                                    function filterColumn ( i ) {
-                                        $('#myTable').DataTable().column(i).search(
-                                            $('#col' + i + '_filter').val()
-                                        ).draw();
-                                        console.log(document.getElementById('col3_filter').value);
-                                    }
-
-                                    $(document).ready(function(){
-                                        var table = $('#myTable').DataTable({
-                                            language: {
-                                                paginate: {
-                                                    previous: "{{trans('table.previous')}}",
-                                                    next: "{{trans('table.next')}}"
-                                                },
-                                                aria: {
-                                                    paginate: {
-                                                        previous: "Previous",
-                                                        next: "Next"
-                                                    }
-                                                },
-                                                "search" : "{{trans('table.search')}}:",
-                                                "searchPlaceholder" : "{{trans('table.search')}}",
-                                                "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
-                                                "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
-                                                "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
-                                            },
-                                            "searching": false,
-                                            "lengthChange": false,
-                                            "info": false
-                                        });
-
-                                        $('input.column_filter').on( 'keyup click', function() {
-                                            filterColumn($(this).parents('tr').attr('data-column'));
-                                        });
-                                    });
-                                </script>
 
                                 {{-- SweetAlert Function --}} {{-- Member --}}
                                 <script>
@@ -709,130 +438,10 @@ tabbuttonactive
                                                     }
                                                 });
                                             }
-                                        }
-
-                                            
+                                        } 
                                 </script>
 
-                                {{-- Update Script--}}
-                                <script>
-                                    $(document).ready(function(){
-                                        $(document).on('click', 'button[data-role=update]', function(){
-                                            var PtnId = $(this).data('id');
-                                            var Status = $('#' + PtnId).children('td[data-target=Status]').text().trim();
-                                            var FName = $('#' + PtnId).children('td[data-target=FName]').text();
-                                            var LName = $('#' + PtnId).children('td[data-target=LName]').text();
-                                            var FacCode = $('#' + PtnId).children('td[data-target=FacCode]').text();
-                                            var DeptCode = $('#' + PtnId).children('td[data-target=DeptCode]').text();
-                                            var PtnGroupId = $('#' + PtnId).children('td[data-target=PtnGroupId]').text();
-                                            var UnivId = $('#' + PtnId).children('td[data-target=UnivId]').text();
-                                            var RFId = $('#' + PtnId).children('td[data-target=RFId]').text();
-                                            //console.log(UnivId);
-
-                                            if(Status == "BLACKLIST"){
-                                                Status = false;
-                                                $('#modal_status').prop('checked', Status).change();
-                                                $('#modal_status').bootstrapToggle('disable');
-                                            }else if(Status == "ACTIVE"){
-                                                Status = true;
-                                                $('#modal_status').bootstrapToggle('enable');
-                                                $('#modal_status').prop('checked', Status).change();
-                                            }else if(Status == "INACTIVE"){
-                                                Status = false;
-                                                $('#modal_status').bootstrapToggle('enable');
-                                                $('#modal_status').prop('checked', Status).change();
-                                            }
-
-                                            $('#modal_memberId').val(PtnId);
-                                            $('#modal_firstName').val(FName);
-                                            $('#modal_lastName').val(LName);
-                                            $('#modal_dept').val(DeptCode);
-                                            $('#modal_faculty').val(FacCode);
-                                            $('#modal_group').val(PtnGroupId);
-                                            $('#modal_Univ').val(UnivId);
-                                            $('#modal_RFId').val(RFId);
-                                            $('#myActionModal').modal('toggle');
-                                        })
-
-                                        $('#update').click(function(){
-                                            //GET statusId
-                                            var statusId = 2;
-                                            if($('#modal_status').prop('checked') == true){
-                                                statusId = 2; //ACTIVE
-                                            }else{
-                                                statusId = 1; //INACTIVE
-                                            }
-
-                                            if(document.getElementById("statusHidden").value == "disabled"){
-                                                statusId = 3; //BLACKLIST
-                                            }
-                                            console.log("Updated StatusId : " + statusId);
-                                            $.ajax({
-                                                url : $('#api_url').val() + 'memberController/memberUpdate',
-                                                type : 'put',
-                                                //data : {PtnId: $('#modal_memberId').val(), cardUID: $('#modal_cardUID').val(), 'positionId': $('#modal_position').val(), 'titleId': $('#modal_title').val(), 'firstName': $('#modal_firstName').val(), 'lastName': $('#modal_lastName').val(), 'degreeId': $('#modal_degree').val(), 'facultyId': $('#modal_faculty').val(), 'majorId': $('#modal_major').val(), 'Status': "INACTIVE"},
-                                                data : {PtnId: $('#modal_memberId').val(), Status: statusId},
-                                                success : function(response){
-                                                    // $('#' + $('#modal_memberId').val()).children('td[data-target=cardUID]').text($('#modal_cardUID').val());
-                                                    modalAlert("update",$('#modal_memberId').val());
-                                                    $('#myActionModal').modal('toggle');
-                                                    location.reload();
-                                                }
-                                            });
-                                        });
-                                    });
-                                </script>
-
-                                {{-- Delete Script--}}
-                                <script>
-                                    $(document).ready(function(){
-                                        $(document).on('click', 'button[data-role=delete]', function(){
-                                            var PtnId = $(this).data('id');
-                                            modalAlert("delete", PtnId);
-                                        });
-                                    });
-                                </script>
-
-                                {{-- BlackList Script --}}
-                                <script>
-                                    $(document).ready(function(){
-                                        $(document).on('click', 'button[data-role=blacklist]', function(){
-                                            var PtnId = $(this).data('id');
-                                            var FName = $('#' + PtnId).children('td[data-target=FName]').text();
-                                            var LName = $('#' + PtnId).children('td[data-target=LName]').text();
-
-                                            $('#blacklist_memberId').val(PtnId);
-                                            $('#blacklist_firstName').val(FName);
-                                            $('#blacklist_lastName').val(LName);
-                                            $('#blackListModal').modal('toggle');
-
-                                            $('#banned').click(function(){
-                                                    swal({
-                                                        title: "{{trans('table.banned_confirmation')}}",
-                                                        text: "Do you sure you want to listed this memberId: " + PtnId,
-                                                        icon: "warning",
-                                                        buttons: true,
-                                                        dangerMode: true,
-                                                    }).then((willDelete)=>{
-                                                        if(willDelete){
-                                                            $.ajax({
-                                                                url : $('#api_url').val() + 'blackListController/addBlackList',
-                                                                type : 'post',
-                                                                data : {memberId: $('#blacklist_memberId').val(), note: $('#blacklist_description').val(), title: $('#blacklist_title').val(), end_of_banned: $('#restricted_day').val()},
-                                                                success : function(response){
-                                                                    alert("BANNED COMPLETE");
-                                                                    $('#blackListModal').modal('toggle');
-                                                                    location.reload();
-                                                                }
-                                                            });  
-                                                        }
-                                                    });
-                                            });
-                                        });
-                                    });
-                                </script>
-
-                                {{-- Bootstrap Tour --}}
+                            
                                 <script>
                                     $(document).ready(function(){
                                         $(document).on('click', 'a[data-role=helper]', function(){
@@ -898,8 +507,219 @@ tabbuttonactive
                                     &nbsp;
                                 </div>
                             </div>
-                        </div>
-                    {{-- End Member Management Tabpills --}}
+
+                    {{-- Visitor Management Tabpills --}}
+                            <div class="col-md-12" style="background-color:white; padding-top:1%;">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-hover display" id="visitorTable" cellspacing="0" width="100%">
+                                        <thead id="table_header">
+                                            <tr id="filter_global" style="background-color:<?php echo customizeController::themeColor(); ?>; color:{{config('pathConfig.table_header_title_color')}};">
+                                                <th nowrap style=""><strong>{{ trans('register.visitorNo') }}</strong>
+                                                <th nowrap style=""><strong>{{ trans('register.visitor_uid') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.nationalcard') }}</strong></th>
+                                                @if(App::getLocale() == 'en')
+                                                    <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.lastname') }}</strong></th>
+                                                @else 
+                                                    <th nowrap style=""><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style=""><strong>{{ trans('register.lastname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.firstname') }}</strong></th>
+                                                    <th nowrap style="display:none;"><strong>{{ trans('register.lastname') }}</strong></th>
+                                                @endif
+                                                <th nowrap style=""><strong>{{ trans('register.registration_counter') }}</strong></th>
+                                                <th nowrap style=""><strong>{{ trans('register.lastest_register') }}</strong></th>
+                                                <th nowrap style=""><strong>ACTION</strong></th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <?php getAllVisitorLists(); ?>
+                                        </tbody>
+
+                                        <tfoot></tfoot>
+                                    </table>   
+                                </div>
+                            </div>
+                            {{-- Visitor Edit Modal--}}
+                                <div class="modal fade" id="visitor_edit_modal" role="dialog">
+                                    <div class="modal-dialog modal-md"> 
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+            
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h2 class="modal-title" style="color:#2e7ed0;"><strong>VISITOR INFORMATION</strong></h2>
+                                            </div>
+            
+                                                <div class="modal-body">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group" style="margin-left: 1%;">
+                                                            <div class="input-group">
+                                                                <div class="container">
+                                                                    <div class="row-fluid">
+                                                                        <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
+                                                                        <fieldset disabled>
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_card_id" class="control-label col-md-5" style="text-align:left;">{{ trans('register.nationalcard') }}:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_card_id" name="modal_regis_card_id">
+                                                                                </div>
+                                                                            </div>
+                                                                    
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_uid" class="control-label col-md-5" style="text-align:left;">{{ trans('register.visitor_uid') }}:</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_uid" name="modal_regis_uid">
+                                                                                </div>
+                                                                            </div>
+                                                                        </fieldset>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_fname_en" class="control-label col-md-5" style="text-align:left;">{{ trans('register.firstname') }} (EN):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_fname_en" name="modal_regis_fname_en">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_lname_en" class="control-label col-md-5" style="text-align:left;">{{ trans('register.lastname') }} (EN):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_lname_en" name="modal_regis_lname_en">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_fname_th" class="control-label col-md-5" style="text-align:left;">{{ trans('register.firstname') }} (TH):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_fname_th" name="modal_regis_fname_th">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group row" style="position:relative;">
+                                                                                <label for="modal_regis_lname_th" class="control-label col-md-5" style="text-align:left;">{{ trans('register.lastname') }} (TH):</label>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" class="form-control" id="modal_regis_lname_th" name="modal_regis_lname_th">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                        </div>         
+                                                    </form>
+                                                </div> 
+                
+                                            <div class="modal-footer">
+                                                <a href="#" id="visitorupdate" data-role="visitorupdate" name="visitorupdate" class="btn btn-success pull-right">{{trans('table.update')}}</a>
+                                                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">{{trans('table.cancel')}}</button>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+                                </div>
+                            {{-- End Visitor Edit Modal --}}
+
+                            {{-- Visitor Update Button Display Modal --}}
+                                <script>
+                                    $(document).ready(function(){
+                                        $(document).on('click', 'button[data-role=visitor_update]', function(){
+                                            var regis_card_id = $(this).data('id');
+                                            var regis_uid = $('#' + regis_card_id).children('td[data-target=regis_uid]').text();
+                                            var regis_fname_en = $('#' + regis_card_id).children('td[data-target=regis_fname_en]').text();
+                                            var regis_lname_en = $('#' + regis_card_id).children('td[data-target=regis_lname_en]').text();
+                                            var regis_fname_th = $('#' + regis_card_id).children('td[data-target=regis_fname_th]').text();
+                                            var regis_lname_th = $('#' + regis_card_id).children('td[data-target=regis_lname_th]').text();
+                                            $('#modal_regis_card_id').val(regis_card_id);
+                                            $('#modal_regis_uid').val(regis_uid);
+                                            $('#modal_regis_fname_en').val(regis_fname_en);
+                                            $('#modal_regis_lname_en').val(regis_lname_en)
+                                            $('#modal_regis_fname_th').val(regis_fname_th);
+                                            $('#modal_regis_lname_th').val(regis_lname_th);
+                                            $('#visitor_edit_modal').modal('toggle');
+                                        })
+                                    });
+                                </script>
+                            {{-- End of Visitor Update Button Display Modal --}}
+
+                            {{-- Visitor Update Info --}}
+                                <script>
+                                    var id = $('#modal_regis_card_id').val();
+                                    $('#visitorupdate').click(function(){
+                                        $.ajax({
+                                            url : $('#api_url').val() + 'visitorController/updateVisitorInfo',
+                                            type : 'put',
+                                            data : {
+                                                regis_card_id: $('#modal_regis_card_id').val(),
+                                                regis_uid: $('#modal_regis_uid').val(),
+                                                regis_fname_en: $('#modal_regis_fname_en').val(),
+                                                regis_lname_en: $('#modal_regis_lname_en').val(),
+                                                regis_fname_th: $('#modal_regis_fname_th').val(),
+                                                regis_lname_th: $('#modal_regis_lname_th').val()
+                                            },
+                                            success : function(response){
+                                                modalAlert("update", id);
+                                                location.reload();
+                                            }
+                                        });
+                                    });
+                                </script>
+                            {{-- End of Visitor Update Info --}}
+
+                            {{-- Visitor Delete Script --}}
+                                <script>
+                                    $(document).on('click', 'button[data-role=visitor_delete]', function(){
+                                        var regis_card_id = $(this).data('id');
+                                        swal({
+                                            title: "{{trans('table.delete_confirmation')}}",
+                                            text: "{{trans('table.delete_dialog')}} : " + regis_card_id,
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        }).then((willDelete)=>{
+                                            if(willDelete){
+                                                $.ajax({
+                                                    url : $('#api_url').val() + 'visitorController/deleteVisitorRecord',
+                                                    //url:  config('pathConfig.pathREST') +'checkLogin/check'
+                                                    type : 'delete',
+                                                    data : {regis_card_id: regis_card_id},
+                                                    success : function(response){
+                                                        swal("{{trans('table.memberId')}} : " + regis_card_id + " {{trans('table.delete_has_been_delete')}}", {
+                                                            icon: "success",
+                                                        });
+                                                        location.reload();
+                                                    }
+                                                });  
+                                            }
+                                        });
+                                    });
+                                </script>
+                            {{-- End of Visitor Delete Script --}}
+                        <script>
+                            $(document).ready(function(){
+                                $('#visitorTable').DataTable({
+                                    language: {
+                                        paginate: {
+                                            previous: "{{trans('table.previous')}}",
+                                            next: "{{trans('table.next')}}"
+                                        },
+                                        aria: {
+                                            paginate: {
+                                                previous: "Previous",
+                                                next: "Next"
+                                            }
+                                        },
+                                        "search" : "{{trans('table.search')}}:",
+                                        "searchPlaceholder" : "{{trans('table.search')}}",
+                                        "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
+                                        "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
+                                        "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}"
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
@@ -970,5 +790,46 @@ tabbuttonactive
             return "Th_Name";
         }
     }
-?>
 
+    function getAllVisitorLists () {
+        $visitorLists = visitorController::getAllVisitorLists();
+        $language = checkLocale();
+        $iterator = 1;
+        foreach ($visitorLists["data"] as $key => $value){
+            echo "<tr id='".$value['regis_card_id']."' style='font-size: 15px;'>";
+            echo "<td data-target='visitor_no'>".$iterator."</td>";
+            echo "<td data-target='regis_uid'>".$value['regis_uid']."</td>";
+            echo "<td data-target='regis_card_id'>".$value['regis_card_id']."</td>";
+            if($language == 'En_Name'){
+                echo "<td data-target='regis_fname_en'>".$value['regis_fname_en']."</td>";
+                echo "<td data-target='regis_lname_en'>".$value['regis_lname_en']."</td>";
+                echo "<td data-target='regis_fname_th' style='display:none;'>".$value['regis_fname_th']."</td>";
+                echo "<td data-target='regis_lname_th' style='display:none;'>".$value['regis_lname_th']."</td>";
+            }else{
+                echo "<td data-target='regis_fname_th'>".$value['regis_fname_th']."</td>";
+                echo "<td data-target='regis_lname_th'>".$value['regis_lname_th']."</td>";
+                echo "<td data-target='regis_fname_en' style='display:none;'>".$value['regis_fname_en']."</td>";
+                echo "<td data-target='regis_lname_en' style='display:none;'>".$value['regis_lname_en']."</td>";
+            }
+            //<a href="{{ asset('images/visitor_Images/'.$result['regis_img_camera']) }}" ><img src="{{ asset('images/visitor_Images/'.$result['regis_img_camera']) }}"/></a>
+            echo "<td data-target='regis_total'>".$value['regis_total']."</td>";
+            echo "<td data-target='regis_create_at'>".$value['regis_create_at']."</td>";
+            $permission = Session::get('menuPermission')["rc"]["mm"];
+            echo "<td style='text-align:center' id='visitor_column_action'>";
+                if(strpos($permission, 'edit_vist') !== false){
+                    echo "<button class='btn btn-success animateButton' data-role='visitor_update' data-id='".$value['regis_card_id']."' style='margin-right:5px;' ><i class='fa fa-pencil' style='font-size:14px;'></i></button>";
+                }else{
+                    echo "<button class='btn btn-success animateButton' data-role='visitor_update' data-id='".$value['regis_card_id']."' style='margin-right:5px;' disabled><i class='fa fa-pencil' style='font-size:14px;'></i></button>";
+                }
+                if(strpos($permission, 'del_vist') !== false) {
+                    echo "<button class='btn btn-danger animateButton' data-role='visitor_delete' data-id='".$value['regis_card_id']."'style='font-size:14px; margin-right:5px;' ><i class='fa fa-trash'></i></button>";
+                }else{
+                    echo "<button class='btn btn-danger animateButton' data-role='visitor_delete' data-id='".$value['regis_card_id']."'style='font-size:14px; margin-right:5px;' disabled><i class='fa fa-trash'></i></button>";
+                }
+            echo "</td>";
+
+            echo "</tr>";
+            $iterator++;
+        }
+    }
+?>

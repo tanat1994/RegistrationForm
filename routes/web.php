@@ -48,7 +48,7 @@ Route::get('/loading', function(){return view('Member.loading');});
 Route::get('/membermanagement','memberController@memberRecord'); 
 
 Route::post('/membersearchandfilter', function(){return view('Member.searchFilter');});
-
+Route::get('/visitormanagement', function(){return view('Visitor.index');});
 Route::get('/memberregister', 'visitorController@visitorCardRecord');
 Route::get('/cardmanagement', 'visitorController@listAllCard');
 

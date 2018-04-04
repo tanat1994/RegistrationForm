@@ -10,7 +10,7 @@ use \App\Http\Controllers\customizeController;
 
 @section('more_script')
 <script src="{{asset('js/sweetalert.min.js')}}"></script>
-<script src="{{asset('js/webcam.js')}}"></script>
+<script src="{{asset('js/webcam.min.js')}}"></script>
 <style>
         .container{
         margin-top:20px;
@@ -662,12 +662,10 @@ tabbuttonactive
                                                     <div class="modal-body">
                                                         <div class="container">
                                                             <div class="col-xs-12 col-md-5" style="margin-left:2%;">  
-                                                                <div class="form-group row" style="position:relative;">
+                                                                <div class="form-group row" style="position:relative;" id="section_webcam_client_load">
                                                                     <div class="col-md-1"></div>
                                                                     <div class="col-md-10">
-                                                                        <!-- <input type="text" class="form-control" id="modal_regis_card_id" name="modal_regis_card_id"> -->
                                                                         <div id="live_webcam" class="center-block"></div>
-                                                                        
 
                                                                         <div id="pre_take_button" style="margin-top: 5%;">
                                                                             <input type="button" class="btn btn-primary center-block" value="{{trans('register.take_snapshot')}}" onclick="previewSnapshot();"/>
@@ -676,7 +674,6 @@ tabbuttonactive
                                                                             <input type="button" class="btn btn-primary center-block" value="{{trans('register.take_another')}}" onclick="cancel_preview();"/>
                                                                             <input type="button" class="btn btn-success center-block" value="{{trans('register.save_photo')}}" onclick="save_photo();" style="margin-top:3%;"/>
                                                                         </div>
-                                                                        <!-- <a href="javascript:void(take_snapshot())">Take Snapshot</a> -->
                                                                     </div>
                                                                     <div class="col-md-1"></div>
                                                                 </div>
