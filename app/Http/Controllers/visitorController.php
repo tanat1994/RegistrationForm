@@ -57,7 +57,7 @@ class visitorController extends Controller
         
         $result = $client->request(
             'POST',
-            "http://127.0.0.1/Website-Nat/public/index.php/visitorController/visitorSingleInsert",
+            config('pathConfig.pathAPI')."visitorController/visitorSingleInsert",
             ['form_params' =>
                 [
                     'regis_card_id' => $request->input('regis_visitor_cardId'),

@@ -530,6 +530,8 @@ tabbuttonactive
                                                 @endif
                                                 <th nowrap style=""><strong>{{ trans('register.registration_counter') }}</strong></th>
                                                 <th nowrap style=""><strong>{{ trans('register.lastest_register') }}</strong></th>
+                                                <th nowrap style=""><strong>IN</strong></th>
+                                                <th nowrap style=""><strong>OUT</strong></th>
                                                 <th nowrap style=""><strong>ACTION</strong></th>
                                             </tr>
                                         </thead>
@@ -714,7 +716,8 @@ tabbuttonactive
                                         "searchPlaceholder" : "{{trans('table.search')}}",
                                         "info" : "{{trans('table.showing')}} _START_ {{trans('table.to')}} _END_ {{trans('table.of')}} _TOTAL_ {{trans('table.entries')}}",
                                         "infoEmpty" : "{{trans('table.showing')}} 0 {{trans('table.to')}} 0 {{trans('table.of')}} 0 {{trans('table.entries')}}",
-                                        "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}"
+                                        "lengthMenu" : "{{trans('table.show')}} _MENU_ {{trans('table.entries')}}",
+                                        "scrollX" : true,
                                     }
                                 });
                             });
@@ -814,6 +817,8 @@ tabbuttonactive
             //<a href="{{ asset('images/visitor_Images/'.$result['regis_img_camera']) }}" ><img src="{{ asset('images/visitor_Images/'.$result['regis_img_camera']) }}"/></a>
             echo "<td data-target='regis_total'>".$value['regis_total']."</td>";
             echo "<td data-target='regis_create_at'>".$value['regis_create_at']."</td>";
+            echo "<td data-target='in'>".$value['dateIn']."</td>";
+            echo "<td data-target='out'>".$value['dateOut']."</td>";
             $permission = Session::get('menuPermission')["rc"]["mm"];
             echo "<td style='text-align:center' id='visitor_column_action'>";
                 if(strpos($permission, 'edit_vist') !== false){

@@ -10,16 +10,9 @@
   {{-- Flat-UI --}}
   <link href="{{asset('css/flat-ui/flat-ui.css')}}"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
-  {{-- Button Select --}}
-
-  {{-- Semantic --}}
-  <!-- <link rel="stylesheet" type="text/css" href="{{asset('css/semantic/semantic.min.css')}}"/>
-  <script src="{{asset('js/semantic/semantic.min.js')}}"></script> -->
-
   {{--DATATABLES--}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.css')}}"/>
   <link type="text/css" rel="stylesheet" href="{{asset('css/dataTables/dataTables.bootstrap4.min.css')}}"/>
-  
   <link type="text/css" rel="stylesheet" href="{{asset('css/custom.css')}}"/>
 
   {{-- Toggle button --}}
@@ -35,88 +28,87 @@
 
   {{-- Loading Screen --}}
   <link type="text/css" rel="stylesheet" href="{{asset('css/loadingstyle.css')}}"/>
-
     <link type="text/css" rel="stylesheet" href="{{asset('css/parsley/parsley.css')}}"></script>
     <script src="{{asset('js/parsley/parsley.min.js')}}"></script>
 
   <style>
-            .container{
-            margin-top:20px;
-            }
-            .image-preview-input {
-                position: relative;
-                overflow: hidden;
-                margin: 0px;    
-                color: #333;
-                background-color: #fff;
-                border-color: #ccc;    
-            }
-            .image-preview-input input[type=file] {
-                position: absolute;
-                top: 0;
-                right: 0;
-                margin: 0;
-                padding: 0;
-                font-size: 20px;
-                cursor: pointer;
-                opacity: 0;
-                filter: alpha(opacity=0);
-            }
-            .image-preview-input-title {
-                margin-left:2px;
-            }
+    .container{
+    margin-top:20px;
+    }
+    .image-preview-input {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;    
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;    
+    }
+    .image-preview-input input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    .image-preview-input-title {
+        margin-left:2px;
+    }
 
-            .fa { position: absolut;
-            top: 0;
-            left: 0; }
+    .fa { position: absolut;
+    top: 0;
+    left: 0; }
 
-            {{-- Border TabPills --}}
-            .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-                //border-top-color: red;
-            }
+    {{-- Border TabPills --}}
+    .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+        //border-top-color: red;
+    }
 
-            {{-- Body TabPills --}}
-            .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-                //background-color: red;
-                //color: green;
-            }
+    {{-- Body TabPills --}}
+    .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+        //background-color: red;
+        //color: green;
+    }
 
-            {{-- Button Animated --}}
-            .animateButton {
-                box-shadow: 0 1.5px #999;
-            }
-            .animateButton:active {
-                box-shadow: 0 1px #666;
-                transform: translateY(3px);
-            }
+    {{-- Button Animated --}}
+    .animateButton {
+        box-shadow: 0 1.5px #999;
+    }
+    .animateButton:active {
+        box-shadow: 0 1px #666;
+        transform: translateY(3px);
+    }
 
-            .nav-pills > li.active > a,
-            .nav-pills > li.active > a:hover,
-            .nav-pills > li.active > a:focus {
-            border-top-color: <?php echo customizeController::themeColor(); ?>;
-            }
+    .nav-pills > li.active > a,
+    .nav-pills > li.active > a:hover,
+    .nav-pills > li.active > a:focus {
+    border-top-color: <?php echo customizeController::themeColor(); ?>;
+    }
 
-            .nav-pills > li.active > a,
-            .nav-pills > li.active > a:hover,
-            .nav-pills > li.active > a:focus {
-            color: #ffffff;
-            background-color: <?php echo customizeController::themeColor(); ?>;
-            }
+    .nav-pills > li.active > a,
+    .nav-pills > li.active > a:hover,
+    .nav-pills > li.active > a:focus {
+    color: #ffffff;
+    background-color: <?php echo customizeController::themeColor(); ?>;
+    }
 
-            .tabbutton {
-                color: <?php echo customizeController::themeColor(); ?>
-            }
-            .tabbutton::after{
-                background: <?php echo customizeController::themeColor(); ?>
-            }
-            .tabbuttonactive::after{
-                background: <?php echo customizeController::themeColor(); ?>
-            }
+    .tabbutton {
+        color: <?php echo customizeController::themeColor(); ?>
+    }
+    .tabbutton::after{
+        background: <?php echo customizeController::themeColor(); ?>
+    }
+    .tabbuttonactive::after{
+        background: <?php echo customizeController::themeColor(); ?>
+    }
 
-            .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
-            background-color: <?php echo customizeController::themeColor(); ?>;
-            border-color: <?php echo customizeController::themeColor(); ?>;
-            }
+    .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color: <?php echo customizeController::themeColor(); ?>;
+    border-color: <?php echo customizeController::themeColor(); ?>;
+    }
 
     </style>
 
@@ -366,7 +358,6 @@ tabbuttonactive
                                     
                                     <input type="hidden" id="api_url" name="api_url" value="{{config('pathConfig.pathAPI')}}"/>
                                         <!--*************** MODAL SECTION *************-->
-                                
                                                     {{-- Update Modal--}}
                                                         <div class="modal fade" id="myActionModal" role="dialog">
                                                             <div class="modal-dialog modal-md"> 
@@ -668,7 +659,8 @@ tabbuttonactive
                                             },
                                             "searching": false,
                                             "lengthChange": false,
-                                            "info": false
+                                            "info": false,
+                                            "scrollX" : true
                                         });
 
                                         $('input.column_filter').on( 'keyup click', function() {

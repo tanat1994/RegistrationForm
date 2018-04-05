@@ -46,10 +46,12 @@ Route::get('/loading', function(){return view('Member.loading');});
 //Route::get('/membermanagement','bdReportController@index');
 //Route::get('/groupmanagement','groupController@groupRecord');
 Route::get('/membermanagement','memberController@memberRecord'); 
+Route::get('/testcam', function(){return view('Member.testcam');});
 
 Route::post('/membersearchandfilter', function(){return view('Member.searchFilter');});
 Route::get('/visitormanagement', function(){return view('Visitor.index');});
 Route::get('/memberregister', 'visitorController@visitorCardRecord');
+Route::get('/register-testcam', function(){return view('Member.register-testcam');});
 Route::get('/cardmanagement', 'visitorController@listAllCard');
 
 Route::post('/groupController/postVisitorCardInsert', 'groupController@postVisitorCardInsert');
