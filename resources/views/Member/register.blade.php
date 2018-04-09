@@ -314,7 +314,7 @@ tabbuttonactive
                                                             </div>
                                                     </div>
                                                     {{ csrf_field() }}
-                                                    <div><button type="submit" onclick="successAlert();" class="btn btn-success pull-right btn-lg" id="submit" style="margin-bottom:4%;">{{trans('register.submit_register')}}</button></div>  
+                                                    <div><button type="submit" class="btn btn-success pull-right btn-lg" id="submit" style="margin-bottom:4%;">{{trans('register.submit_register')}}</button></div>  
                                                 </div>
                                                 <div class="col-md-7">&nbsp;</div>
                                             </form>
@@ -446,7 +446,7 @@ tabbuttonactive
                                                 @endforeach
                                             </ul>
                                         @endif
-                                        <form class="form-horizontal visitor_regis_form" method="POST" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}" data-parsley-validate="" onsubmit="return isRecorded();" style="font-size:1.2em;">
+                                        <form class="form-horizontal visitor_regis_form" method="POST" id="visitor_regis_form" name="visitor_regis_form" action="{{url('visitorController/postVisitorInsert')}}" data-parsley-validate="" onsubmit="return isRecorded();" style="font-size:1.2em;">
                                             <div class="col-md-11">
                                                 {{-- Input form section--}}
                                                 {{-- national ID || passport ID --}}
@@ -574,7 +574,7 @@ tabbuttonactive
                                                 <div class="form-group row">
                                                     <label for="date_of_birth" class="control-label col-md-4" style="text-align:left;">DATE OF BIRTH:</label>
                                                     <div class="col-md-8">
-                                                        <input type="date" class="form-control input-lg" id="vis_date_of_birth" name="vis_date_of_birth" placeholder="" data-parsley-trigger="change" required="">
+                                                        <input type="date" class="form-control input-lg" id="vis_date_of_birth" name="vis_date_of_birth" placeholder="">
                                                     </div>
                                                 </div>
 
@@ -784,7 +784,6 @@ tabbuttonactive
                 </script>       
             @endif
 
-            
         </div>
     </div> {{-- End Container --}}
     
@@ -839,15 +838,11 @@ tabbuttonactive
 <script>
     //get object
     var regis_cardUID = document.forms["regis_form"]["regis_cardUID"];
-    
     //Error section
     var cardUID_error = document.getElementById("cardUID_error");
     var name_error = document.getElementById("name_error");
     var memberId_error = document.getElementById("memberId_error");
     var lastname_error = document.getElementById("lastname_error");
-
-    //Event
-    //regis_cardUID.addEventListener("blur", cardUIDVerify, true);
 
     function successAlert(){
         swal("Good job", "Success Registration", "success");
@@ -867,6 +862,10 @@ tabbuttonactive
             successAlert();
             return true;
         }
+    }
+
+    function failAlert(){
+        swal("Fail!", "Fail Registration", "error");
     }
 
     function checkForm(form){
@@ -894,6 +893,7 @@ tabbuttonactive
 
         if(false_score > 0){
             false_score = 0;
+            failAlert();
             return false;
         }else{
             successAlert();
@@ -965,7 +965,6 @@ tabbuttonactive
         // .on('form:submit', function() {
         //     return true;
         // });
-
     function isRecorded () {
         var visitor_cardId = document.getElementById('regis_visitor_cardId').value;
         var hasVisited = false;
@@ -979,12 +978,7 @@ tabbuttonactive
             }
         });
         if(hasVisited == false){
-            // alert("no record get false" + hasVisited);
-            swal({ title: "Success!",
-                    text: "Register Success",
-                    icon: "success"
-                });
-            return true;
+            
         }else{
             swal({
                 title: "Warning!",

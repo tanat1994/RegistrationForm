@@ -54,6 +54,8 @@ Route::get('/memberregister', 'visitorController@visitorCardRecord');
 Route::get('/register-testcam', function(){return view('Member.register-testcam');});
 Route::get('/cardmanagement', 'visitorController@listAllCard');
 
+Route::post('/groupController/addMemberToAntiPassbackGroup', 'groupController@addMemberToAntiPassbackGroup');
+Route::post('/groupController/addNewAntipassbackGroup', 'groupController@addNewAntipassbackGroup');
 Route::post('/groupController/postVisitorCardInsert', 'groupController@postVisitorCardInsert');
 Route::post('/memberController/postMemberInsert', 'memberController@postMemberInsert');
 Route::post('/memberController/memberSingleInsert', 'memberController@memberSingleInsert');

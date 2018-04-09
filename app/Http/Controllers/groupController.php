@@ -100,4 +100,44 @@ class groupController extends Controller
         $groupNumber = json_decode($result, true);
         return $groupNumber;
     }
+
+    public static function getAllAntiPassbackGroup() {
+        $client = new Client();
+        $result = $client->request(
+            'GET',
+            config('pathConfig.pathAPI').'/groupController/getAllAntiPassbackGroup'
+        )->getbody();
+        $groupAntiPassback = json_decode($result, true);
+        return $groupAntiPassback;
+    }
+
+    public static function addNewAntipassbackGroup(Request $request){
+        $client = new Client();
+        $result = $client->request(
+            'POST',
+            config('pathConfig.pathAPI')."groupController/createAntiPassbackGroup",
+            ['form_params' =>
+                [
+                    'groupName' => $request->input('add_groupName'),        
+                    'anti_passback_time' => $request->input('add_anti_passback_time'), 
+                ]
+            ])->getBody();
+            return redirect('groupmanagement');
+    }
+
+
+    public static function addMemberToAntiPassbackGroup(Request $request){
+        $client = new Client();
+        $result = $client->request(
+            'POST',
+            config('pathConfig.pathAPI')."groupController/addMembertoAntipassbackGroup",
+            [
+                'form_params' => [
+                    'PtnId' => $request->input('add_PtnId'),
+                    'group_anti_passback_id' => $request->input('add_member_to_group')
+                ]
+            ]
+        )->getBody();
+        return redirect('groupmanagement');
+    }
 }
